@@ -35,7 +35,7 @@ flowchart TB
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basics**
 - [Architecture](#architecture)

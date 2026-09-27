@@ -39,7 +39,7 @@ flowchart TB
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basic**
 - [Why Data Modeling Matters](#why-data-modeling-matters)

@@ -22,7 +22,7 @@ Diagram or before/after comparison illustrating the core idea.
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basic**
 - [Section One](#section-one)

@@ -24,3 +24,18 @@
   text-decoration: underline dotted;
   cursor: help;
 }
+
+/* Right-hand "On this page" panel: only H2 sections are listed (see mkdocs.yml's
+   toc_depth), so this is now a short, flat list. A little breathing room and a
+   clearer active-item marker make it easy to scan at a glance. */
+.md-sidebar--secondary .md-nav__link {
+  padding: 0.2rem 0;
+  transition: color 0.1s ease;
+}
+
+.md-sidebar--secondary .md-nav__link--active {
+  font-weight: 700;
+  border-left: 2px solid var(--md-accent-fg-color);
+  padding-left: 0.6rem;
+  margin-left: -0.6rem;
+}

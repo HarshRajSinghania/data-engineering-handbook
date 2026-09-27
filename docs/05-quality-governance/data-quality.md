@@ -36,7 +36,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basics**
 - [Why Data Quality Matters](#why-data-quality-matters)

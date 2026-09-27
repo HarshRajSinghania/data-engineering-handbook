@@ -36,7 +36,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 - [What is SQL?](#what-is-sql)
 - [Data Types](#data-types)
 - [SELECT](#select)

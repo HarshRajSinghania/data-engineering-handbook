@@ -26,7 +26,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basic**
 - [Flows and Tasks](#flows-and-tasks)

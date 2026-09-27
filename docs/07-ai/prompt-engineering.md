@@ -37,7 +37,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basic**
 - [What Is a Prompt](#what-is-a-prompt)

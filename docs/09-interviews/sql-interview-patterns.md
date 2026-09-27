@@ -27,7 +27,7 @@ flowchart TD
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Setup**
 - [Sample Data](#sample-data)

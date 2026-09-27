@@ -35,7 +35,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basic**
 - [When to Use Which](#when-to-use-which)

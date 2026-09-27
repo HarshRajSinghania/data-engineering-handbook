@@ -29,7 +29,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basic**
 - [Core Concepts](#core-concepts)

@@ -37,7 +37,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basic**
 - [What Are Embeddings](#what-are-embeddings)

@@ -88,6 +88,11 @@ markdown_extensions:
       slugify: !!python/object/apply:pymdownx.slugs.slugify
         kwds:
           case: lower
+      # Only ## headings appear in the right-hand "On this page" panel. Guides also use
+      # ### for sub-topics; those stay valid, linkable anchors (e.g. the homepage's card
+      # grid still points at them), they just don't clutter the sidebar. Some guides had
+      # 40+ headings in that panel before this — see de-concepts.md (36 ### headings).
+      toc_depth: 2
   - pymdownx.details
   - pymdownx.emoji:
       # Enables :material-*:, :fontawesome-*: and :octicons-*: icon shortcodes,

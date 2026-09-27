@@ -35,7 +35,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basic**
 - [What to Monitor](#what-to-monitor)

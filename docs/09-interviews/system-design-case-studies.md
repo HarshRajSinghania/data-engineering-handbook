@@ -23,7 +23,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Case Studies**
 - [1. Near-Real-Time Business Dashboard](#1-near-real-time-business-dashboard)

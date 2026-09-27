@@ -33,7 +33,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basics**
 - [Variables & Data Types](#variables--data-types)
