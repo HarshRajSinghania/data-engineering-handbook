@@ -362,7 +362,7 @@ A: A replayable source whose position is stored in the checkpoint, and a sink th
 ## Further Reading
 
 - [Apache Flink documentation](https://nightlies.apache.org/flink/flink-docs-stable/)
-- [Flink SQL: windowing table-valued functions](https://nightlies.apache.org/flink/flink-docs-stable/docs/dev/table/sql/queries/window-tvf/)
+- [Flink SQL: windowing table-valued functions](https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/dev/table/sql/queries/window-tvf/) (pinned to 1.19 — Flink's "stable" alias reorganized this path in a later release)
 - [Flink CDC](https://nightlies.apache.org/flink/flink-cdc-docs-stable/)
 - [Flink Kubernetes Operator](https://nightlies.apache.org/flink/flink-kubernetes-operator-docs-stable/)
 - *Stream Processing with Apache Flink* — Fabian Hueske & Vasiliki Kalavri (O'Reilly)

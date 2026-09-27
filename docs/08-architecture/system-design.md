@@ -421,7 +421,7 @@ A: Name the first bottleneck and its fix: more partitions and consumers for inge
 - *Fundamentals of Data Engineering* — Joe Reis & Matt Housley (O'Reilly)
 - *Streaming Systems* — Tyler Akidau, Slava Chernyak & Reuven Lax (O'Reilly)
 - *Data Mesh* — Zhamak Dehghani (O'Reilly)
-- [The Log: What every software engineer should know about real-time data](https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying) — Jay Kreps
+- [The Log: What every software engineer should know about real-time data](https://web.archive.org/web/20260612105408/https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying) (archived — the original LinkedIn Engineering post has since been taken down) — Jay Kreps
 - [DE Concepts](../00-foundations/de-concepts.md) · [Data Ingestion & CDC](../02-processing/ingestion-cdc.md) · [Data Quality](../05-quality-governance/data-quality.md)
 
 ---

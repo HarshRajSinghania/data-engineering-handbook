@@ -105,7 +105,10 @@ jobs:
       - uses: actions/checkout@v7
 
       # Reports broken external URLs without blocking merges; internal links
-      # are already enforced by the strict build above
+      # are already enforced by the strict build above.
+      # leetcode.com blocks non-browser clients with 403; lmstudio.ai's Next.js
+      # edge returns a bare 307 (no Location) to requests without full browser
+      # headers. Both resolve fine in an actual browser — confirmed by hand.
       - name: Check links
         uses: lycheeverse/lychee-action@v2
         with:
@@ -116,6 +119,8 @@ jobs:
             --exclude 'localhost'
             --exclude '127\.0\.0\.1'
             --exclude 'your-'
+            --exclude 'leetcode\.com'
+            --exclude 'lmstudio\.ai'
             'docs/**/*.md' README.md
           fail: false
           jobSummary: true
