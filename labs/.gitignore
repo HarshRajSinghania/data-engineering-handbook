@@ -26,3 +26,6 @@ derby.log
 06-capstone-ecommerce/dashboard.html
 .dagster/
 **/history/
+
+# The labelled question set for Capstone 07 is source, not generated data
+!07-docs-rag/eval_set.jsonl

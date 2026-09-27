@@ -1,0 +1,39 @@
+{"question": "How do I roll back a Delta table to an earlier version?", "expected": ["01-storage/delta-lake.md"]}
+{"question": "What is the difference between Copy-on-Write and Merge-on-Read?", "expected": ["01-storage/apache-hudi.md"]}
+{"question": "What does VACUUM do and why can it break time travel?", "expected": ["01-storage/delta-lake.md", "02-processing/databricks-reference.md"]}
+{"question": "How does Iceberg hidden partitioning work?", "expected": ["01-storage/apache-iceberg.md"]}
+{"question": "Which Snowflake feature separates compute from storage using virtual warehouses?", "expected": ["01-storage/snowflake-reference.md"]}
+{"question": "How is BigQuery billed for queries?", "expected": ["01-storage/bigquery-reference.md", "08-architecture/cost-optimization.md"]}
+{"question": "What are distribution keys and sort keys in Redshift?", "expected": ["01-storage/redshift-reference.md"]}
+{"question": "How do I choose between a star schema and a snowflake schema?", "expected": ["01-storage/data-modeling.md"]}
+{"question": "How do I implement a slowly changing dimension type 2?", "expected": ["01-storage/data-modeling.md", "02-processing/dbt-reference.md"]}
+{"question": "What is the medallion architecture?", "expected": ["00-foundations/de-concepts.md", "02-processing/databricks-reference.md"]}
+{"question": "How do I write an incremental model in dbt?", "expected": ["02-processing/dbt-reference.md"]}
+{"question": "How does change data capture with Debezium work?", "expected": ["02-processing/ingestion-cdc.md"]}
+{"question": "How do I fix data skew in a Spark join?", "expected": ["02-processing/pyspark-reference.md"]}
+{"question": "How do I process a file larger than memory with DuckDB or Polars?", "expected": ["02-processing/duckdb-polars.md"]}
+{"question": "How do I backfill an Airflow DAG for past dates?", "expected": ["03-orchestration/airflow-reference.md"]}
+{"question": "What is a software-defined asset in Dagster?", "expected": ["03-orchestration/dagster-reference.md"]}
+{"question": "How do Prefect work pools and workers run flows?", "expected": ["03-orchestration/prefect-reference.md"]}
+{"question": "What is a consumer group in Kafka and how does rebalancing work?", "expected": ["04-streaming/kafka-reference.md"]}
+{"question": "How do watermarks handle late events in Flink?", "expected": ["04-streaming/flink-reference.md"]}
+{"question": "How do I detect a sudden drop in row counts with a z-score?", "expected": ["05-quality-governance/pipeline-observability.md", "05-quality-governance/data-quality.md"]}
+{"question": "How do I pseudonymise an email address with a keyed hash?", "expected": ["05-quality-governance/data-security-privacy.md"]}
+{"question": "What is a data contract and what does it contain?", "expected": ["05-quality-governance/data-quality.md", "05-quality-governance/governance-lineage.md"]}
+{"question": "How does OpenLineage capture lineage from Airflow and Spark?", "expected": ["05-quality-governance/governance-lineage.md"]}
+{"question": "How do I write a multi-stage Dockerfile for a data pipeline?", "expected": ["06-infrastructure/docker-reference.md"]}
+{"question": "How do I store Terraform remote state and lock it?", "expected": ["06-infrastructure/terraform-for-de.md"]}
+{"question": "How do I get structured JSON output from a language model?", "expected": ["07-ai/prompt-engineering.md", "07-ai/llm-apis.md"]}
+{"question": "How does prompt caching reduce LLM API cost?", "expected": ["07-ai/llm-apis.md", "08-architecture/cost-optimization.md"]}
+{"question": "How do I chunk documents for retrieval augmented generation?", "expected": ["07-ai/rag.md", "07-ai/embeddings.md"]}
+{"question": "What is HNSW and how does it speed up vector search?", "expected": ["07-ai/vector-databases.md"]}
+{"question": "How do I evaluate a RAG system with an LLM judge?", "expected": ["07-ai/eval-and-evals.md", "07-ai/rag.md"]}
+{"question": "What is LoRA and when should I fine-tune instead of using RAG?", "expected": ["07-ai/fine-tuning.md"]}
+{"question": "How do I run a quantised model locally with Ollama?", "expected": ["07-ai/local-llms.md"]}
+{"question": "How do I log parameters and register a model in MLflow?", "expected": ["07-ai/mlflow.md"]}
+{"question": "How do I estimate capacity for a data system design?", "expected": ["08-architecture/system-design.md"]}
+{"question": "How can I reduce Snowflake compute costs?", "expected": ["08-architecture/cost-optimization.md", "01-storage/snowflake-reference.md"]}
+{"question": "How do I find the longest streak of consecutive login days in SQL?", "expected": ["09-interviews/sql-interview-patterns.md", "00-foundations/sql-reference.md"]}
+{"question": "Why does NOT IN return no rows when the subquery has a NULL?", "expected": ["09-interviews/sql-interview-patterns.md", "00-foundations/sql-reference.md"]}
+{"question": "How do I define revenue once so every dashboard agrees?", "expected": ["02-processing/semantic-layer-metrics.md"]}
+{"question": "What should I do first when a pipeline incident is reported?", "expected": ["05-quality-governance/pipeline-observability.md"]}
