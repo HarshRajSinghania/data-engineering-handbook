@@ -25,6 +25,16 @@
 
 **Trade-offs:** Object storage is not a filesystem. Folders are only key prefixes, renames are copy-and-delete operations, and every request has a cost. File layout — partitioning, file sizes, and formats — therefore determines whether queries take seconds or hours, and is the focus of most of this guide.
 
+```mermaid
+flowchart LR
+    W["Writers<br/>pipelines, streams"] --> B[("Bucket / container")]
+    B --> Z1["raw / bronze"]
+    B --> Z2["silver"]
+    B --> Z3["gold"]
+    IAM["IAM policies + encryption"] -.-> B
+    LC["Lifecycle rules<br/>cheaper tiers, expiry"] -.-> B
+```
+
 ---
 
 ## Table of Contents

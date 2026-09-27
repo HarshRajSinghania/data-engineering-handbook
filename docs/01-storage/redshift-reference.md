@@ -24,6 +24,16 @@
 
 **Relevance to data engineering:** Redshift performance depends on data layout decisions — distribution and sort keys — and on loading data in bulk. Newer automatic features (auto distribution, auto sort, automatic vacuum and analyze) reduce but do not remove the need to understand them.
 
+```mermaid
+flowchart LR
+    C["Client / BI tool"] --> LN["Leader node<br/>parse, plan, coordinate"]
+    LN --> N1["Compute node 1<br/>slices"]
+    LN --> N2["Compute node 2<br/>slices"]
+    LN --> N3["Compute node N<br/>slices"]
+    S3[("S3 / Spectrum<br/>COPY, UNLOAD")] <--> N1
+    S3 <--> N2
+```
+
 ---
 
 ## Table of Contents
@@ -350,4 +360,4 @@ A: All are columnar, separate storage from compute (Redshift via RA3/managed sto
 
 ---
 
-**Previous:** [BigQuery](bigquery-reference.md) · **Next:** [dbt](../02-processing/dbt-reference.md) · **Back to:** [Index](../README.md)
+**Previous:** [BigQuery](bigquery-reference.md) · **Next:** [Delta Lake](delta-lake.md) · **Back to:** [Index](../README.md)

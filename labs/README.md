@@ -1,6 +1,6 @@
 # Hands-on Labs
 
-Five labs that turn the guides into practice. They all use one realistic e-commerce dataset, which has the problems real pipelines face: duplicate records, missing keys, invalid values, late and duplicate events, and data that changes after it is loaded.
+Five labs and two capstone projects that turn the guides into practice. They all use one realistic e-commerce dataset, which has the problems real pipelines face: duplicate records, missing keys, invalid values, late and duplicate events, and data that changes after it is loaded.
 
 Every lab runs on a laptop, with no cloud account. Each has exercises you run as-is and then complete, and reference solutions that were run end to end against the generated data.
 
@@ -11,6 +11,8 @@ Every lab runs on a laptop, with no cloud account. Each has exercises you run as
 | [03 — Spark Lakehouse](03-spark-lakehouse/README.md) | A bronze/silver/gold pipeline on Delta Lake with `MERGE`, time travel, schema evolution and compaction | Python + PySpark + Java 17 | 90–120 min | [PySpark](../docs/02-processing/pyspark-reference.md), [Databricks](../docs/02-processing/databricks-reference.md) |
 | [04 — Kafka Streaming](04-kafka-streaming/README.md) | A stream processor with a dead-letter topic, deduplication, event-time windows and watermarks | Docker + Python | 90–120 min | [Kafka](../docs/04-streaming/kafka-reference.md), [Flink](../docs/04-streaming/flink-reference.md) |
 | [05 — Airflow Orchestration](05-airflow-orchestration/README.md) | A daily DAG with backfills, an idempotent load, a quality gate, pools and asset-driven scheduling | Docker | 90–120 min | [Airflow](../docs/03-orchestration/airflow-reference.md), [Data Quality](../docs/05-quality-governance/data-quality.md) |
+| [06 — Capstone: Dagster pipeline](06-capstone-ecommerce/README.md) | An end-to-end pipeline: raw → staging → marts, blocking quality checks, quarantine tables and a dashboard | Python + Dagster + DuckDB | 90–120 min | [Dagster](../docs/03-orchestration/dagster-reference.md), [Data Quality](../docs/05-quality-governance/data-quality.md) |
+| [07 — Capstone: Docs RAG](07-docs-rag/README.md) | Chunking, a BM25 index and a retrieval eval (hit@k, MRR) over the handbook's own guides | Python only | 60–90 min | [RAG](../docs/07-ai/rag.md), [Evals](../docs/07-ai/eval-and-evals.md) |
 
 The labs can be done in any order. Lab 01 is the best introduction to the dataset, and Labs 02 and 03 build the same daily revenue numbers with two different engines, so you can compare them.
 

@@ -24,6 +24,14 @@ Applications          →   event streaming            →  topics → raw table
 
 **Relevance to data engineering:** ingestion is where most production incidents start — missed records, duplicates, silent schema changes, and source outages. Getting it right makes every downstream layer simpler.
 
+```mermaid
+flowchart LR
+    DB[("Source database")] -->|"transaction log"| DBZ["CDC connector<br/>Debezium"]
+    DBZ --> K["Kafka<br/>change events"]
+    K --> B[("Bronze<br/>every change")]
+    B -->|"MERGE latest per key"| S[("Silver<br/>current state")]
+```
+
 ---
 
 ## Table of Contents

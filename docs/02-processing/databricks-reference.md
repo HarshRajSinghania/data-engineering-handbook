@@ -5,7 +5,7 @@
 
 **Related:** [Apache Iceberg](../01-storage/apache-iceberg.md) · [MLflow](../07-ai/mlflow.md) · [Data Quality](../05-quality-governance/data-quality.md) · [Glossary](../99-reference/glossary.md)
 
-**Practice:** [Lab 03 — Spark Lakehouse](https://github.com/sarangambekar1997/de-workspace/tree/main/labs/03-spark-lakehouse)
+**Practice:** [Lab 03 — Spark Lakehouse](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/03-spark-lakehouse)
 
 ---
 
@@ -28,6 +28,21 @@
 ```
 
 **Summary:** Databricks combines managed Spark with a warehouse layer over your own files. Engineers who know PySpark and SQL mainly need to learn its organization (catalogs, jobs, compute) and the Delta-specific operations (`MERGE`, `OPTIMIZE`, `VACUUM`, time travel).
+
+```mermaid
+flowchart TB
+    subgraph Control["Databricks control plane"]
+      UI["Workspace, notebooks, jobs"]
+      UC["Unity Catalog<br/>governance"]
+    end
+    subgraph Yours["Your cloud account"]
+      CL["Clusters / SQL warehouses"]
+      DL[("Delta Lake tables<br/>in object storage")]
+    end
+    UI --> CL
+    UC -.-> DL
+    CL <--> DL
+```
 
 ---
 

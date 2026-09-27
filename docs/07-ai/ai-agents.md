@@ -23,6 +23,15 @@ goal ──→ model: "check freshness first"  ──→ run tool: get_table_fre
 
 **Design principle:** use the *least* autonomy that solves the problem. A fixed sequence of LLM calls (a workflow) is cheaper, faster, and easier to test than an agent. Agents are appropriate when the steps cannot be known in advance, and they require guardrails: limited tools, budgets, approvals, and logging.
 
+```mermaid
+flowchart LR
+    U["User goal"] --> LLM["LLM decides<br/>next step"]
+    LLM -->|"tool call"| TL["Tools<br/>SQL, search, APIs"]
+    TL -->|"result"| LLM
+    LLM -->|"done"| ANS["Final answer"]
+    LLM -.-> HITL["Human approval<br/>for risky actions"]
+```
+
 ---
 
 ## Table of Contents

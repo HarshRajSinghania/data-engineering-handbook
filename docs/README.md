@@ -1,4 +1,4 @@
-# Data Engineering Bible
+# Sarang's Data Engineering Handbook
 
 A comprehensive reference for data engineers — from first query to production pipelines.
 Each guide follows a **Basic → Intermediate → Advanced** progression with real, working code examples.
@@ -31,6 +31,8 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 | Guide | What you'll learn |
 |-------|------------------|
 | [Apache Airflow](03-orchestration/airflow-reference.md) | DAGs, operators, XComs, sensors, TaskFlow API, dynamic DAGs, CI/CD |
+| [Dagster](03-orchestration/dagster-reference.md) | Software-defined assets, resources, asset checks, partitions, schedules and sensors, dbt integration |
+| [Prefect](03-orchestration/prefect-reference.md) | Flows and tasks, retries, deployments, work pools, automations, event-driven runs |
 | [Apache Kafka](04-streaming/kafka-reference.md) | Topics, producers, consumers, Schema Registry, Kafka Connect, Kafka Streams, DLQ patterns |
 | [Apache Flink](04-streaming/flink-reference.md) | Stateful stream processing, event time and watermarks, windows, stream joins, checkpoints, Flink SQL |
 | [Data Ingestion & CDC](02-processing/ingestion-cdc.md) | API, file, and database ingestion; incremental loads; CDC with Debezium; applying changes with MERGE; build vs buy |
@@ -41,8 +43,11 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 |-------|------------------|
 | [Snowflake Reference](01-storage/snowflake-reference.md) | Architecture, virtual warehouses, semi-structured data, streams & tasks, RBAC |
 | [dbt Reference](02-processing/dbt-reference.md) | Models, materializations, tests, macros, incremental models, snapshots, CI/CD |
+| [Semantic Layer & Metrics](02-processing/semantic-layer-metrics.md) | Defining metrics once: entities, measures, MetricFlow, ratio and cumulative metrics, semantic layers for AI |
 | [BigQuery](01-storage/bigquery-reference.md) | Serverless architecture, loading, partitioning and clustering, nested data, pricing and cost control, security |
 | [Amazon Redshift](01-storage/redshift-reference.md) | Provisioned vs serverless, distribution and sort keys, COPY/UNLOAD, Spectrum, SUPER, workload management |
+| [Delta Lake](01-storage/delta-lake.md) | Transaction log, `MERGE`, time travel, schema enforcement, Change Data Feed, `OPTIMIZE`/`VACUUM`, delta-rs |
+| [Apache Hudi](01-storage/apache-hudi.md) | Record-level upserts, Copy-on-Write vs Merge-on-Read, incremental queries, compaction, indexing |
 | [Apache Iceberg](01-storage/apache-iceberg.md) | Open table format, hidden partitioning, schema evolution, time travel, ACID, AWS Glue/Athena |
 
 ### Quality & Observability
@@ -50,6 +55,8 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 | Guide | What you'll learn |
 |-------|------------------|
 | [Data Quality](05-quality-governance/data-quality.md) | SQL checks, Great Expectations, dbt tests, anomaly detection, data contracts, alerting |
+| [Data Security & Privacy](05-quality-governance/data-security-privacy.md) | Classification, least privilege, secrets, encryption, masking and pseudonymisation, erasure requests, LLM security |
+| [Pipeline Observability](05-quality-governance/pipeline-observability.md) | SLIs and SLOs, freshness and volume monitoring, structured logging, alert design, incident runbook |
 | [Data Governance & Lineage](05-quality-governance/governance-lineage.md) | Catalogs, ownership, classification, access models, lineage and OpenLineage, contracts, retention and deletion |
 
 ### AI & Machine Learning
@@ -93,17 +100,29 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 
 ---
 
+### Interview Prep
+
+| Guide | What you'll learn |
+|-------|------------------|
+| [Interview Roadmap](09-interviews/interview-roadmap.md) | The rounds, a topic map to these guides, a four-week plan, how to answer, behavioural stories |
+| [SQL Interview Patterns](09-interviews/sql-interview-patterns.md) | Fifteen tested query patterns: top-N, gaps and islands, sessionisation, cohorts, and more |
+| [System Design Case Studies](09-interviews/system-design-case-studies.md) | Five worked designs: real-time dashboards, fintech PII, warehouse migration, fraud detection, RAG |
+
+---
+
 ## Hands-on Labs
 
-Practise with [five labs](https://github.com/sarangambekar1997/de-workspace/tree/main/labs) that run locally, all on one realistic e-commerce dataset:
+Practise with [five labs and two capstone projects](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs) that run locally. The labs and the first capstone use one realistic e-commerce dataset:
 
 | Lab | Practise |
 |-----|----------|
-| [01 — SQL Analytics](https://github.com/sarangambekar1997/de-workspace/tree/main/labs/01-sql-analytics) | Deduplication, window functions, funnels, sessionization (DuckDB) |
-| [02 — dbt Transformations](https://github.com/sarangambekar1997/de-workspace/tree/main/labs/02-dbt-transformations) | Layered models, data and unit tests, incremental models, snapshots |
-| [03 — Spark Lakehouse](https://github.com/sarangambekar1997/de-workspace/tree/main/labs/03-spark-lakehouse) | Medallion pipeline on Delta Lake: `MERGE`, time travel, schema evolution |
-| [04 — Kafka Streaming](https://github.com/sarangambekar1997/de-workspace/tree/main/labs/04-kafka-streaming) | Consumer groups, dead-letter topics, event-time windows, watermarks |
-| [05 — Airflow Orchestration](https://github.com/sarangambekar1997/de-workspace/tree/main/labs/05-airflow-orchestration) | Backfills, idempotent loads, quality gates, pools, asset scheduling |
+| [01 — SQL Analytics](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/01-sql-analytics) | Deduplication, window functions, funnels, sessionization (DuckDB) |
+| [02 — dbt Transformations](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/02-dbt-transformations) | Layered models, data and unit tests, incremental models, snapshots |
+| [03 — Spark Lakehouse](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/03-spark-lakehouse) | Medallion pipeline on Delta Lake: `MERGE`, time travel, schema evolution |
+| [04 — Kafka Streaming](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/04-kafka-streaming) | Consumer groups, dead-letter topics, event-time windows, watermarks |
+| [05 — Airflow Orchestration](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/05-airflow-orchestration) | Backfills, idempotent loads, quality gates, pools, asset scheduling |
+| [06 — Capstone: Dagster pipeline](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/06-capstone-ecommerce) | An end-to-end pipeline with quality gates, quarantine tables and a dashboard (see [Projects](projects/index.md)) |
+| [07 — Capstone: Docs RAG](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/07-docs-rag) | Chunking, BM25 retrieval and a retrieval eval over these guides |
 
 ---
 

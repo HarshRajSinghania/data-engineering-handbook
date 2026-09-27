@@ -23,6 +23,16 @@ sources ──→ ingestion ──→ bronze ──→ silver ──→ gold ─
 
 **Relevance to data engineering:** governance is increasingly built by data engineers — as metadata emitted by pipelines, policies in infrastructure code, and checks in CI — rather than maintained by hand in spreadsheets.
 
+```mermaid
+flowchart LR
+    SRC["Source system"] --> RAW["raw.orders"]
+    RAW --> STG["stg_orders"]
+    STG --> MRT["fct_orders"]
+    MRT --> DB["Revenue dashboard"]
+    CAT["Catalog: owner, classification,<br/>contracts, access policies"] -.-> RAW
+    CAT -.-> MRT
+```
+
 ---
 
 ## Table of Contents
@@ -344,4 +354,4 @@ A: Automate it and put it where engineers already work: harvest metadata automat
 
 ---
 
-**Previous:** [Data Quality](data-quality.md) · **Next:** [Airflow](../03-orchestration/airflow-reference.md) · **Back to:** [Index](../README.md)
+**Previous:** [Data Quality](data-quality.md) · **Next:** [Data Security & Privacy](data-security-privacy.md) · **Back to:** [Index](../README.md)

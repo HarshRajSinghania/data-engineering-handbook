@@ -5,7 +5,7 @@
 
 **Related:** [dbt](../02-processing/dbt-reference.md) · [Snowflake](snowflake-reference.md) · [Glossary](../99-reference/glossary.md)
 
-**Practice:** [Lab 02 — dbt Transformations](https://github.com/sarangambekar1997/de-workspace/tree/main/labs/02-dbt-transformations)
+**Practice:** [Lab 02 — dbt Transformations](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/02-dbt-transformations)
 
 ---
 
@@ -27,6 +27,15 @@ promos, payments, refunds ...      →     dim_customer ─ fct_orders ─ dim_p
 ```
 
 **Key design decisions:** the **grain** (what a single row represents) and how **history** is handled when descriptive attributes change (slowly changing dimensions).
+
+```mermaid
+flowchart TB
+    F["fct_orders<br/>one row per order line<br/>measures: quantity, amount"]
+    F --- D1["dim_customer"]
+    F --- D2["dim_product"]
+    F --- D3["dim_date"]
+    F --- D4["dim_store"]
+```
 
 ---
 

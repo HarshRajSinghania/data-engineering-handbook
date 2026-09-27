@@ -1,9 +1,10 @@
-site_name: Data Engineering Bible
+site_name: "Sarang's Data Engineering Handbook"
 site_description: A connected reference for data engineering — foundations, storage, processing, orchestration, streaming, quality, infrastructure, and AI.
-site_url: https://sarangambekar1997.github.io/de-workspace/
-repo_url: https://github.com/sarangambekar1997/de-workspace
-repo_name: de-workspace
+site_url: https://sarangambekar1997.github.io/data-engineering-handbook/
+repo_url: https://github.com/sarangambekar1997/data-engineering-handbook
+repo_name: data-engineering-handbook
 edit_uri: edit/main/docs/
+copyright: Copyright &copy; 2026 Sarang Ambekar · MIT License
 
 docs_dir: docs
 exclude_docs: |
@@ -19,11 +20,14 @@ validation:
 theme:
   name: material
   language: en
+  custom_dir: overrides
   features:
     - navigation.tabs
     - navigation.sections
     - navigation.top
     - navigation.footer
+    - navigation.instant
+    - navigation.instant.progress
     - navigation.indexes
     - toc.follow
     - search.suggest
@@ -50,6 +54,16 @@ theme:
 
 plugins:
   - search
+  - git-revision-date-localized:
+      type: date
+      enable_creation_date: false
+      fallback_to_build_date: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/sarangambekar1997
+      name: Sarang Ambekar on GitHub
 
 markdown_extensions:
   - admonition
@@ -88,6 +102,8 @@ nav:
       - Snowflake: 01-storage/snowflake-reference.md
       - BigQuery: 01-storage/bigquery-reference.md
       - Amazon Redshift: 01-storage/redshift-reference.md
+      - Delta Lake: 01-storage/delta-lake.md
+      - Apache Hudi: 01-storage/apache-hudi.md
       - Apache Iceberg: 01-storage/apache-iceberg.md
   - Ingestion & Processing:
       - Ingestion & CDC: 02-processing/ingestion-cdc.md
@@ -95,13 +111,18 @@ nav:
       - PySpark: 02-processing/pyspark-reference.md
       - Databricks: 02-processing/databricks-reference.md
       - dbt: 02-processing/dbt-reference.md
+      - Semantic Layer & Metrics: 02-processing/semantic-layer-metrics.md
   - Orchestration & Streaming:
       - Apache Airflow: 03-orchestration/airflow-reference.md
+      - Dagster: 03-orchestration/dagster-reference.md
+      - Prefect: 03-orchestration/prefect-reference.md
       - Apache Kafka: 04-streaming/kafka-reference.md
       - Apache Flink: 04-streaming/flink-reference.md
   - Quality & Infrastructure:
       - Data Quality: 05-quality-governance/data-quality.md
       - Governance & Lineage: 05-quality-governance/governance-lineage.md
+      - Data Security & Privacy: 05-quality-governance/data-security-privacy.md
+      - Pipeline Observability: 05-quality-governance/pipeline-observability.md
       - Docker: 06-infrastructure/docker-reference.md
       - Terraform: 06-infrastructure/terraform-for-de.md
   - AI & ML:
@@ -121,4 +142,11 @@ nav:
   - Architecture:
       - System Design: 08-architecture/system-design.md
       - Cost Optimization: 08-architecture/cost-optimization.md
+  - Projects:
+      - Capstone Projects: projects/index.md
+  - Interview Prep:
+      - Interview Roadmap: 09-interviews/interview-roadmap.md
+      - SQL Interview Patterns: 09-interviews/sql-interview-patterns.md
+      - System Design Case Studies: 09-interviews/system-design-case-studies.md
   - Glossary: 99-reference/glossary.md
+  - About: about.md

@@ -22,6 +22,14 @@ Dockerfile  ──build──→  Image (versioned, immutable)  ──push──
 
 **Typical uses in data engineering:** running an orchestrator, database, message broker, or Spark locally with Docker Compose; packaging pipeline jobs so the orchestrator can run them in isolation; and building reproducible CI environments for transformation and Spark tests.
 
+```mermaid
+flowchart LR
+    DF["Dockerfile"] -->|"docker build"| IMG["Image<br/>layers"]
+    IMG -->|"docker push"| REG[("Registry")]
+    REG -->|"docker run / compose"| CT["Container<br/>isolated process"]
+    VOL[("Volume<br/>persistent data")] --- CT
+```
+
 ---
 
 ## Table of Contents

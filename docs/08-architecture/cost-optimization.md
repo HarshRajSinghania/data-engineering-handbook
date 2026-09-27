@@ -24,6 +24,14 @@
 
 **Relevance to data engineering:** data engineers control the biggest cost levers — table layout, processing strategy, scheduling, and retention. Cost is a design requirement, like latency or correctness.
 
+```mermaid
+flowchart LR
+    M["Measure<br/>cost per pipeline / team"] --> A["Attribute<br/>tags and budgets"]
+    A --> O["Optimise<br/>compute, queries, storage"]
+    O --> G["Guardrails<br/>alerts, quotas, limits"]
+    G --> M
+```
+
 ---
 
 ## Table of Contents

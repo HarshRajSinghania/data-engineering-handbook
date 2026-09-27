@@ -1,5 +1,5 @@
 # Data Engineering Glossary
-> Definitions for every term used across the DE bible — one place to look things up.
+> Definitions for every term used across this handbook — one place to look things up.
 
 **Prerequisites:** None — good place to start
 
@@ -17,6 +17,10 @@
 
 **Apache Arrow** — A columnar in-memory data format shared by many engines (pandas, Polars, DuckDB, Spark), allowing data to move between them with little or no copying.
 
+**Asset Check** — A validation attached to a data asset (e.g., no negative amounts) whose pass or fail result is recorded next to the asset. A *blocking* check stops downstream assets when it fails. See [Dagster](../03-orchestration/dagster-reference.md).
+
+**Asset (Software-Defined Asset)** — In Dagster, a declaration that a table, file or model should exist, together with the code that produces it and its upstream dependencies. The orchestrator tracks each asset's materializations, checks and lineage. See [Dagster](../03-orchestration/dagster-reference.md).
+
 **Avro** — A row-based binary data format with schema embedded in the file. Used widely in Kafka for its schema evolution support. Contrast with Parquet (columnar).
 
 ## B
@@ -33,6 +37,8 @@
 
 **CDC (Change Data Capture)** — A technique for capturing row-level changes (INSERT, UPDATE, DELETE) from a source database in real time, typically via database logs. Used to replicate data to a warehouse or data lake.
 
+**Change Data Feed (CDF)** — A Delta Lake feature that records row-level changes (insert, update pre/post image, delete) so downstream jobs can process only what changed. See [Delta Lake](../01-storage/delta-lake.md).
+
 **Checkpoint** — In Spark Structured Streaming, a directory where Spark saves offsets and state so it can resume from the exact position after a restart.
 
 **Chunk** — A piece of a larger document, split to fit within an LLM's context window for embedding or retrieval. Typical size: 256–512 tokens.
@@ -42,6 +48,8 @@
 **Cluster Key (Snowflake)** — Columns used to organize micro-partitions in Snowflake for faster pruning on large tables. Similar to a sort key.
 
 **Consumer Group (Kafka)** — A set of Kafka consumers that collectively read from a topic. Each partition is assigned to exactly one consumer in the group. Enables parallel consumption and horizontal scaling.
+
+**Copy-on-Write (CoW)** — A table-format update strategy that rewrites the whole data file when a row changes. Reads are fast and writes are heavier. Contrast with Merge-on-Read. See [Apache Hudi](../01-storage/apache-hudi.md).
 
 **Crypto-shredding** — Making data unrecoverable by deleting its encryption key — used to honour deletion requests in immutable storage and backups.
 
@@ -56,6 +64,8 @@
 **Data Catalog** — A searchable inventory of datasets with technical, operational, and business metadata such as schemas, owners, descriptions, lineage, and usage.
 
 **Data Contract** — A formal agreement between a data producer and consumer specifying schema, semantics, quality guarantees, and SLA.
+
+**Data Downtime** — Periods when data is missing, late, wrong or otherwise unusable. The failure that data observability aims to detect and shorten. See [Pipeline Observability](../05-quality-governance/pipeline-observability.md).
 
 **Data Lake** — A storage system (usually object storage like S3) that holds raw data in any format without enforcing schema on write.
 
@@ -83,6 +93,10 @@
 
 **Delta Lake** — An open-source storage layer that brings ACID transactions, schema enforcement, time travel, and versioning to data lake files. Created by Databricks.
 
+**Deployment (Prefect)** — The packaging of a flow with a schedule, parameters and a work pool, so Prefect can run it remotely or on a schedule. See [Prefect](../03-orchestration/prefect-reference.md).
+
+**Dimension (semantic layer)** — An attribute used to group or filter a metric, such as date, country or status. See [Semantic Layer & Metrics](../02-processing/semantic-layer-metrics.md).
+
 **Dimension Table** — In a star schema, a table that provides descriptive context for facts (who, what, where, when). Examples: dim_customer, dim_product, dim_date.
 
 **Distribution Key (Redshift)** — The column whose hash determines which node slice stores each row. Matching distribution keys on large joined tables avoids moving data during joins. See [Amazon Redshift](../01-storage/redshift-reference.md).
@@ -99,6 +113,8 @@
 
 **Embedding** — A dense vector (list of floats) that represents the semantic meaning of a piece of text, image, or other data. Semantically similar items have similar vectors.
 
+**Error Budget** — The amount of failure an SLO allows over a period (e.g., about 3 late days a year at a 99% SLO). See [Pipeline Observability](../05-quality-governance/pipeline-observability.md).
+
 **ETL (Extract, Transform, Load)** — A traditional data integration pattern: data is extracted, transformed before loading, then loaded into the destination. Contrast with ELT.
 
 **Executor (Spark)** — A JVM process on a worker node that runs tasks. Each executor has a number of cores and a memory allocation.
@@ -113,6 +129,8 @@
 
 **FinOps** — The practice of making cloud spend visible, attributable, and efficient through collaboration between engineering, finance, and business teams. See [Cost Optimization](../08-architecture/cost-optimization.md).
 
+**Flow (Prefect)** — A Python function decorated with `@flow` that Prefect runs, tracks and can schedule. It can contain tasks and other flows. See [Prefect](../03-orchestration/prefect-reference.md).
+
 **Freshness SLA** — A commitment that data in a table will be available within a defined time window (e.g., "gold layer data available by 6am UTC").
 
 ## G
@@ -123,7 +141,11 @@
 
 ## H
 
+**HMAC (Keyed Hash)** — A hash computed with a secret key. Used to pseudonymise identifiers so the same input always gives the same token, while an attacker without the key cannot reverse it by hashing guesses. See [Data Security & Privacy](../05-quality-governance/data-security-privacy.md).
+
 **HNSW (Hierarchical Navigable Small World)** — The most common ANN index algorithm used in vector databases. Builds a multi-layer graph structure for fast approximate search.
+
+**Hudi (Apache Hudi)** — An open table format built for record-level upserts and incremental queries, with Copy-on-Write and Merge-on-Read table types. See [Apache Hudi](../01-storage/apache-hudi.md).
 
 **HyDE (Hypothetical Document Embeddings)** — A RAG retrieval technique: generate a hypothetical answer to the question, embed it, and use that vector to search. Improves recall when queries are vague.
 
@@ -163,6 +185,8 @@
 
 **Lazy Evaluation** — In Spark, transformations are not executed immediately — they build an execution plan (DAG) that runs only when an action is called. Enables optimization.
 
+**Liquid Clustering** — A Delta Lake layout feature (`CLUSTER BY`) that replaces partitioning and Z-ordering, and lets clustering keys change without rewriting the whole table. See [Delta Lake](../01-storage/delta-lake.md).
+
 **LLM (Large Language Model)** — A neural network trained on large amounts of text, capable of understanding and generating human language. Examples: Claude, GPT-4.
 
 **LSN (Log Sequence Number)** — A position in a database's transaction log (for example the Postgres WAL). CDC tools use it to order changes and resume from an exact point.
@@ -171,7 +195,13 @@
 
 **Medallion Architecture** — A three-layer data architecture: Bronze (raw) → Silver (cleaned) → Gold (business-ready). Each layer adds quality and structure.
 
+**MERGE (Upsert)** — A single SQL statement that inserts, updates and deletes rows in a target table based on a match with a source. The core operation for applying CDC and making loads idempotent. See [Delta Lake](../01-storage/delta-lake.md).
+
+**Merge-on-Read (MoR)** — A table-format update strategy that appends changes to log files and merges them with base files at read time (or during compaction). Writes are cheap and fresh, and reads cost more until compaction. See [Apache Hudi](../01-storage/apache-hudi.md).
+
 **Metastore** — A catalog that stores metadata about tables — schema, location, partitioning. Examples: Hive Metastore, AWS Glue Catalog, Databricks Unity Catalog.
+
+**Metric (semantic layer)** — A named business definition, such as revenue or conversion rate, built from measures with filters and rules and defined once in code. See [Semantic Layer & Metrics](../02-processing/semantic-layer-metrics.md).
 
 **Micro-partition** — Snowflake's internal storage unit. Each micro-partition holds 50–500MB of compressed data. Snowflake prunes irrelevant micro-partitions at query time.
 
@@ -211,6 +241,8 @@
 
 **Prompt Caching** — An Anthropic API feature that caches repeated prompt prefixes (system prompts, documents) to reduce latency and cost.
 
+**Pseudonymisation** — Replacing direct identifiers with tokens or keyed hashes so records can still be joined but not attributed to a person without extra information. The result is still personal data under GDPR. See [Data Security & Privacy](../05-quality-governance/data-security-privacy.md).
+
 ## R
 
 **RAG (Retrieval-Augmented Generation)** — An LLM architecture that retrieves relevant documents from a knowledge base and includes them in the prompt before generating an answer.
@@ -241,6 +273,8 @@
 
 **Schema-on-Write** — Schema is enforced when data is written. Ensures consistency but requires upfront schema design (data warehouse).
 
+**Semantic Layer** — A layer between warehouse tables and consumers that defines metrics and dimensions once, and generates the correct SQL for BI tools, notebooks, APIs and AI assistants. See [Semantic Layer & Metrics](../02-processing/semantic-layer-metrics.md).
+
 **Semantic Search** — Search by meaning rather than exact keyword matching. Powered by embeddings — finds documents conceptually similar to the query.
 
 **Showback / Chargeback** — Reporting cloud costs to the teams that incur them (showback), or billing those costs to their budgets (chargeback).
@@ -250,6 +284,10 @@
 **Skew** — Uneven distribution of data across partitions or tasks. One partition has far more data than others, causing bottlenecks.
 
 **SLA (Service Level Agreement)** — A commitment about data availability, freshness, or quality. E.g., "data available within 2 hours of source update."
+
+**SLI (Service Level Indicator)** — A measurement of service quality, such as minutes between the source's last event and the table's newest row. See [Pipeline Observability](../05-quality-governance/pipeline-observability.md).
+
+**SLO (Service Level Objective)** — An internal target for an SLI, such as "`fct_orders` is ready by 07:00 UTC on 99% of days". Stricter than the SLA it supports. See [Pipeline Observability](../05-quality-governance/pipeline-observability.md).
 
 **Slot (BigQuery)** — A unit of compute capacity that BigQuery uses to execute queries; billed on demand by bytes processed or through reserved, autoscaling capacity. See [BigQuery](../01-storage/bigquery-reference.md).
 
@@ -294,6 +332,8 @@
 **Windowed Aggregation** — Aggregating streaming data over a sliding or tumbling time window (e.g., count of events per 5-minute window).
 
 **Window Function (SQL)** — A SQL function that performs a calculation across a set of rows related to the current row without collapsing them (unlike GROUP BY). Examples: ROW_NUMBER, RANK, LAG, LEAD, SUM OVER.
+
+**Work Pool (Prefect)** — A queue of flow runs bound to an infrastructure type (process, Docker, Kubernetes, serverless). Workers in your own environment poll it and start the runs. See [Prefect](../03-orchestration/prefect-reference.md).
 
 **Workload Identity Federation** — Exchanging a workload's native identity token (from a cloud, CI system, or Kubernetes) for short-lived credentials in another system, avoiding long-lived access keys.
 

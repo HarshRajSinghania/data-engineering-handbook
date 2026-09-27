@@ -1,0 +1,22 @@
+name: Correction or outdated content
+description: A wrong command, an outdated model ID or price, a broken link, or an unclear explanation
+labels: ["correction"]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Guide and section
+      placeholder: "Delta Lake > Table Maintenance"
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong or missing?
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Link to the official documentation that shows the correct behaviour
+      placeholder: "https://..."

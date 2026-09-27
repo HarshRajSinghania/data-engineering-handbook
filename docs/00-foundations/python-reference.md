@@ -22,6 +22,15 @@ Typical DE Python script:
 
 **Priorities for data engineering:** Production code must be *idempotent* (safe to rerun), *observable* (logs what it did), *memory-aware* (streams large files instead of loading them whole), and *configurable* (no hardcoded credentials or dates).
 
+```mermaid
+flowchart LR
+    S["Source<br/>API, file, database"] --> E["Extract<br/>requests, pandas, SQLAlchemy"]
+    E --> T["Transform<br/>clean, validate, reshape"]
+    T --> L["Load<br/>database, Parquet, warehouse"]
+    T --> Q{"Valid?"}
+    Q -->|"no"| R[("Rejected rows")]
+```
+
 ---
 
 ## Table of Contents
@@ -125,6 +134,8 @@ bool(0)           # False
 ---
 
 ## Operators
+
+<!-- docs-parse: skip -->
 
 ```python
 # Arithmetic

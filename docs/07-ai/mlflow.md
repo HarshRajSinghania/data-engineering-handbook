@@ -25,6 +25,14 @@ train/eval runs ──log──→ Tracking server (params · metrics · artifac
 
 **Relevance to data engineering:** data engineers typically operate the tracking server, integrate model scoring into pipelines (load `@champion`, score the latest partition), record data versions alongside models for lineage, and trigger retraining when data drifts.
 
+```mermaid
+flowchart LR
+    TR["Training code"] -->|"log params, metrics"| TRK["Tracking server"]
+    TRK --> ART[("Artifacts + models")]
+    ART --> REG["Model registry<br/>versions + aliases"]
+    REG --> SRV["Serving / batch scoring"]
+```
+
 ---
 
 ## Table of Contents

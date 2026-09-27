@@ -1,11 +1,11 @@
-# Data Engineering Bible
+# Sarang's Data Engineering Handbook
 
 All of my data engineering knowledge in one place: concepts, tools, and production patterns,
 from first query to production pipelines, plus the AI/LLM engineering that now sits alongside them.
 
 Every guide goes **Basic → Intermediate → Advanced** with working code examples.
 
-**→ Read it as a website: [sarangambekar1997.github.io/de-workspace](https://sarangambekar1997.github.io/de-workspace/)** — searchable, with navigation and dark mode
+**→ Read it as a website: [sarangambekar1997.github.io/data-engineering-handbook](https://sarangambekar1997.github.io/data-engineering-handbook/)** — searchable, with navigation and dark mode
 
 **→ Or start here on GitHub: [Full index & learning paths](docs/README.md)**
 
@@ -16,16 +16,18 @@ Every guide goes **Basic → Intermediate → Advanced** with working code examp
 | Folder | Covers |
 |--------|--------|
 | [`docs/00-foundations`](docs/00-foundations) | DE concepts, SQL, Python, Linux & Bash, Git |
-| [`docs/01-storage`](docs/01-storage) | Cloud storage, data modeling, Snowflake, BigQuery, Redshift, Apache Iceberg |
-| [`docs/02-processing`](docs/02-processing) | Data ingestion & CDC, DuckDB & Polars, PySpark, Databricks, dbt |
-| [`docs/03-orchestration`](docs/03-orchestration) | Apache Airflow |
+| [`docs/01-storage`](docs/01-storage) | Cloud storage, data modeling, Snowflake, BigQuery, Redshift, Delta Lake, Hudi, Apache Iceberg |
+| [`docs/02-processing`](docs/02-processing) | Data ingestion & CDC, DuckDB & Polars, PySpark, Databricks, dbt, semantic layer |
+| [`docs/03-orchestration`](docs/03-orchestration) | Apache Airflow, Dagster, Prefect |
 | [`docs/04-streaming`](docs/04-streaming) | Apache Kafka, Apache Flink |
-| [`docs/05-quality-governance`](docs/05-quality-governance) | Data quality, governance, lineage, contracts |
+| [`docs/05-quality-governance`](docs/05-quality-governance) | Data quality, governance, lineage, contracts, security & privacy, pipeline observability |
 | [`docs/06-infrastructure`](docs/06-infrastructure) | Docker, Terraform |
 | [`docs/07-ai`](docs/07-ai) | Prompting, LLM APIs, embeddings, RAG, vector DBs, agents, evals, MLflow, fine-tuning |
 | [`docs/08-architecture`](docs/08-architecture) | System design, cost optimization |
+| [`docs/09-interviews`](docs/09-interviews) | Interview roadmap, SQL patterns, system design case studies |
 | [`docs/99-reference`](docs/99-reference) | Glossary |
-| [`labs`](labs) | Hands-on labs: SQL, dbt, Spark & Delta Lake, Kafka, Airflow |
+| [`labs`](labs) | Hands-on labs (SQL, dbt, Spark & Delta Lake, Kafka, Airflow) and two capstone projects |
+| [`docs/projects`](docs/projects/index.md) | Capstone projects: an end-to-end pipeline and a RAG system with evals |
 
 Folders are numbered roughly in learning order. New topics go in the folder that matches
 where they sit in a pipeline, and a new top-level area gets the next free number.
@@ -45,7 +47,7 @@ The full learning paths, the "when should I use what" tables, and the cheat shee
 
 ## Hands-on labs
 
-[Five labs](labs/README.md) turn the guides into practice on one realistic e-commerce dataset, with its duplicates, missing keys, late events and changing records. Each lab runs locally without a cloud account, and each has runnable exercises and reference solutions that were run end to end.
+[Five labs and two capstone projects](labs/README.md) turn the guides into practice on one realistic e-commerce dataset, with its duplicates, missing keys, late events and changing records. Each runs locally without a cloud account, and each has runnable exercises and reference solutions that were run end to end.
 
 | Lab | Runs on |
 |-----|---------|
@@ -77,6 +79,12 @@ Then add the guide to [`docs/README.md`](docs/README.md), to any learning path i
 pip install -r requirements-docs.txt
 mkdocs serve                 # live preview at http://127.0.0.1:8000
 mkdocs build --strict        # the same check CI runs: fails on broken links or anchors
+python tools/check_code_blocks.py   # every python/json/yaml block must parse
+python tools/check_model_ids.py     # no retired model IDs
 ```
 
-Pull requests that touch `docs/` are built in strict mode by CI; merges to `main` deploy the site to GitHub Pages.
+Pull requests that touch `docs/` are built in strict mode by CI and every code block is parsed; merges to `main` deploy the site to GitHub Pages. Pull requests that touch `labs/` run Labs 01–03 end to end. See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## License
+
+[MIT](LICENSE) © Sarang Ambekar

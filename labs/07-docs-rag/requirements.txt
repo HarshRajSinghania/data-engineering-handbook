@@ -1,0 +1,3 @@
+# The pipeline itself uses only the standard library.
+# Optional: enables the final LLM answer step in ask.py
+anthropic>=0.40

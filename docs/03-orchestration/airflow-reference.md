@@ -5,7 +5,7 @@
 
 **Related:** [dbt](../02-processing/dbt-reference.md) · [PySpark](../02-processing/pyspark-reference.md) · [Data Quality](../05-quality-governance/data-quality.md) · [Glossary](../99-reference/glossary.md)
 
-**Practice:** [Lab 05 — Airflow Orchestration](https://github.com/sarangambekar1997/de-workspace/tree/main/labs/05-airflow-orchestration)
+**Practice:** [Lab 05 — Airflow Orchestration](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/05-airflow-orchestration)
 
 ---
 
@@ -36,6 +36,15 @@ Cron jobs and shell scripts can run these steps, but they do not answer the oper
 - Anything more complex than a single cron job
 
 **When it is unnecessary:** a single, independent script that runs occasionally — a cron job is sufficient.
+
+```mermaid
+flowchart LR
+    DAG["DAG files<br/>in Git"] --> SCH["Scheduler<br/>parses DAGs, creates runs"]
+    SCH --> Q["Executor / queue"]
+    Q --> W["Workers<br/>run tasks"]
+    SCH <--> DB[("Metadata database")]
+    WEB["Web UI + API"] <--> DB
+```
 
 ---
 
@@ -1005,4 +1014,4 @@ A: `LocalExecutor` runs tasks as subprocesses on the same machine as the schedul
 
 ---
 
-**Previous:** [Data Governance & Lineage](../05-quality-governance/governance-lineage.md) · **Next:** [DuckDB & Polars](../02-processing/duckdb-polars.md) · **Back to:** [Index](../README.md)
+**Previous:** [Pipeline Observability](../05-quality-governance/pipeline-observability.md) · **Next:** [Dagster](dagster-reference.md) · **Back to:** [Index](../README.md)

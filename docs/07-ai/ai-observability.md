@@ -24,6 +24,15 @@ Traditional API monitoring:     AI observability adds:
                                 - Per-user cost
 ```
 
+```mermaid
+flowchart LR
+    APP["LLM application"] --> TR["Traces<br/>prompt, response, tokens,<br/>latency, cost"]
+    TR --> ST[("Observability store")]
+    ST --> DASH["Dashboards + alerts"]
+    ST --> EV["Evals on sampled traces<br/>quality, drift"]
+    FB["User feedback"] --> ST
+```
+
 ---
 
 ## Table of Contents

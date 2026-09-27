@@ -1,0 +1,17 @@
+name: Topic request
+description: Suggest a guide, lab or interview question that should be added
+labels: ["enhancement"]
+body:
+  - type: input
+    id: topic
+    attributes:
+      label: Topic
+      placeholder: "Trino, Apache Pinot, feature stores, ..."
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why it belongs in the handbook, and what you would want to learn from it
+    validations:
+      required: true

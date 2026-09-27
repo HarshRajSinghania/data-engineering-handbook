@@ -25,6 +25,14 @@
 
 **Relevance to data engineering:** BigQuery's cost and performance depend almost entirely on how much data each query reads, so partitioning, clustering, and query discipline matter more than any server tuning.
 
+```mermaid
+flowchart LR
+    Q["SQL query"] --> DR["Dremel execution<br/>thousands of slots"]
+    DR <-->|"Jupiter network"| CS[("Colossus<br/>columnar storage")]
+    L["Load, streaming,<br/>external tables"] --> CS
+    DR --> R["Result<br/>billed by bytes scanned<br/>or slot time"]
+```
+
 ---
 
 ## Table of Contents

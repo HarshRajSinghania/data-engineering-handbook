@@ -22,6 +22,15 @@ Requirements ──→ Estimation ──→ Architecture pattern ──→ Compo
 
 **Relevance to data engineering:** system design is how senior data engineering work is evaluated — in design reviews and in interviews. The goal isn't a perfect architecture; it's a defensible one whose trade-offs are explicit.
 
+```mermaid
+flowchart LR
+    R["Requirements"] --> C["Capacity estimate"]
+    C --> A["Architecture<br/>ingest, store, process, serve"]
+    A --> T["Trade-offs"]
+    T --> F["Failure modes<br/>and monitoring"]
+    F --> K["Cost and security"]
+```
+
 ---
 
 ## Table of Contents

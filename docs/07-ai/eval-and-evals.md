@@ -21,6 +21,15 @@ eval set (inputs + expectations)  ──→  your LLM app (version A / B)  ─�
 
 **Relevance to data engineering:** evals apply data quality practices to model outputs — versioned test data, automated checks, thresholds, and a CI gate.
 
+```mermaid
+flowchart LR
+    DS[("Eval set<br/>inputs + expected")] --> RUN["Run system"]
+    RUN --> OUT["Outputs"]
+    OUT --> SC["Scorers<br/>exact match, rules, LLM judge"]
+    SC --> REP["Scores + regressions"]
+    REP -->|"gate in CI"| DEP["Ship or fix"]
+```
+
 ---
 
 ## Table of Contents

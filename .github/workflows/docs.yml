@@ -6,6 +6,7 @@ on:
       - "docs/**"
       - "mkdocs.yml"
       - "requirements-docs.txt"
+      - "tools/**"
       - ".github/workflows/docs.yml"
   push:
     branches: [main]
@@ -13,6 +14,7 @@ on:
       - "docs/**"
       - "mkdocs.yml"
       - "requirements-docs.txt"
+      - "tools/**"
       - ".github/workflows/docs.yml"
   schedule:
     - cron: "0 6 * * 1"        # Mondays 06:00 UTC — external link check
@@ -29,11 +31,13 @@ jobs:
   build:
     name: Build site (strict)
     if: github.event_name != 'schedule'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0   # the "last updated" dates come from the Git history
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
           cache: pip
@@ -42,6 +46,21 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements-docs.txt
 
+      - name: Code blocks parse
+        run: python tools/check_code_blocks.py
+
+      - name: No retired model IDs
+        run: python tools/check_model_ids.py
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+
+      - name: Mermaid diagrams parse
+        run: |
+          npm install --no-save --prefix tools mermaid jsdom
+          node tools/check_mermaid.mjs
+
       # --strict turns warnings (broken internal links, missing anchors,
       # pages missing from nav) into build failures
       - name: Build
@@ -49,7 +68,7 @@ jobs:
 
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request'
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: site
 
@@ -57,7 +76,7 @@ jobs:
     name: Deploy to GitHub Pages
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       pages: write
       id-token: write
@@ -66,14 +85,24 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
+
+  freshness:
+    name: Retired model IDs
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      # Runs weekly so a newly retired model (added to tools/deprecated_models.txt)
+      # is flagged even when no docs change
+      - run: python tools/check_model_ids.py
 
   external-links:
     name: Check external links
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # Reports broken external URLs without blocking merges; internal links
       # are already enforced by the strict build above

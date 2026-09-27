@@ -5,7 +5,7 @@
 
 **Related:** [PySpark](pyspark-reference.md) · [Cloud Storage](../01-storage/cloud-storage.md) · [Apache Iceberg](../01-storage/apache-iceberg.md) · [Cost Optimization](../08-architecture/cost-optimization.md) · [Glossary](../99-reference/glossary.md)
 
-**Practice:** [Lab 01 — SQL Analytics](https://github.com/sarangambekar1997/de-workspace/tree/main/labs/01-sql-analytics)
+**Practice:** [Lab 01 — SQL Analytics](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/01-sql-analytics)
 
 ---
 
@@ -25,6 +25,13 @@ concurrent users
 ```
 
 **Relevance to data engineering:** these engines make local development, CI tests, small and medium pipelines, and data exploration dramatically faster and cheaper — often replacing a cluster job with a single container.
+
+```mermaid
+flowchart LR
+    F[("Parquet, CSV, JSON<br/>local disk or S3")] --> E["DuckDB / Polars<br/>in-process, vectorised, multi-core"]
+    E --> R["Results<br/>pandas, Arrow, files"]
+    E -.->|"spills to disk when<br/>larger than memory"| F
+```
 
 ---
 
@@ -346,4 +353,4 @@ A: It's an excellent local and CI engine: SQL logic can be tested against small 
 
 ---
 
-**Previous:** [Airflow](../03-orchestration/airflow-reference.md) · **Next:** [PySpark](pyspark-reference.md) · **Back to:** [Index](../README.md)
+**Previous:** [Prefect](../03-orchestration/prefect-reference.md) · **Next:** [PySpark](pyspark-reference.md) · **Back to:** [Index](../README.md)

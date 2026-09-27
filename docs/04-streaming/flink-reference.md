@@ -5,7 +5,7 @@
 
 **Related:** [PySpark](../02-processing/pyspark-reference.md) · [Data Ingestion & CDC](../02-processing/ingestion-cdc.md) · [Apache Iceberg](../01-storage/apache-iceberg.md) · [System Design](../08-architecture/system-design.md) · [Glossary](../99-reference/glossary.md)
 
-**Practice:** [Lab 04 — Kafka Streaming](https://github.com/sarangambekar1997/de-workspace/tree/main/labs/04-kafka-streaming)
+**Practice:** [Lab 04 — Kafka Streaming](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/04-kafka-streaming)
 
 ---
 
@@ -23,6 +23,15 @@ sources (Kafka, CDC, files) ──→ Flink job ──────────�
 ```
 
 **Relevance to data engineering:** Flink powers low-latency pipelines — streaming ETL into lakehouse tables, real-time aggregations, CDC processing, and event-driven applications. Flink SQL makes most of it accessible without writing Java.
+
+```mermaid
+flowchart LR
+    S["Source<br/>Kafka"] --> KB["keyBy<br/>partition by key"]
+    KB --> OP["Stateful operator<br/>windows, joins"]
+    OP --> SK["Sink<br/>Kafka, lakehouse"]
+    OP -.->|"checkpoints"| CP[("State backend<br/>durable storage")]
+    WM["Watermarks track<br/>event time"] -.-> OP
+```
 
 ---
 

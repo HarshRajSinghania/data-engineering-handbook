@@ -26,6 +26,15 @@
 
 **Relevance to data engineering:** embeddings underpin RAG and semantic search, and support record deduplication, classification without model training, and clustering. Generating and storing them at scale — batching, incremental updates, versioning — is a data pipeline problem.
 
+```mermaid
+flowchart LR
+    T["Text"] --> M["Embedding model"]
+    M --> V["Vector<br/>e.g. 1024 numbers"]
+    V --> S["Similarity<br/>cosine distance"]
+    Q["Query vector"] --> S
+    S --> R["Nearest texts<br/>by meaning"]
+```
+
 ---
 
 ## Table of Contents

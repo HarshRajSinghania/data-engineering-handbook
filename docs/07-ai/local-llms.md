@@ -31,6 +31,14 @@ Trade-offs:
 - Air-gapped environments (finance, government, healthcare)
 - Development/testing without incurring API costs
 
+```mermaid
+flowchart LR
+    W[("Model weights<br/>Hugging Face")] --> Q["Quantise<br/>4-bit / 8-bit"]
+    Q --> RT["Runtime<br/>Ollama, llama.cpp, vLLM"]
+    RT --> HW["Your GPU / CPU / RAM"]
+    APP["App"] -->|"local HTTP API"| RT
+```
+
 ---
 
 ## Table of Contents

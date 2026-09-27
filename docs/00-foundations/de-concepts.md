@@ -29,6 +29,18 @@ S3 log files          Ensure quality → Document          Analysts
 - Monitor freshness and quality, and alert when data is late or incorrect
 - Trace a discrepancy between two reports back to its root cause
 
+```mermaid
+flowchart LR
+    SRC["Sources<br/>databases, APIs, files, events"] --> ING["Ingest<br/>batch or streaming"]
+    ING --> RAW[("Raw / bronze")]
+    RAW --> TR["Transform<br/>clean, join, model"]
+    TR --> CUR[("Curated / silver + gold")]
+    CUR --> SRV["Serve<br/>BI, ML, APIs"]
+    ORCH["Orchestration, quality, governance"] -.-> ING
+    ORCH -.-> TR
+    ORCH -.-> SRV
+```
+
 ---
 
 ## Table of Contents
