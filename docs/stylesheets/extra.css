@@ -1,0 +1,26 @@
+/* A little more room for the wide comparison tables that many guides use. */
+:root {
+  --md-content-max-width: 62rem;
+}
+
+/* Slightly denser code, since guides run long and code blocks are frequent. */
+.md-typeset pre > code {
+  font-size: 0.78rem;
+}
+
+/* Homepage category cards: a subtle lift on hover so the grid feels clickable. */
+.md-typeset .grid.cards > ul > li {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.md-typeset .grid.cards > ul > li:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--md-shadow-z2);
+}
+
+/* `abbr` tooltips (SCD, CDC, ACID...) get a dotted underline instead of the
+   browser's plain default, so readers notice they're hoverable. */
+.md-typeset abbr {
+  text-decoration: underline dotted;
+  cursor: help;
+}
