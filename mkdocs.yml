@@ -20,6 +20,7 @@ validation:
 theme:
   name: material
   language: en
+  custom_dir: overrides
   features:
     - navigation.tabs
     - navigation.sections
@@ -141,6 +142,8 @@ nav:
   - Architecture:
       - System Design: 08-architecture/system-design.md
       - Cost Optimization: 08-architecture/cost-optimization.md
+  - Projects:
+      - Capstone Projects: projects/index.md
   - Interview Prep:
       - Interview Roadmap: 09-interviews/interview-roadmap.md
       - SQL Interview Patterns: 09-interviews/sql-interview-patterns.md

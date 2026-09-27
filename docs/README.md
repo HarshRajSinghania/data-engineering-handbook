@@ -112,7 +112,7 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 
 ## Hands-on Labs
 
-Practise with [five labs](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs) that run locally, all on one realistic e-commerce dataset:
+Practise with [five labs and two capstone projects](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs) that run locally. The labs and the first capstone use one realistic e-commerce dataset:
 
 | Lab | Practise |
 |-----|----------|
@@ -121,6 +121,8 @@ Practise with [five labs](https://github.com/sarangambekar1997/data-engineering-
 | [03 — Spark Lakehouse](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/03-spark-lakehouse) | Medallion pipeline on Delta Lake: `MERGE`, time travel, schema evolution |
 | [04 — Kafka Streaming](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/04-kafka-streaming) | Consumer groups, dead-letter topics, event-time windows, watermarks |
 | [05 — Airflow Orchestration](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/05-airflow-orchestration) | Backfills, idempotent loads, quality gates, pools, asset scheduling |
+| [06 — Capstone: Dagster pipeline](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/06-capstone-ecommerce) | An end-to-end pipeline with quality gates, quarantine tables and a dashboard (see [Projects](projects/index.md)) |
+| [07 — Capstone: Docs RAG](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/07-docs-rag) | Chunking, BM25 retrieval and a retrieval eval over these guides |
 
 ---
 

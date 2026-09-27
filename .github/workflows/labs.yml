@@ -4,11 +4,13 @@ on:
   pull_request:
     paths:
       - "labs/**"
+      - "docs/**"
       - ".github/workflows/labs.yml"
   push:
     branches: [main]
     paths:
       - "labs/**"
+      - "docs/**"
       - ".github/workflows/labs.yml"
   schedule:
     - cron: "0 7 * * 1"        # Mondays: catches breakage from new dependency releases
@@ -83,6 +85,40 @@ jobs:
       - run: python pipeline.py
       - run: python ../data/simulate_changes.py
       - run: python pipeline.py
+
+  capstone-06:
+    name: Capstone 06 (Dagster pipeline)
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: labs/06-capstone-ecommerce
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: labs/06-capstone-ecommerce/requirements.txt
+      - run: pip install -r requirements.txt
+      - run: python ../data/generate.py
+      - run: python run.py
+      # rerun after one day of source changes: must still pass every check
+      - run: python ../data/simulate_changes.py
+      - run: python run.py
+      - run: test -s dashboard.html
+
+  capstone-07:
+    name: Capstone 07 (Docs RAG evals)
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: labs/07-docs-rag
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - run: python evaluate.py --min-hit-at-5 0.85
 
   lab-04-05:
     name: Labs 04-05 (Compose files and code)

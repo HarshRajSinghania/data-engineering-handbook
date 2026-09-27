@@ -26,7 +26,8 @@ Every guide goes **Basic → Intermediate → Advanced** with working code examp
 | [`docs/08-architecture`](docs/08-architecture) | System design, cost optimization |
 | [`docs/09-interviews`](docs/09-interviews) | Interview roadmap, SQL patterns, system design case studies |
 | [`docs/99-reference`](docs/99-reference) | Glossary |
-| [`labs`](labs) | Hands-on labs: SQL, dbt, Spark & Delta Lake, Kafka, Airflow |
+| [`labs`](labs) | Hands-on labs (SQL, dbt, Spark & Delta Lake, Kafka, Airflow) and two capstone projects |
+| [`docs/projects`](docs/projects/index.md) | Capstone projects: an end-to-end pipeline and a RAG system with evals |
 
 Folders are numbered roughly in learning order. New topics go in the folder that matches
 where they sit in a pipeline, and a new top-level area gets the next free number.
@@ -46,7 +47,7 @@ The full learning paths, the "when should I use what" tables, and the cheat shee
 
 ## Hands-on labs
 
-[Five labs](labs/README.md) turn the guides into practice on one realistic e-commerce dataset, with its duplicates, missing keys, late events and changing records. Each lab runs locally without a cloud account, and each has runnable exercises and reference solutions that were run end to end.
+[Five labs and two capstone projects](labs/README.md) turn the guides into practice on one realistic e-commerce dataset, with its duplicates, missing keys, late events and changing records. Each runs locally without a cloud account, and each has runnable exercises and reference solutions that were run end to end.
 
 | Lab | Runs on |
 |-----|---------|

@@ -376,7 +376,7 @@ A: A schedule fires on a cron. A sensor polls something external and yields run 
 
 - [Dagster documentation](https://docs.dagster.io/)
 - [Dagster Essentials course](https://courses.dagster.io/): free, hands-on
-- [Assets concept guide](https://docs.dagster.io/concepts/assets)
+- [Assets concept guide](https://docs.dagster.io/guides/build/assets)
 - [dagster-dbt integration](https://docs.dagster.io/integrations/libraries/dbt)
 - [Testing assets](https://docs.dagster.io/guides/test)
 

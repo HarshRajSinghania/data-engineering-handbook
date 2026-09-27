@@ -21,3 +21,8 @@ derby.log
 # Airflow
 05-airflow-orchestration/warehouse/
 05-airflow-orchestration/.env
+
+# Capstone projects
+06-capstone-ecommerce/dashboard.html
+.dagster/
+**/history/

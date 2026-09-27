@@ -279,8 +279,6 @@ A: Use event time, not processing time, with watermarks that say how long to wai
 
 - [System Design](../08-architecture/system-design.md): the general method, plus three more worked designs
 - *Designing Data-Intensive Applications* — Martin Kleppmann (O'Reilly)
-- [Netflix Tech Blog: data engineering](https://netflixtechblog.com/)
-- [Uber Engineering: data](https://www.uber.com/blog/engineering/data/)
 
 ---
 
