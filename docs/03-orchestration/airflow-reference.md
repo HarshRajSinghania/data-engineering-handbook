@@ -37,6 +37,15 @@ Cron jobs and shell scripts can run these steps, but they do not answer the oper
 
 **When it is unnecessary:** a single, independent script that runs occasionally — a cron job is sufficient.
 
+```mermaid
+flowchart LR
+    DAG["DAG files<br/>in Git"] --> SCH["Scheduler<br/>parses DAGs, creates runs"]
+    SCH --> Q["Executor / queue"]
+    Q --> W["Workers<br/>run tasks"]
+    SCH <--> DB[("Metadata database")]
+    WEB["Web UI + API"] <--> DB
+```
+
 ---
 
 ## Table of Contents
@@ -1005,4 +1014,4 @@ A: `LocalExecutor` runs tasks as subprocesses on the same machine as the schedul
 
 ---
 
-**Previous:** [Data Governance & Lineage](../05-quality-governance/governance-lineage.md) · **Next:** [DuckDB & Polars](../02-processing/duckdb-polars.md) · **Back to:** [Index](../README.md)
+**Previous:** [Pipeline Observability](../05-quality-governance/pipeline-observability.md) · **Next:** [Dagster](dagster-reference.md) · **Back to:** [Index](../README.md)

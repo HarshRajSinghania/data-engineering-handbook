@@ -31,6 +31,16 @@ Rule of thumb:
 **Key concept — lazy evaluation:**
 A chain such as `df.filter(...).groupBy(...).agg(...)` does not execute immediately; Spark builds a logical plan. Execution starts only when an *action* (`.show()`, `.count()`, `.write()`) is called, which allows Spark to optimize the entire chain before reading any data.
 
+```mermaid
+flowchart TB
+    DR["Driver<br/>builds the plan"] --> CM["Cluster manager"]
+    CM --> E1["Executor<br/>tasks on partitions"]
+    CM --> E2["Executor<br/>tasks on partitions"]
+    CM --> E3["Executor<br/>tasks on partitions"]
+    E1 <-->|"shuffle"| E2
+    E2 <-->|"shuffle"| E3
+```
+
 ---
 
 ## Table of Contents

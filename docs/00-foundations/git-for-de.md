@@ -23,6 +23,18 @@ Without Git:                              With Git:
 
 **Relevance to data engineering:** Git is the foundation of CI/CD for data: transformation tests, orchestration deployments, and infrastructure plans all run on a push or a pull request.
 
+```mermaid
+gitGraph
+    commit id: "main"
+    branch feature/new-model
+    checkout feature/new-model
+    commit id: "change SQL"
+    commit id: "add tests"
+    checkout main
+    merge feature/new-model id: "PR + CI passes"
+    commit id: "deploy"
+```
+
 ---
 
 ## Table of Contents

@@ -24,6 +24,15 @@ Request: "The orders summary double-counts refunds — fix it and add a test"
 
 **Configuration:** a `CLAUDE.md` file in the repository holds project conventions and is read every session; permission modes and allow-lists control what runs without approval; MCP servers connect it to external systems such as databases and orchestrators; and hooks and skills automate team workflows.
 
+```mermaid
+flowchart LR
+    U["Developer prompt"] --> CC["Claude Code<br/>agent loop"]
+    CTX["CLAUDE.md, skills,<br/>MCP servers"] --> CC
+    CC -->|"read, edit, run"| REPO["Your repo + terminal"]
+    CC --> H["Hooks and permissions<br/>guard each action"]
+    REPO --> CC
+```
+
 ---
 
 ## Table of Contents

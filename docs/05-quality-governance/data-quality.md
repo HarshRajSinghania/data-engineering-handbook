@@ -24,6 +24,16 @@ Source ──→ [contract/schema checks] ──→ Bronze ──→ [validity, 
 
 **Relation to software testing:** code tests verify logic at deployment time. Data tests must run on every load, because the data changes daily even when the code does not.
 
+```mermaid
+flowchart LR
+    I["Incoming data"] --> T{"Checks<br/>schema, nulls, ranges,<br/>uniqueness, freshness"}
+    T -->|"pass"| G[("Published tables")]
+    T -->|"fail: block"| Q[("Quarantine")]
+    T -->|"fail: warn"| G
+    T --> A["Alert owner"]
+    Q --> A
+```
+
 ---
 
 ## Table of Contents

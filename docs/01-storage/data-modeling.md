@@ -28,6 +28,15 @@ promos, payments, refunds ...      →     dim_customer ─ fct_orders ─ dim_p
 
 **Key design decisions:** the **grain** (what a single row represents) and how **history** is handled when descriptive attributes change (slowly changing dimensions).
 
+```mermaid
+flowchart TB
+    F["fct_orders<br/>one row per order line<br/>measures: quantity, amount"]
+    F --- D1["dim_customer"]
+    F --- D2["dim_product"]
+    F --- D3["dim_date"]
+    F --- D4["dim_store"]
+```
+
 ---
 
 ## Table of Contents

@@ -25,6 +25,15 @@ You write:                                    The engine decides:
 
 **Relevance to data engineering:** SQL is the primary language of warehouses, transformation layers, and data quality checks, and it is central to technical interviews. Joins, aggregation, and window functions deserve particular depth.
 
+```mermaid
+flowchart LR
+    F["FROM / JOIN<br/>pick and combine tables"] --> W["WHERE<br/>filter rows"]
+    W --> G["GROUP BY<br/>aggregate"]
+    G --> H["HAVING<br/>filter groups"]
+    H --> S["SELECT + window functions"]
+    S --> O["ORDER BY / LIMIT"]
+```
+
 ---
 
 ## Table of Contents

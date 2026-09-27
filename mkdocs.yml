@@ -101,6 +101,8 @@ nav:
       - Snowflake: 01-storage/snowflake-reference.md
       - BigQuery: 01-storage/bigquery-reference.md
       - Amazon Redshift: 01-storage/redshift-reference.md
+      - Delta Lake: 01-storage/delta-lake.md
+      - Apache Hudi: 01-storage/apache-hudi.md
       - Apache Iceberg: 01-storage/apache-iceberg.md
   - Ingestion & Processing:
       - Ingestion & CDC: 02-processing/ingestion-cdc.md
@@ -108,13 +110,18 @@ nav:
       - PySpark: 02-processing/pyspark-reference.md
       - Databricks: 02-processing/databricks-reference.md
       - dbt: 02-processing/dbt-reference.md
+      - Semantic Layer & Metrics: 02-processing/semantic-layer-metrics.md
   - Orchestration & Streaming:
       - Apache Airflow: 03-orchestration/airflow-reference.md
+      - Dagster: 03-orchestration/dagster-reference.md
+      - Prefect: 03-orchestration/prefect-reference.md
       - Apache Kafka: 04-streaming/kafka-reference.md
       - Apache Flink: 04-streaming/flink-reference.md
   - Quality & Infrastructure:
       - Data Quality: 05-quality-governance/data-quality.md
       - Governance & Lineage: 05-quality-governance/governance-lineage.md
+      - Data Security & Privacy: 05-quality-governance/data-security-privacy.md
+      - Pipeline Observability: 05-quality-governance/pipeline-observability.md
       - Docker: 06-infrastructure/docker-reference.md
       - Terraform: 06-infrastructure/terraform-for-de.md
   - AI & ML:
@@ -134,5 +141,9 @@ nav:
   - Architecture:
       - System Design: 08-architecture/system-design.md
       - Cost Optimization: 08-architecture/cost-optimization.md
+  - Interview Prep:
+      - Interview Roadmap: 09-interviews/interview-roadmap.md
+      - SQL Interview Patterns: 09-interviews/sql-interview-patterns.md
+      - System Design Case Studies: 09-interviews/system-design-case-studies.md
   - Glossary: 99-reference/glossary.md
   - About: about.md

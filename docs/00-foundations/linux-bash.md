@@ -22,6 +22,14 @@ The Unix idea: small tools, each doing one thing, connected by pipes
 
 **Typical uses:** previewing large files without loading them, following the log of a running job, transferring files to and from object storage, writing wrapper scripts with retries, and scheduling simple jobs with cron.
 
+```mermaid
+flowchart LR
+    F["Files / logs / API output"] --> P1["grep, awk, sed<br/>filter and reshape"]
+    P1 -->|"pipe"| P2["sort, uniq, cut<br/>summarise"]
+    P2 --> O["Output file<br/>or next command"]
+    CRON["cron / script"] -.->|"runs on a schedule"| P1
+```
+
 ---
 
 ## Table of Contents

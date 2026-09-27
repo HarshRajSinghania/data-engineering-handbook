@@ -32,6 +32,16 @@ In short: dbt manages SQL transformations the way an orchestrator manages pipeli
 - Scheduling — handled by an orchestrator or dbt Cloud's scheduler
 - General-purpose Python processing — dbt is SQL-first (Python models exist for specific cases)
 
+```mermaid
+flowchart LR
+    SRC[("Raw sources")] --> STG["staging models<br/>rename, cast"]
+    STG --> INT["intermediate models<br/>joins, logic"]
+    INT --> MRT["marts<br/>facts and dimensions"]
+    MRT --> BI["BI, ML, reverse ETL"]
+    T{{"tests + docs + lineage"}} -.-> STG
+    T -.-> MRT
+```
+
 ---
 
 ## Table of Contents
@@ -1037,4 +1047,4 @@ A: dbt uses profiles.yml to define target environments. In dev, models are built
 
 ---
 
-**Previous:** [Amazon Redshift](../01-storage/redshift-reference.md) · **Next:** [Data Quality](../05-quality-governance/data-quality.md) · **Back to:** [Index](../README.md)
+**Previous:** [Apache Hudi](../01-storage/apache-hudi.md) · **Next:** [Semantic Layer & Metrics](semantic-layer-metrics.md) · **Back to:** [Index](../README.md)

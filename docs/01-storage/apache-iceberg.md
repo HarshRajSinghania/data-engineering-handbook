@@ -24,6 +24,14 @@ s3://bucket/orders/       iceberg table "orders"
 
 **Positioning:** Iceberg is engine-neutral — Spark, Flink, Trino, and major cloud warehouses read and write it natively — which makes it a strong choice when several engines share the same tables. Delta Lake and Apache Hudi solve the same problem with different trade-offs (see the comparison later in this guide).
 
+```mermaid
+flowchart TB
+    C["Catalog<br/>points to current metadata file"] --> M["Metadata file<br/>schema, partition spec, snapshots"]
+    M --> ML["Manifest list<br/>one per snapshot"]
+    ML --> MF["Manifest files<br/>list data files + statistics"]
+    MF --> D[("Parquet data files<br/>in object storage")]
+```
+
 ---
 
 ## Table of Contents

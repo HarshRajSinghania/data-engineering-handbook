@@ -24,6 +24,14 @@
 
 **State management:** Terraform maintains a state file that maps configuration to real resource IDs. It must be protected with a remote backend, locking, and versioning — a lost or corrupted state file leaves Terraform unaware of what it manages.
 
+```mermaid
+flowchart LR
+    CODE["Terraform files<br/>in Git"] -->|"terraform plan"| PLAN["Diff: what will change"]
+    PLAN -->|"review + apply"| API["Cloud provider APIs"]
+    API --> RES["S3, IAM, warehouses"]
+    ST[("Remote state<br/>locked")] <--> PLAN
+```
+
 ---
 
 ## Table of Contents

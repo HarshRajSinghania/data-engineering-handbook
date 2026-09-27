@@ -52,6 +52,15 @@ jobs:
       - name: No retired model IDs
         run: python tools/check_model_ids.py
 
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+
+      - name: Mermaid diagrams parse
+        run: |
+          npm install --no-save --prefix tools mermaid jsdom
+          node tools/check_mermaid.mjs
+
       # --strict turns warnings (broken internal links, missing anchors,
       # pages missing from nav) into build failures
       - name: Build

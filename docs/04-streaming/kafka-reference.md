@@ -29,6 +29,17 @@ Orders → Notifications         ┌─────────────┼�
 
 **Key property:** Kafka retains messages for a configurable period (days to weeks, or indefinitely). Consumers can reprocess history, new consumers can start from the beginning, and a restarted consumer resumes from its last committed position — capabilities that traditional queues, which delete messages once consumed, do not offer.
 
+```mermaid
+flowchart LR
+    P["Producers"] --> T1["Topic partition 0"]
+    P --> T2["Topic partition 1"]
+    P --> T3["Topic partition 2"]
+    T1 --> C1["Consumer A<br/>group 1"]
+    T2 --> C2["Consumer B<br/>group 1"]
+    T3 --> C2
+    T1 --> C3["Consumer C<br/>group 2"]
+```
+
 ---
 
 ## Table of Contents

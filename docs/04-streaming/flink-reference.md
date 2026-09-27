@@ -24,6 +24,15 @@ sources (Kafka, CDC, files) ──→ Flink job ──────────�
 
 **Relevance to data engineering:** Flink powers low-latency pipelines — streaming ETL into lakehouse tables, real-time aggregations, CDC processing, and event-driven applications. Flink SQL makes most of it accessible without writing Java.
 
+```mermaid
+flowchart LR
+    S["Source<br/>Kafka"] --> KB["keyBy<br/>partition by key"]
+    KB --> OP["Stateful operator<br/>windows, joins"]
+    OP --> SK["Sink<br/>Kafka, lakehouse"]
+    OP -.->|"checkpoints"| CP[("State backend<br/>durable storage")]
+    WM["Watermarks track<br/>event time"] -.-> OP
+```
+
 ---
 
 ## Table of Contents

@@ -84,3 +84,6 @@ Thumbs.db
 # Documentation site build output
 # =========================
 site/
+
+# Node (tools/check_mermaid.mjs dependencies)
+node_modules/

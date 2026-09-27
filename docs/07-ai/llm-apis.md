@@ -20,6 +20,17 @@ your code ──→ client.messages.create(model, system, messages, tools, ...) 
 
 **Key design constraints:** *tokens* (billing is per input and output token, and context windows are finite), *latency* (seconds rather than milliseconds — use streaming, batching, or concurrency), and *non-determinism* (validate outputs rather than trusting them).
 
+```mermaid
+sequenceDiagram
+    participant App
+    participant API as LLM API
+    App->>API: messages + tools + parameters
+    API-->>App: tool_use request
+    App->>App: run the tool
+    App->>API: tool result
+    API-->>App: final text (streamed)
+```
+
 ---
 
 ## Table of Contents

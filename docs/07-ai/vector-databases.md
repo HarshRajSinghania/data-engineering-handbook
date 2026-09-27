@@ -23,6 +23,13 @@ query: "why did the orders DAG fail?"  →  embed  →  [0.12, -0.44, ...]
 
 **When a dedicated database is needed:** often not initially. A relational database with a vector extension (such as PostgreSQL with pgvector) covers many use cases, and most warehouses and lakehouses now include vector search. Dedicated vector databases are justified at large scale, with heavy filtering, many tenants, or strict latency targets.
 
+```mermaid
+flowchart LR
+    V["Vectors + metadata"] --> IX["ANN index<br/>HNSW / IVF"]
+    Q["Query vector<br/>+ metadata filter"] --> IX
+    IX --> R["Top-k neighbours<br/>with scores"]
+```
+
 ---
 
 ## Table of Contents

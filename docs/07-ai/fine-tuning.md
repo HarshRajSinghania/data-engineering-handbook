@@ -44,6 +44,15 @@ Use both when:
   - Fine-tune for behavior/format, RAG for knowledge
 ```
 
+```mermaid
+flowchart TB
+    Q{"Model needs to<br/>change behaviour or style?"} -->|"no: needs facts"| RAG["Use RAG"]
+    Q -->|"yes"| P{"Prompting + examples<br/>enough?"}
+    P -->|"yes"| PR["Improve the prompt"]
+    P -->|"no"| FT["Fine-tune<br/>LoRA / API"]
+    FT --> EV["Evaluate against baseline"]
+```
+
 ---
 
 ## Table of Contents

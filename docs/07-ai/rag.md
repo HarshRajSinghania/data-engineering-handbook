@@ -37,6 +37,17 @@ The LLM is now a search interface over your own documents.
    Question → Convert to vector → Find similar chunks → Build prompt → LLM → Answer
 ```
 
+```mermaid
+flowchart LR
+    D["Documents"] --> CH["Chunk + embed"]
+    CH --> VDB[("Vector index")]
+    Q["Question"] --> R["Retrieve top-k<br/>+ re-rank"]
+    VDB --> R
+    R --> P["Prompt with context"]
+    P --> LLM["LLM"]
+    LLM --> A["Grounded answer<br/>with citations"]
+```
+
 ---
 
 ## Table of Contents

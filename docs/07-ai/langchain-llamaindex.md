@@ -23,6 +23,17 @@
 
 **Trade-offs:** frameworks speed up initial development and make components interchangeable, at the cost of additional abstraction, frequent API changes, and harder debugging. Many teams prototype with a framework and retain it only where it clearly saves effort.
 
+```mermaid
+flowchart LR
+    DOC["Documents"] --> LD["Loaders + splitters"]
+    LD --> IDX[("Vector index")]
+    Q["Question"] --> RT["Retriever"]
+    IDX --> RT
+    RT --> CH["Chain: prompt + LLM"]
+    CH --> A["Answer"]
+    CH -.-> TR["Tracing"]
+```
+
 ---
 
 ## Table of Contents

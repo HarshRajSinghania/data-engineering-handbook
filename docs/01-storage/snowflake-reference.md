@@ -24,6 +24,15 @@
 
 **Additional capabilities:** standard SQL with useful extensions (`QUALIFY`, `FLATTEN`), native semi-structured data handling, time travel for recovering from mistakes, zero-copy cloning for development environments, and minimal tuning — no indexes or vacuuming.
 
+```mermaid
+flowchart TB
+    CS["Cloud services layer<br/>metadata, security, optimizer"]
+    CS --> W1["Virtual warehouse A<br/>ETL"]
+    CS --> W2["Virtual warehouse B<br/>BI"]
+    W1 --> ST[("Storage layer<br/>compressed micro-partitions")]
+    W2 --> ST
+```
+
 ---
 
 ## Table of Contents

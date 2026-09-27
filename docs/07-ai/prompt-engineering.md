@@ -25,6 +25,16 @@ Weak prompt                             Strong prompt
 
 **Relevance to data engineering:** This shows up everywhere LLMs touch a pipeline: extracting fields from messy text, classifying tickets, generating SQL, summarizing incidents. The same rules as any pipeline apply — deterministic formats, validation, and regression tests.
 
+```mermaid
+flowchart LR
+    T["Task + context"] --> P["Prompt<br/>role, instructions, examples,<br/>output format"]
+    P --> M["Model"]
+    M --> O["Output"]
+    O --> V{"Valid?"}
+    V -->|"no"| P
+    V -->|"yes"| N["Use it"]
+```
+
 ---
 
 ## Table of Contents
