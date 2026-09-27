@@ -5,7 +5,7 @@
 
 **Related:** [PySpark](../02-processing/pyspark-reference.md) · [Databricks](../02-processing/databricks-reference.md) · [Data Quality](../05-quality-governance/data-quality.md) · [Apache Flink](flink-reference.md) · [Glossary](../99-reference/glossary.md)
 
-**Practice:** [Lab 04 — Kafka Streaming](https://github.com/sarangambekar1997/de-workspace/tree/main/labs/04-kafka-streaming)
+**Practice:** [Lab 04 — Kafka Streaming](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/04-kafka-streaming)
 
 ---
 

@@ -5,7 +5,7 @@
 
 **Related:** [Databricks](databricks-reference.md) · [Apache Iceberg](../01-storage/apache-iceberg.md) · [Kafka](../04-streaming/kafka-reference.md) · [DuckDB & Polars](duckdb-polars.md) · [Glossary](../99-reference/glossary.md)
 
-**Practice:** [Lab 03 — Spark Lakehouse](https://github.com/sarangambekar1997/de-workspace/tree/main/labs/03-spark-lakehouse)
+**Practice:** [Lab 03 — Spark Lakehouse](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/03-spark-lakehouse)
 
 ---
 
@@ -389,6 +389,8 @@ df = df.withColumn("tags_exploded", F.explode("tags"))  # one row per array elem
 ```
 
 ### Common built-in functions
+
+<!-- docs-parse: skip -->
 
 ```python
 # Math
@@ -923,6 +925,8 @@ query.awaitTermination()   # block until stopped
 ### Checkpointing
 
 Checkpoints save the stream's progress (offsets + aggregation state) to durable storage. Required for exactly-once processing and recovery from failures.
+
+<!-- docs-parse: skip -->
 
 ```python
 .option("checkpointLocation", "s3://my-bucket/checkpoints/stream-name/")

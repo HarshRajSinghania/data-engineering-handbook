@@ -1,0 +1,11 @@
+# One regex per line: model IDs that must not appear in the docs (retired or superseded).
+# Add a line here when a vendor retires a model; CI then flags every remaining mention.
+# Lines starting with # are comments. Matching is case-sensitive.
+\bgpt-4o(-mini)?\b
+\bgpt-3\.5-turbo\b
+\bclaude-3-(opus|sonnet|haiku)
+\bclaude-3-5-
+\bclaude-opus-4(-\d)?\b
+\bclaude-sonnet-4(-\d)?\b
+\bclaude-opus-5\b(?!-)
+text-davinci-\d+

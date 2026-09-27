@@ -259,8 +259,8 @@ Stack: cloud warehouse + SQL transformation layer + orchestrator on Kubernetes +
 ```bash
 # CLAUDE.md can be at multiple levels:
 ~/.claude/CLAUDE.md                  # global (applies everywhere)
-~/projects/de-workspace/CLAUDE.md    # repo root
-~/projects/de-workspace/transformations/CLAUDE.md  # subdirectory (loaded when working there)
+~/projects/my-data-platform/CLAUDE.md    # repo root
+~/projects/my-data-platform/transformations/CLAUDE.md  # subdirectory (loaded when working there)
 ```
 
 ---

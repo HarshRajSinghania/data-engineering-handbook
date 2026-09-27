@@ -5,7 +5,7 @@
 
 **Related:** [Apache Iceberg](../01-storage/apache-iceberg.md) · [MLflow](../07-ai/mlflow.md) · [Data Quality](../05-quality-governance/data-quality.md) · [Glossary](../99-reference/glossary.md)
 
-**Practice:** [Lab 03 — Spark Lakehouse](https://github.com/sarangambekar1997/de-workspace/tree/main/labs/03-spark-lakehouse)
+**Practice:** [Lab 03 — Spark Lakehouse](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/03-spark-lakehouse)
 
 ---
 

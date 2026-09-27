@@ -1,0 +1,100 @@
+name: Labs
+
+on:
+  pull_request:
+    paths:
+      - "labs/**"
+      - ".github/workflows/labs.yml"
+  push:
+    branches: [main]
+    paths:
+      - "labs/**"
+      - ".github/workflows/labs.yml"
+  schedule:
+    - cron: "0 7 * * 1"        # Mondays: catches breakage from new dependency releases
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: labs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lab-01:
+    name: Lab 01 (SQL, DuckDB)
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: labs/01-sql-analytics
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: labs/01-sql-analytics/requirements.txt
+      - run: pip install -r requirements.txt
+      - run: python ../data/generate.py
+      - run: python run_sql.py setup.sql
+      - run: python run_sql.py solutions.sql
+
+  lab-02:
+    name: Lab 02 (dbt)
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: labs/02-dbt-transformations
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: labs/02-dbt-transformations/requirements.txt
+      - run: pip install -r requirements.txt
+      - run: python ../data/generate.py
+      - run: dbt debug
+      - run: dbt build
+      # second run: one day of changes, incremental model, snapshot
+      - run: python ../data/simulate_changes.py
+      - run: dbt build
+
+  lab-03:
+    name: Lab 03 (Spark, Delta Lake)
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: labs/03-spark-lakehouse
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: labs/03-spark-lakehouse/requirements.txt
+      - run: pip install -r requirements.txt
+      - run: python ../data/generate.py
+      - run: python pipeline.py
+      - run: python ../data/simulate_changes.py
+      - run: python pipeline.py
+
+  lab-04-05:
+    name: Labs 04-05 (Compose files and code)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Compose files are valid
+        run: |
+          docker compose -f labs/04-kafka-streaming/docker-compose.yml config -q
+          docker compose -f labs/05-airflow-orchestration/docker-compose.yml config -q
+      - name: Python compiles
+        run: python -m compileall -q labs/04-kafka-streaming labs/05-airflow-orchestration labs/data

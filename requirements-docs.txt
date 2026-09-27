@@ -2,4 +2,5 @@
 # mkdocs is capped below 2.0: MkDocs 2.0 is incompatible with the Material theme's plugin/theming system
 mkdocs>=1.6.1,<2
 mkdocs-material==9.7.7
+mkdocs-git-revision-date-localized-plugin==1.6.0
 pymdown-extensions==12.1

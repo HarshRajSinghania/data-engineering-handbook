@@ -126,6 +126,8 @@ bool(0)           # False
 
 ## Operators
 
+<!-- docs-parse: skip -->
+
 ```python
 # Arithmetic
 10 + 3   # 13       addition

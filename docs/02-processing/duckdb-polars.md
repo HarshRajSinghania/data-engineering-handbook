@@ -5,7 +5,7 @@
 
 **Related:** [PySpark](pyspark-reference.md) · [Cloud Storage](../01-storage/cloud-storage.md) · [Apache Iceberg](../01-storage/apache-iceberg.md) · [Cost Optimization](../08-architecture/cost-optimization.md) · [Glossary](../99-reference/glossary.md)
 
-**Practice:** [Lab 01 — SQL Analytics](https://github.com/sarangambekar1997/de-workspace/tree/main/labs/01-sql-analytics)
+**Practice:** [Lab 01 — SQL Analytics](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/01-sql-analytics)
 
 ---
 

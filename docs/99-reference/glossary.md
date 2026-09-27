@@ -1,5 +1,5 @@
 # Data Engineering Glossary
-> Definitions for every term used across the DE bible — one place to look things up.
+> Definitions for every term used across this handbook — one place to look things up.
 
 **Prerequisites:** None — good place to start
 

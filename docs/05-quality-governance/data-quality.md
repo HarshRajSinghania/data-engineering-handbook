@@ -5,7 +5,7 @@
 
 **Related:** [dbt](../02-processing/dbt-reference.md) · [Airflow](../03-orchestration/airflow-reference.md) · [Evals](../07-ai/eval-and-evals.md) · [Data Governance & Lineage](governance-lineage.md) · [Glossary](../99-reference/glossary.md)
 
-**Practice:** [Lab 01 — SQL Analytics](https://github.com/sarangambekar1997/de-workspace/tree/main/labs/01-sql-analytics) · [Lab 02 — dbt Transformations](https://github.com/sarangambekar1997/de-workspace/tree/main/labs/02-dbt-transformations) · [Lab 05 — Airflow Orchestration](https://github.com/sarangambekar1997/de-workspace/tree/main/labs/05-airflow-orchestration)
+**Practice:** [Lab 01 — SQL Analytics](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/01-sql-analytics) · [Lab 02 — dbt Transformations](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/02-dbt-transformations) · [Lab 05 — Airflow Orchestration](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/05-airflow-orchestration)
 
 ---
 

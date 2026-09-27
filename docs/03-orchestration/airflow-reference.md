@@ -5,7 +5,7 @@
 
 **Related:** [dbt](../02-processing/dbt-reference.md) · [PySpark](../02-processing/pyspark-reference.md) · [Data Quality](../05-quality-governance/data-quality.md) · [Glossary](../99-reference/glossary.md)
 
-**Practice:** [Lab 05 — Airflow Orchestration](https://github.com/sarangambekar1997/de-workspace/tree/main/labs/05-airflow-orchestration)
+**Practice:** [Lab 05 — Airflow Orchestration](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/05-airflow-orchestration)
 
 ---
 

@@ -1,9 +1,10 @@
-site_name: Data Engineering Bible
+site_name: "Sarang's Data Engineering Handbook"
 site_description: A connected reference for data engineering — foundations, storage, processing, orchestration, streaming, quality, infrastructure, and AI.
-site_url: https://sarangambekar1997.github.io/de-workspace/
-repo_url: https://github.com/sarangambekar1997/de-workspace
-repo_name: de-workspace
+site_url: https://sarangambekar1997.github.io/data-engineering-handbook/
+repo_url: https://github.com/sarangambekar1997/data-engineering-handbook
+repo_name: data-engineering-handbook
 edit_uri: edit/main/docs/
+copyright: Copyright &copy; 2026 Sarang Ambekar · MIT License
 
 docs_dir: docs
 exclude_docs: |
@@ -24,6 +25,8 @@ theme:
     - navigation.sections
     - navigation.top
     - navigation.footer
+    - navigation.instant
+    - navigation.instant.progress
     - navigation.indexes
     - toc.follow
     - search.suggest
@@ -50,6 +53,16 @@ theme:
 
 plugins:
   - search
+  - git-revision-date-localized:
+      type: date
+      enable_creation_date: false
+      fallback_to_build_date: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/sarangambekar1997
+      name: Sarang Ambekar on GitHub
 
 markdown_extensions:
   - admonition
@@ -122,3 +135,4 @@ nav:
       - System Design: 08-architecture/system-design.md
       - Cost Optimization: 08-architecture/cost-optimization.md
   - Glossary: 99-reference/glossary.md
+  - About: about.md

@@ -1,4 +1,4 @@
-# Data Engineering Bible
+# Sarang's Data Engineering Handbook
 
 A comprehensive reference for data engineers — from first query to production pipelines.
 Each guide follows a **Basic → Intermediate → Advanced** progression with real, working code examples.
@@ -95,15 +95,15 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 
 ## Hands-on Labs
 
-Practise with [five labs](https://github.com/sarangambekar1997/de-workspace/tree/main/labs) that run locally, all on one realistic e-commerce dataset:
+Practise with [five labs](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs) that run locally, all on one realistic e-commerce dataset:
 
 | Lab | Practise |
 |-----|----------|
-| [01 — SQL Analytics](https://github.com/sarangambekar1997/de-workspace/tree/main/labs/01-sql-analytics) | Deduplication, window functions, funnels, sessionization (DuckDB) |
-| [02 — dbt Transformations](https://github.com/sarangambekar1997/de-workspace/tree/main/labs/02-dbt-transformations) | Layered models, data and unit tests, incremental models, snapshots |
-| [03 — Spark Lakehouse](https://github.com/sarangambekar1997/de-workspace/tree/main/labs/03-spark-lakehouse) | Medallion pipeline on Delta Lake: `MERGE`, time travel, schema evolution |
-| [04 — Kafka Streaming](https://github.com/sarangambekar1997/de-workspace/tree/main/labs/04-kafka-streaming) | Consumer groups, dead-letter topics, event-time windows, watermarks |
-| [05 — Airflow Orchestration](https://github.com/sarangambekar1997/de-workspace/tree/main/labs/05-airflow-orchestration) | Backfills, idempotent loads, quality gates, pools, asset scheduling |
+| [01 — SQL Analytics](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/01-sql-analytics) | Deduplication, window functions, funnels, sessionization (DuckDB) |
+| [02 — dbt Transformations](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/02-dbt-transformations) | Layered models, data and unit tests, incremental models, snapshots |
+| [03 — Spark Lakehouse](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/03-spark-lakehouse) | Medallion pipeline on Delta Lake: `MERGE`, time travel, schema evolution |
+| [04 — Kafka Streaming](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/04-kafka-streaming) | Consumer groups, dead-letter topics, event-time windows, watermarks |
+| [05 — Airflow Orchestration](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/05-airflow-orchestration) | Backfills, idempotent loads, quality gates, pools, asset scheduling |
 
 ---
 

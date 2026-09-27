@@ -490,7 +490,7 @@ pip install langsmith
 import os
 os.environ["LANGCHAIN_TRACING_V2"] = "true"
 os.environ["LANGCHAIN_API_KEY"]    = "ls__..."
-os.environ["LANGCHAIN_PROJECT"]    = "de-bible-rag"
+os.environ["LANGCHAIN_PROJECT"]    = "de-handbook-rag"
 
 # All LangChain calls are now automatically traced
 result = rag_chain.invoke("What is Kafka?")

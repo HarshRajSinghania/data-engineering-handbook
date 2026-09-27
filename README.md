@@ -1,11 +1,11 @@
-# Data Engineering Bible
+# Sarang's Data Engineering Handbook
 
 All of my data engineering knowledge in one place: concepts, tools, and production patterns,
 from first query to production pipelines, plus the AI/LLM engineering that now sits alongside them.
 
 Every guide goes **Basic → Intermediate → Advanced** with working code examples.
 
-**→ Read it as a website: [sarangambekar1997.github.io/de-workspace](https://sarangambekar1997.github.io/de-workspace/)** — searchable, with navigation and dark mode
+**→ Read it as a website: [sarangambekar1997.github.io/data-engineering-handbook](https://sarangambekar1997.github.io/data-engineering-handbook/)** — searchable, with navigation and dark mode
 
 **→ Or start here on GitHub: [Full index & learning paths](docs/README.md)**
 
@@ -77,6 +77,12 @@ Then add the guide to [`docs/README.md`](docs/README.md), to any learning path i
 pip install -r requirements-docs.txt
 mkdocs serve                 # live preview at http://127.0.0.1:8000
 mkdocs build --strict        # the same check CI runs: fails on broken links or anchors
+python tools/check_code_blocks.py   # every python/json/yaml block must parse
+python tools/check_model_ids.py     # no retired model IDs
 ```
 
-Pull requests that touch `docs/` are built in strict mode by CI; merges to `main` deploy the site to GitHub Pages.
+Pull requests that touch `docs/` are built in strict mode by CI and every code block is parsed; merges to `main` deploy the site to GitHub Pages. Pull requests that touch `labs/` run Labs 01–03 end to end. See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## License
+
+[MIT](LICENSE) © Sarang Ambekar

@@ -5,7 +5,7 @@
 
 **Related:** [dbt](../02-processing/dbt-reference.md) · [Snowflake](snowflake-reference.md) · [Glossary](../99-reference/glossary.md)
 
-**Practice:** [Lab 02 — dbt Transformations](https://github.com/sarangambekar1997/de-workspace/tree/main/labs/02-dbt-transformations)
+**Practice:** [Lab 02 — dbt Transformations](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/02-dbt-transformations)
 
 ---
 
