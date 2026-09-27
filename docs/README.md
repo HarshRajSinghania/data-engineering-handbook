@@ -5,6 +5,110 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 
 ---
 
+## Browse by Topic
+
+<div class="grid cards" markdown>
+
+-   :material-school-outline:{ .lg .middle } **Foundations**
+
+    ---
+
+    SQL, Python, Linux & Bash, Git, Cloud Storage — the tools you use every day.
+
+    [:octicons-arrow-right-24: 5 guides](#foundations)
+
+-   :material-cog-outline:{ .lg .middle } **Processing & Compute**
+
+    ---
+
+    DuckDB, Polars, PySpark, Docker, Databricks.
+
+    [:octicons-arrow-right-24: 4 guides](#processing--compute)
+
+-   :material-source-branch:{ .lg .middle } **Orchestration & Streaming**
+
+    ---
+
+    Airflow, Dagster, Prefect, Kafka, Flink, CDC.
+
+    [:octicons-arrow-right-24: 6 guides](#orchestration--streaming)
+
+-   :material-database-outline:{ .lg .middle } **Storage & Transformation**
+
+    ---
+
+    Snowflake, BigQuery, Redshift, Delta Lake, Hudi, Iceberg, dbt.
+
+    [:octicons-arrow-right-24: 8 guides](#storage--transformation)
+
+-   :material-shield-check-outline:{ .lg .middle } **Quality & Observability**
+
+    ---
+
+    Data quality, security & privacy, pipeline observability, governance & lineage.
+
+    [:octicons-arrow-right-24: 4 guides](#quality--observability)
+
+-   :material-robot-outline:{ .lg .middle } **AI & Machine Learning**
+
+    ---
+
+    Prompting, RAG, agents, evals, fine-tuning, observability, local LLMs.
+
+    [:octicons-arrow-right-24: 13 guides](#ai--machine-learning)
+
+-   :material-cloud-outline:{ .lg .middle } **Infrastructure**
+
+    ---
+
+    Terraform for provisioning cloud infrastructure as code.
+
+    [:octicons-arrow-right-24: 1 guide](#infrastructure)
+
+-   :material-book-open-page-variant-outline:{ .lg .middle } **Conceptual & Reference**
+
+    ---
+
+    DE Concepts, Data Modeling, and the full Glossary.
+
+    [:octicons-arrow-right-24: 3 guides](#conceptual--reference)
+
+-   :material-office-building-outline:{ .lg .middle } **Architecture**
+
+    ---
+
+    System design and cost optimization.
+
+    [:octicons-arrow-right-24: 2 guides](#architecture)
+
+-   :material-flask-outline:{ .lg .middle } **Hands-on Labs**
+
+    ---
+
+    Five labs and two capstone projects on one shared dataset.
+
+    [:octicons-arrow-right-24: 7 projects](#hands-on-labs)
+
+-   :material-forum-outline:{ .lg .middle } **Interview Prep**
+
+    ---
+
+    The interview roadmap, 15 SQL patterns, 5 system design case studies.
+
+    [:octicons-arrow-right-24: 3 guides](#interview-prep)
+
+-   :material-map-marker-path:{ .lg .middle } **Learning Paths**
+
+    ---
+
+    Five guided sequences, from complete beginner to AI engineering.
+
+    [:octicons-arrow-right-24: 5 paths](#learning-paths)
+
+</div>
+
+---
+
 ## Reference Guides
 
 ### Foundations
