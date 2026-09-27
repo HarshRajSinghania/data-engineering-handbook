@@ -645,8 +645,8 @@ A: Writing the evals before changing the system — like test-driven development
 
 ## Further Reading
 
-- [Anthropic: Define success criteria and build evaluations](https://docs.claude.com/en/docs/test-and-evaluate/develop-tests)
-- [OpenAI Evals](https://platform.openai.com/docs/guides/evals)
+- [Anthropic: Define success criteria and build evaluations](https://platform.claude.com/docs/en/test-and-evaluate/develop-tests)
+- [OpenAI Evals](https://developers.openai.com/api/docs/guides/evals)
 - [RAGAS](https://docs.ragas.io/) · [DeepEval](https://deepeval.com/docs/getting-started) · [promptfoo](https://www.promptfoo.dev/docs/intro/) — eval frameworks
 - [Hamel Husain: Your AI product needs evals](https://hamel.dev/blog/posts/evals/) — a practical guide to building evals
 - *Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena* — Zheng et al., 2023 (judge biases and reliability)

@@ -48,7 +48,7 @@ promos, payments, refunds ...      →     dim_customer ─ fct_orders ─ dim_p
 - [One Big Table (OBT)](#one-big-table-obt)
 - [Data Vault](#data-vault)
 - [Layered Transformation Architecture](#layered-transformation-architecture)
-- [Common Mistakes](#common-mistakes)
+- [Common Pitfalls](#common-pitfalls)
 
 **Reference**
 - [Cheat Sheet](#cheat-sheet)
@@ -655,7 +655,7 @@ FROM intermediate.int_orders__enriched;
 
 ---
 
-## Common Mistakes
+## Common Pitfalls
 
 ```
 1. Using natural keys as fact table join keys

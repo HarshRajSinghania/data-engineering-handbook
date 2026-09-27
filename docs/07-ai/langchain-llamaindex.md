@@ -82,7 +82,7 @@ from langchain_anthropic import ChatAnthropic
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 
 llm        = ChatAnthropic(model="claude-sonnet-5")
-llm_openai = ChatOpenAI(model="gpt-4o")
+llm_openai = ChatOpenAI(model="gpt-6-sol")
 embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 ```
 
@@ -200,7 +200,7 @@ retriever = vectorstore.as_retriever(
 )
 
 # ── 5. Build RAG chain ────────────────────────────────────────────────────────
-llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+llm = ChatOpenAI(model="gpt-6-luna", temperature=0)
 
 prompt = ChatPromptTemplate.from_template("""
 Answer based only on the context below.
@@ -420,7 +420,7 @@ result = parallel_chain.invoke({"text": long_document})
 
 # ── With fallback ──────────────────────────────────────────────────────────────
 primary  = ChatAnthropic(model="claude-sonnet-5")
-fallback = ChatOpenAI(model="gpt-4o-mini")
+fallback = ChatOpenAI(model="gpt-6-luna")
 
 chain_with_fallback = (prompt | primary | StrOutputParser()).with_fallbacks(
     [prompt | fallback | StrOutputParser()]

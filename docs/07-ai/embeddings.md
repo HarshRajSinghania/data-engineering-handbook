@@ -566,8 +566,8 @@ A: Build a labelled set of realistic queries paired with the documents that shou
 
 ## Further Reading
 
-- [OpenAI embeddings guide](https://platform.openai.com/docs/guides/embeddings)
-- [Voyage AI documentation](https://docs.voyageai.com/) and [Anthropic's embeddings guide](https://docs.claude.com/en/docs/build-with-claude/embeddings)
+- [OpenAI embeddings guide](https://developers.openai.com/api/docs/guides/embeddings)
+- [Voyage AI documentation](https://docs.voyageai.com/) and [Anthropic's embeddings guide](https://platform.claude.com/docs/en/build-with-claude/embeddings)
 - [Sentence Transformers](https://sbert.net/) — local embedding models and fine-tuning
 - [MTEB leaderboard](https://huggingface.co/spaces/mteb/leaderboard) — benchmark results across many tasks
 - [RAG](rag.md) and [Vector Databases](vector-databases.md) — where embeddings are used next

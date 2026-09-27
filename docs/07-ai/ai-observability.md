@@ -94,6 +94,7 @@ import logging
 import json
 from dataclasses import dataclass, asdict
 from datetime import datetime
+from pathlib import Path
 import anthropic
 
 client = anthropic.Anthropic()
@@ -115,16 +116,10 @@ class LLMCallLog:
     prompt_preview: str           # first 200 chars of prompt
     output_preview: str           # first 200 chars of output
 
-# USD per 1M tokens, as of September 2026 — prices change, so load this from config
-# and check https://www.anthropic.com/pricing and https://openai.com/api/pricing
-COST_PER_1M = {
-    "claude-haiku-4-5-20251001": {"input": 1.00,  "output": 5.00},
-    "claude-haiku-4-5":          {"input": 1.00,  "output": 5.00},
-    "claude-sonnet-5":           {"input": 2.00,  "output": 10.00},
-    "claude-opus-5":             {"input": 5.00,  "output": 25.00},
-    "gpt-4o-mini":               {"input": 0.15,  "output": 0.60},
-    "gpt-4o":                    {"input": 2.50,  "output": 10.00},
-}
+# Prices change often, so load them from config rather than hardcoding them.
+# pricing.json maps model ID -> USD per 1M tokens: {"claude-sonnet-5": {"input": 2.00, "output": 10.00}, ...}
+# Current prices: https://platform.claude.com/docs/en/about-claude/pricing and https://developers.openai.com/api/docs/pricing
+COST_PER_1M = json.loads(Path("pricing.json").read_text())
 
 def compute_cost(model: str, input_tokens: int, output_tokens: int) -> float:
     if model not in COST_PER_1M:
@@ -652,7 +647,7 @@ A: (1) Run automated quality evals on a sample of real traffic using LLM-as-judg
 - [LangSmith documentation](https://docs.smith.langchain.com/)
 - [Arize Phoenix](https://docs.arize.com/phoenix)
 - [MLflow Tracing](https://mlflow.org/docs/latest/genai/tracing/)
-- [Anthropic Usage and Cost API](https://docs.claude.com/en/api/usage-cost-api) — reconcile your own cost tracking with billing data
+- [Anthropic Usage and Cost API](https://platform.claude.com/docs/en/manage-claude/usage-cost-api) — reconcile your own cost tracking with billing data
 
 ---
 

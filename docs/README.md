@@ -269,8 +269,8 @@ ELT is dominant today because cloud warehouses are cheap and powerful enough to 
 - [Great Expectations Documentation](https://docs.greatexpectations.io)
 
 **AI & LLMs**
-- [Anthropic API Documentation](https://docs.anthropic.com)
-- [OpenAI API Documentation](https://platform.openai.com/docs)
+- [Anthropic API Documentation](https://platform.claude.com/docs/en/home)
+- [OpenAI API Documentation](https://developers.openai.com/api/docs)
 - [LangChain Documentation](https://python.langchain.com)
 - [LlamaIndex Documentation](https://docs.llamaindex.ai)
 - [MLflow Documentation](https://mlflow.org/docs/latest)

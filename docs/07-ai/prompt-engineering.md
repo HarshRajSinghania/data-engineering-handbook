@@ -583,10 +583,10 @@ A: Newer models follow instructions more literally and reason better on their ow
 
 ## Further Reading
 
-- [Anthropic prompt engineering guide](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview)
+- [Anthropic prompt engineering guide](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview)
 - [Anthropic interactive prompt engineering tutorial](https://github.com/anthropics/prompt-eng-interactive-tutorial)
-- [OpenAI prompt engineering guide](https://platform.openai.com/docs/guides/prompt-engineering)
-- [Structured outputs (Claude)](https://docs.claude.com/en/docs/build-with-claude/structured-outputs)
+- [OpenAI prompt engineering guide](https://developers.openai.com/api/docs/guides/prompt-engineering)
+- [Structured outputs (Claude)](https://platform.claude.com/docs/en/build-with-claude/structured-outputs)
 - [OWASP Top 10 for LLM Applications](https://genai.owasp.org/llm-top-10/) — prompt injection and related risks
 - [Eval & Evals](eval-and-evals.md) — how to measure whether a prompt change actually helped
 

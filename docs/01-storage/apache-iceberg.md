@@ -44,7 +44,7 @@ s3://bucket/orders/       iceberg table "orders"
 - [Table Maintenance](#table-maintenance)
 - [Iceberg on AWS (Glue + Athena)](#iceberg-on-aws-glue--athena)
 - [Iceberg vs Delta Lake vs Hudi](#iceberg-vs-delta-lake-vs-hudi)
-- [Common Mistakes](#common-mistakes)
+- [Common Pitfalls](#common-pitfalls)
 
 **Reference**
 - [Cheat Sheet](#cheat-sheet)
@@ -410,7 +410,7 @@ spark.sql("""
 
 ---
 
-## Common Mistakes
+## Common Pitfalls
 
 ```
 1. Forgetting to configure a catalog

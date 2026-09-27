@@ -713,7 +713,7 @@ A: The conversation grows with every tool call and result, so long tasks can hit
 ## Further Reading
 
 - [Anthropic: Building effective agents](https://www.anthropic.com/engineering/building-effective-agents) — workflows vs agents, and common patterns
-- [Claude tool use documentation](https://docs.claude.com/en/docs/agents-and-tools/tool-use/overview)
+- [Claude tool use documentation](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview)
 - [Anthropic: Writing effective tools for agents](https://www.anthropic.com/engineering/writing-tools-for-agents)
 - [Model Context Protocol](https://modelcontextprotocol.io/) — the open standard for connecting tools and data sources to agents
 - [Claude Agent SDK](https://code.claude.com/docs/en/agent-sdk/overview)

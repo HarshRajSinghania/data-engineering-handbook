@@ -62,7 +62,7 @@ Use both when:
 - [Evaluating Fine-Tuned Models](#evaluating-fine-tuned-models)
 - [Dataset Construction Patterns](#dataset-construction-patterns)
 - [Production Considerations](#production-considerations)
-- [Common Mistakes](#common-mistakes)
+- [Common Pitfalls](#common-pitfalls)
 
 **Reference**
 - [Cheat Sheet](#cheat-sheet)
@@ -237,13 +237,13 @@ print(f"Training file ID: {training_file.id}")
 job = client.fine_tuning.jobs.create(
     training_file   = training_file.id,
     validation_file = validation_file.id,
-    model           = "gpt-4o-mini-2024-07-18",   # base model to fine-tune
+    model           = "gpt-4.1-mini-2025-04-14",   # base model to fine-tune
     hyperparameters = {
         "n_epochs":        3,     # 3-5 is typical; more = higher overfitting risk
         "batch_size":      "auto",
         "learning_rate_multiplier": "auto"
     },
-    suffix = "sql-generator"   # appears in the model name: ft:gpt-4o-mini-...:my-org:sql-generator:<id>
+    suffix = "sql-generator"   # appears in the model name: ft:gpt-4.1-mini-...:my-org:sql-generator:<id>
 )
 print(f"Job ID: {job.id}, status: {job.status}")
 
@@ -259,7 +259,7 @@ while True:
     time.sleep(60)
 
 print(f"Fine-tuned model: {job.fine_tuned_model}")
-# ft:gpt-4o-mini-2024-07-18:my-org:sql-generator:abc123
+# ft:gpt-4.1-mini-2025-04-14:my-org:sql-generator:abc123
 
 # ── 4. Use the fine-tuned model ────────────────────────────────────────────────
 response = client.chat.completions.create(
@@ -511,7 +511,7 @@ def mine_from_logs(log_file: str) -> list[dict]:
 # Serving a fine-tuned model
 # Option 1: OpenAI fine-tuned model — just use the model ID
 response = client.chat.completions.create(
-    model="ft:gpt-4o-mini-2024-07-18:my-org::abc123",   # returned as job.fine_tuned_model
+    model="ft:gpt-4.1-mini-2025-04-14:my-org::abc123",   # returned as job.fine_tuned_model
     messages=[...]
 )
 
@@ -527,7 +527,7 @@ response = local_client.chat.completions.create(
 
 # Cost comparison — work it out for your own volume rather than trusting rules of thumb:
 #   API model:    daily_tokens / 1e6 × price_per_million        (input and output priced separately)
-#                 e.g. 1M tokens/day at $2.50–$10 per 1M  ≈  $2.50–$10/day
+#                 e.g. 1M tokens/day at $2 per 1M  ≈  $2/day (look up current prices)
 #   Fine-tuned:   training cost (one-off) + usually higher per-token inference price
 #   Self-hosted:  GPU instance hours (paid even when idle) + engineering/ops time
 # Self-hosting only wins at high, steady volume or when data can't leave your network.
@@ -535,7 +535,7 @@ response = local_client.chat.completions.create(
 
 ---
 
-## Common Mistakes
+## Common Pitfalls
 
 ```
 1. Fine-tuning to add knowledge
@@ -617,7 +617,7 @@ A: RAG is better for knowledge (facts that change, need citations). Fine-tuning 
 
 - [Hugging Face TRL — SFTTrainer](https://huggingface.co/docs/trl/sft_trainer)
 - [Hugging Face PEFT](https://huggingface.co/docs/peft/index) — LoRA and other adapter methods
-- [OpenAI fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning)
+- [OpenAI fine-tuning guide](https://developers.openai.com/api/docs/guides/model-optimization)
 - [Unsloth](https://docs.unsloth.ai/) — faster, lower-memory LoRA/QLoRA fine-tuning
 - *LoRA: Low-Rank Adaptation of Large Language Models* — Hu et al., 2021 · *QLoRA* — Dettmers et al., 2023
 - [Eval & Evals](eval-and-evals.md) — measure the fine-tuned model against your baseline before shipping

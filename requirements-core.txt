@@ -1,9 +1,0 @@
-pyspark==4.2.0
-delta-spark==4.4.0
-pandas==2.3.3
-pyarrow==25.0.1
-snowflake-connector-python==4.7.2
-snowflake-snowpark-python==1.54.0
-python-dotenv==1.2.3
-PyYAML==6.0.3
-SQLAlchemy==2.0.52

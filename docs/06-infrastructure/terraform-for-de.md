@@ -45,7 +45,7 @@
 - [Snowflake with Terraform](#snowflake-with-terraform)
 - [Databricks with Terraform](#databricks-with-terraform)
 - [Airflow Infra on AWS](#airflow-infra-on-aws)
-- [Common Mistakes](#common-mistakes)
+- [Common Pitfalls](#common-pitfalls)
 
 **Reference**
 - [Cheat Sheet](#cheat-sheet)
@@ -786,7 +786,7 @@ resource "aws_mwaa_environment" "airflow" {
 
 ---
 
-## Common Mistakes
+## Common Pitfalls
 
 ```
 1. Committing terraform.tfvars or .tfstate to git

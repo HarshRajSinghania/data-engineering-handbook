@@ -63,7 +63,7 @@ your code ──→ client.messages.create(model, system, messages, tools, ...) 
 | **Prompt caching** | Yes (explicit) | Yes (automatic) |
 | **Python SDK** | `anthropic` | `openai` |
 
-> Model names change often — check [Anthropic's models overview](https://docs.claude.com/en/docs/about-claude/models/overview) and [OpenAI's models page](https://platform.openai.com/docs/models) before choosing. OpenAI examples below use `gpt-4o`; swap in a current model.
+> Model names change often — check [Anthropic's models overview](https://platform.claude.com/docs/en/models/overview) and [OpenAI's models page](https://developers.openai.com/api/docs/models) before choosing. OpenAI examples below use `gpt-6-sol`.
 
 ---
 
@@ -94,7 +94,7 @@ ANTHROPIC_API_KEY=sk-ant-...
 ```python
 # Current models (as of September 2026) — list them live with client.models.list()
 CLAUDE_FABLE   = "claude-fable-5-1"       # most capable, premium price
-CLAUDE_OPUS    = "claude-opus-5"          # default for demanding work (claude-opus-5-5 is launching)
+CLAUDE_OPUS    = "claude-opus-5-5"        # recommended default for most workloads
 CLAUDE_SONNET  = "claude-sonnet-5"        # balanced cost and quality
 CLAUDE_HAIKU   = "claude-haiku-4-5"       # fastest, cheapest
 ```
@@ -159,7 +159,7 @@ from openai import OpenAI
 client = OpenAI()  # reads OPENAI_API_KEY from env
 
 response = client.chat.completions.create(
-    model="gpt-4o",
+    model="gpt-6-sol",
     max_tokens=1024,
     messages=[
         {"role": "system",    "content": "You are a helpful data engineer."},
@@ -232,7 +232,7 @@ print(f"\nTotal tokens: {message.usage.input_tokens + message.usage.output_token
 ```python
 # OpenAI streaming
 stream = client.chat.completions.create(
-    model="gpt-4o",
+    model="gpt-6-sol",
     max_tokens=2048,
     stream=True,
     messages=[{"role": "user", "content": "Explain PySpark window functions."}]
@@ -498,7 +498,7 @@ import json
 client = OpenAI()
 
 response = client.chat.completions.create(
-    model="gpt-4o",
+    model="gpt-6-sol",
     response_format={"type": "json_object"},
     messages=[
         {"role": "system", "content": "Always respond with valid JSON."},
@@ -614,16 +614,14 @@ def call_with_retry(client, max_retries=3, **kwargs):
 ### Cost tracking
 
 ```python
-# Approximate cost calculation — USD per 1M tokens, as of September 2026.
-# Prices change: keep this table in config and check https://www.anthropic.com/pricing
-PRICING = {
-    "claude-fable-5-1":          {"input": 10.00, "output": 50.00},
-    "claude-opus-5":             {"input": 5.00,  "output": 25.00},
-    "claude-sonnet-5":           {"input": 2.00,  "output": 10.00},
-    "claude-haiku-4-5":          {"input": 1.00,  "output": 5.00},
-    "claude-haiku-4-5-20251001": {"input": 1.00,  "output": 5.00},
-}
-# Ignores cache pricing (reads ~0.1x input, writes ~1.25x) and the 50% batch discount
+# Prices change often, so keep them in config, not code. pricing.json holds USD per 1M tokens:
+#   {"claude-sonnet-5": {"input": 2.00, "output": 10.00}, ...}
+# Current prices: https://platform.claude.com/docs/en/about-claude/pricing
+import json
+from pathlib import Path
+
+PRICING = json.loads(Path("pricing.json").read_text())
+# Ignores prompt-cache pricing and the 50% batch discount
 
 def estimate_cost(response) -> float:
     model = response.model
@@ -761,10 +759,10 @@ A: Generation involves sampling, and current reasoning models don't expose a tem
 
 ## Further Reading
 
-- [Claude API documentation](https://docs.claude.com/en/api/overview) and [Python SDK](https://github.com/anthropics/anthropic-sdk-python)
-- [Claude models overview](https://docs.claude.com/en/docs/about-claude/models/overview) and [pricing](https://www.anthropic.com/pricing)
-- [Prompt caching](https://docs.claude.com/en/docs/build-with-claude/prompt-caching) and [Message Batches](https://docs.claude.com/en/docs/build-with-claude/batch-processing)
-- [OpenAI API reference](https://platform.openai.com/docs/api-reference)
+- [Claude API documentation](https://platform.claude.com/docs/en/api/overview) and [Python SDK](https://github.com/anthropics/anthropic-sdk-python)
+- [Claude models overview](https://platform.claude.com/docs/en/models/overview) and [pricing](https://platform.claude.com/docs/en/about-claude/pricing)
+- [Prompt caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching) and [Message Batches](https://platform.claude.com/docs/en/build-with-claude/batch-processing)
+- [OpenAI API reference](https://developers.openai.com/api/reference/overview)
 - [Anthropic Cookbook](https://github.com/anthropics/anthropic-cookbook) — runnable notebooks for tool use, RAG, extraction, and more
 
 ---
