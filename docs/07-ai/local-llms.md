@@ -41,7 +41,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basic**
 - [Ollama — Easiest Local Setup](#ollama--easiest-local-setup)

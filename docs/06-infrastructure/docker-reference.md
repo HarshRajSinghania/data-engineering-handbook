@@ -32,7 +32,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basics**
 - [What is Docker?](#what-is-docker)

@@ -48,7 +48,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basics**
 - [What is Airflow?](#what-is-airflow)

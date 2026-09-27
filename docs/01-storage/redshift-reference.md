@@ -36,7 +36,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basic**
 - [Deployment Options](#deployment-options)

@@ -33,7 +33,7 @@ sequenceDiagram
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basic**
 - [Provider Comparison](#provider-comparison)

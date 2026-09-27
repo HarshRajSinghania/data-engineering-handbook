@@ -32,7 +32,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basic**
 - [Why Evals Matter](#why-evals-matter)

@@ -36,7 +36,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basic**
 - [LangChain vs LlamaIndex vs Raw SDK](#langchain-vs-llamaindex-vs-raw-sdk)

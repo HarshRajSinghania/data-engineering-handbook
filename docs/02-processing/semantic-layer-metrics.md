@@ -26,7 +26,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basic**
 - [The Problem in SQL](#the-problem-in-sql)

@@ -34,7 +34,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basic**
 - [Why Infrastructure as Code](#why-infrastructure-as-code)

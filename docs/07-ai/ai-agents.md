@@ -34,7 +34,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basic**
 - [What Is an AI Agent](#what-is-an-ai-agent)

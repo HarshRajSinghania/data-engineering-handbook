@@ -43,7 +43,7 @@ flowchart TB
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basics**
 - [What is Spark?](#what-is-spark)

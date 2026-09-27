@@ -46,7 +46,7 @@ flowchart TB
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basics**
 - [What is Databricks?](#what-is-databricks)

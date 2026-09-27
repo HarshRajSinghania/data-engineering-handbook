@@ -44,7 +44,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basics**
 - [What is dbt?](#what-is-dbt)

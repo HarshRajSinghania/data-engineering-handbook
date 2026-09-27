@@ -24,7 +24,7 @@ Loops differ by company: some skip a round, add a take-home or a live debugging 
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basic**
 - [The Rounds](#the-rounds)

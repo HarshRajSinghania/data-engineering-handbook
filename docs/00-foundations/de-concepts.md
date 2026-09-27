@@ -43,7 +43,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 - [Foundations](#foundations)
 - [Data Modeling](#data-modeling)
 - [File Formats](#file-formats)

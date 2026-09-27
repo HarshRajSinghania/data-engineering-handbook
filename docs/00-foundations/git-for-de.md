@@ -37,7 +37,7 @@ gitGraph
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basics**
 - [Core Concepts](#core-concepts)

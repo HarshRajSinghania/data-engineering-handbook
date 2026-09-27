@@ -34,7 +34,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basic**
 - [Ingestion Patterns](#ingestion-patterns)

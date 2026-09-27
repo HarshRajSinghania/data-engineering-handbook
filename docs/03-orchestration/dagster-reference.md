@@ -26,7 +26,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basic**
 - [Installation and First Assets](#installation-and-first-assets)

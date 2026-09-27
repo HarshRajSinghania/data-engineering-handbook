@@ -37,7 +37,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basics**
 - [Object Storage Concepts](#object-storage-concepts)

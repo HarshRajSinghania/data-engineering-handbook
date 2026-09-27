@@ -32,7 +32,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basics**
 - [Navigating the Filesystem](#navigating-the-filesystem)

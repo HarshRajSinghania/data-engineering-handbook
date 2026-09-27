@@ -34,7 +34,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basic**
 - [Where the Money Goes](#where-the-money-goes)

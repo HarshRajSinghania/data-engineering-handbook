@@ -27,7 +27,7 @@ flowchart LR
 
 ---
 
-## Table of Contents
+**On this page**
 
 **Basic**
 - [The Five Signals](#the-five-signals)
