@@ -74,7 +74,7 @@ New guides follow the same template as the existing ones: Basic to Advanced, pit
 |------|--------|
 | PDF and EPUB export | Planned |
 | Print-friendly cheat sheets | Planned, *help wanted* |
-| Role-based learning paths (analytics engineer, platform engineer, AI engineer) | Planned |
+| Role-based learning paths (analytics engineer, platform engineer, AI engineer) | Done ([paths](paths/index.md)) |
 
 ## How to influence the roadmap
 

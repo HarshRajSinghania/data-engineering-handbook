@@ -71,6 +71,9 @@ jobs:
       - name: Build
         run: mkdocs build --strict
 
+      - name: Search and sharing metadata
+        run: python tools/check_seo.py
+
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v5
