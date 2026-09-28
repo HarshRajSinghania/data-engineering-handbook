@@ -14,6 +14,8 @@ Contributors are credited by GitHub handle on the entry for their change.
 
 ### Added
 
+- Coverage round A, five new guides, bringing the total to 53: [Azure and Microsoft Fabric](docs/01-storage/azure-fabric.md), [Real-Time Analytics Databases](docs/01-storage/realtime-olap.md) (ClickHouse, Druid, Pinot), [Trino and Query Federation](docs/02-processing/trino-federation.md), [Kubernetes for Data Workloads](docs/06-infrastructure/kubernetes-for-de.md) and [Testing and CI/CD for Data Pipelines](docs/06-infrastructure/testing-cicd.md).
+- Fifteen glossary terms introduced by the new guides.
 - Community files: `CODEOWNERS`, `CITATION.cff`, this changelog, release-note categories and a public [roadmap](docs/roadmap.md).
 - A "first contribution" path and contributor recognition policy in [CONTRIBUTING.md](CONTRIBUTING.md).
 

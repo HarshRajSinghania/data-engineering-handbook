@@ -19,3 +19,5 @@
 *[KMS]: Key Management Service — a managed service for creating and rotating encryption keys
 *[MFA]: Multi-Factor Authentication
 *[IAM]: Identity and Access Management
+*[OLAP]: Online Analytical Processing — systems optimised for analytical queries over large datasets
+*[QoS]: Quality of Service — the Kubernetes class (Guaranteed, Burstable, BestEffort) that sets eviction order

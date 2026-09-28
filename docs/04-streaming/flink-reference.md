@@ -374,4 +374,4 @@ A: A replayable source whose position is stored in the checkpoint, and a sink th
 
 ---
 
-**Previous:** [Kafka](kafka-reference.md) · **Next:** [Data Ingestion & CDC](../02-processing/ingestion-cdc.md) · **Back to:** [Index](../README.md)
+**Previous:** [Kafka](kafka-reference.md) · **Next:** [Real-Time Analytics Databases](../01-storage/realtime-olap.md) · **Back to:** [Index](../README.md)

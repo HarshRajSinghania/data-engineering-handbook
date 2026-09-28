@@ -7,7 +7,7 @@ verified: 2026-09-27
 
 **Prerequisites:** [Cloud Storage](../01-storage/cloud-storage.md) · [Git for DE](../00-foundations/git-for-de.md)
 
-**Related:** [Snowflake](../01-storage/snowflake-reference.md) · [Databricks](../02-processing/databricks-reference.md) · [Docker](docker-reference.md) · [Glossary](../99-reference/glossary.md)
+**Related:** [Snowflake](../01-storage/snowflake-reference.md) · [Databricks](../02-processing/databricks-reference.md) · [Docker](docker-reference.md) · [Kubernetes](kubernetes-for-de.md) · [Testing and CI/CD](testing-cicd.md) · [Glossary](../99-reference/glossary.md)
 
 ---
 
@@ -939,4 +939,4 @@ A: Storage (buckets with encryption, versioning, and lifecycle rules), IAM roles
 
 ---
 
-**Previous:** [Docker](docker-reference.md) · **Next:** [Snowflake](../01-storage/snowflake-reference.md) · **Back to:** [Index](../README.md)
+**Previous:** [Kubernetes](kubernetes-for-de.md) · **Next:** [Testing and CI/CD](testing-cicd.md) · **Back to:** [Index](../README.md)

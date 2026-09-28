@@ -408,4 +408,4 @@ A: Use `MERGE` on the business key, or `replaceWhere` for a partition, so re-run
 
 ---
 
-**Previous:** [Amazon Redshift](redshift-reference.md) · **Next:** [Apache Hudi](apache-hudi.md) · **Back to:** [Index](../README.md)
+**Previous:** [Azure and Fabric](azure-fabric.md) · **Next:** [Apache Hudi](apache-hudi.md) · **Back to:** [Index](../README.md)

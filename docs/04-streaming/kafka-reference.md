@@ -9,7 +9,7 @@ lab_source: labs/04-kafka-streaming/docker-compose.yml
 
 **Prerequisites:** [DE Concepts](../00-foundations/de-concepts.md) · [Python for DE](../00-foundations/python-reference.md)
 
-**Related:** [PySpark](../02-processing/pyspark-reference.md) · [Databricks](../02-processing/databricks-reference.md) · [Data Quality](../05-quality-governance/data-quality.md) · [Apache Flink](flink-reference.md) · [Glossary](../99-reference/glossary.md)
+**Related:** [PySpark](../02-processing/pyspark-reference.md) · [Databricks](../02-processing/databricks-reference.md) · [Data Quality](../05-quality-governance/data-quality.md) · [Apache Flink](flink-reference.md) · [Real-Time Analytics Databases](../01-storage/realtime-olap.md) · [Azure and Fabric](../01-storage/azure-fabric.md) · [Glossary](../99-reference/glossary.md)
 
 **Practice:** [Lab 04 — Kafka Streaming](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/04-kafka-streaming)
 
@@ -853,4 +853,4 @@ A: CDC with Debezium running on Kafka Connect: it reads Postgres's write-ahead l
 
 ---
 
-**Previous:** [Apache Iceberg](../01-storage/apache-iceberg.md) · **Next:** [Apache Flink](flink-reference.md) · **Back to:** [Index](../README.md)
+**Previous:** [Trino](../02-processing/trino-federation.md) · **Next:** [Apache Flink](flink-reference.md) · **Back to:** [Index](../README.md)

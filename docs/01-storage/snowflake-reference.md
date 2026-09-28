@@ -818,4 +818,4 @@ A: Batch with `COPY INTO` from a stage (internal, or external S3/GCS/Azure using
 
 ---
 
-**Previous:** [Terraform](../06-infrastructure/terraform-for-de.md) · **Next:** [BigQuery](bigquery-reference.md) · **Back to:** [Index](../README.md)
+**Previous:** [Testing and CI/CD](../06-infrastructure/testing-cicd.md) · **Next:** [BigQuery](bigquery-reference.md) · **Back to:** [Index](../README.md)

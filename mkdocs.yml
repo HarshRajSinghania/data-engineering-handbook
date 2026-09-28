@@ -133,14 +133,17 @@ nav:
       - Snowflake: 01-storage/snowflake-reference.md
       - BigQuery: 01-storage/bigquery-reference.md
       - Amazon Redshift: 01-storage/redshift-reference.md
+      - Azure & Microsoft Fabric: 01-storage/azure-fabric.md
       - Delta Lake: 01-storage/delta-lake.md
       - Apache Hudi: 01-storage/apache-hudi.md
       - Apache Iceberg: 01-storage/apache-iceberg.md
+      - Real-Time Analytics Databases: 01-storage/realtime-olap.md
   - Ingestion & Processing:
       - Ingestion & CDC: 02-processing/ingestion-cdc.md
       - DuckDB & Polars: 02-processing/duckdb-polars.md
       - PySpark: 02-processing/pyspark-reference.md
       - Databricks: 02-processing/databricks-reference.md
+      - Trino & Query Federation: 02-processing/trino-federation.md
       - dbt: 02-processing/dbt-reference.md
       - Semantic Layer & Metrics: 02-processing/semantic-layer-metrics.md
   - Orchestration & Streaming:
@@ -155,7 +158,9 @@ nav:
       - Data Security & Privacy: 05-quality-governance/data-security-privacy.md
       - Pipeline Observability: 05-quality-governance/pipeline-observability.md
       - Docker: 06-infrastructure/docker-reference.md
+      - Kubernetes: 06-infrastructure/kubernetes-for-de.md
       - Terraform: 06-infrastructure/terraform-for-de.md
+      - Testing & CI/CD: 06-infrastructure/testing-cicd.md
   - AI & ML:
       - Prompt Engineering: 07-ai/prompt-engineering.md
       - LLM APIs: 07-ai/llm-apis.md

@@ -7,7 +7,7 @@ verified: 2026-09-27
 
 **Prerequisites:** [DE Concepts](../00-foundations/de-concepts.md)
 
-**Related:** [Apache Iceberg](apache-iceberg.md) · [Databricks](../02-processing/databricks-reference.md) · [Terraform](../06-infrastructure/terraform-for-de.md) · [Glossary](../99-reference/glossary.md)
+**Related:** [Apache Iceberg](apache-iceberg.md) · [Databricks](../02-processing/databricks-reference.md) · [Terraform](../06-infrastructure/terraform-for-de.md) · [Azure and Fabric](azure-fabric.md) · [Glossary](../99-reference/glossary.md)
 
 ---
 
