@@ -18,6 +18,7 @@ Contributors are credited by GitHub handle on the entry for their change.
 - Coverage round B, four new guides, bringing the total to 57: [Apache Beam and Dataflow](docs/04-streaming/beam-dataflow.md), [Streaming SQL](docs/04-streaming/streaming-sql.md) (RisingWave, Materialize), [BI Tools](docs/02-processing/bi-tools.md) (Superset, Metabase) and [NoSQL and Operational Stores](docs/01-storage/nosql-operational-stores.md).
 - Coverage round C, four new guides, bringing the total to 61: [MCP and Text-to-SQL](docs/07-ai/mcp-text-to-sql.md), [Data Catalogs in Practice](docs/05-quality-governance/data-catalogs.md) (DataHub, OpenMetadata), [DataOps](docs/05-quality-governance/dataops-operations.md) (on-call and incident response) and [Choosing a Stack](docs/08-architecture/choosing-a-stack.md).
 - Labs 04 and 05 now run end to end in CI: `ci_smoke.py` in each lab replays the README exercises against a live Kafka broker and a live Airflow, and asserts the results the README describes. Both also run weekly.
+- Lab 05: the README now creates `warehouse/` before `docker compose up`. Docker otherwise creates it owned by root on Linux and Airflow fails with `Permission denied` (found by the new CI job).
 - A [dev container](.devcontainer/devcontainer.json) with Python 3.12, Java 17 and Docker, and a Codespaces link in the README.
 - Thirty-three glossary terms introduced by the new guides.
 - Community files: `CODEOWNERS`, `CITATION.cff`, this changelog, release-note categories and a public [roadmap](docs/roadmap.md).

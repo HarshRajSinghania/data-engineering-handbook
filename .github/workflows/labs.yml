@@ -158,7 +158,9 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
-      - run: echo "AIRFLOW_UID=$(id -u)" > .env
+      - run: |
+          echo "AIRFLOW_UID=$(id -u)" > .env
+          mkdir -p warehouse
       - run: docker compose up -d --build --wait
       # triggers runs, a backfill and a clear through the Airflow CLI, and asserts the README's claims
       - run: python ci_smoke.py
