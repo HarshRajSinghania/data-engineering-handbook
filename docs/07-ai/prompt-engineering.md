@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Prompt Engineering
 > How to write prompts that get consistent, high-quality outputs from large language models.
 

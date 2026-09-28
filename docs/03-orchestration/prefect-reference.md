@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Prefect
 > A Python-first workflow orchestrator: add `@flow` and `@task` to ordinary functions and get retries, scheduling, observability and event-driven runs.
 

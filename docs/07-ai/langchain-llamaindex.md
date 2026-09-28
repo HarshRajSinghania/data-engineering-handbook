@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # LangChain & LlamaIndex
 > Frameworks for building RAG pipelines, agents, and LLM applications with less boilerplate.
 

@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Data Ingestion & Change Data Capture
 > Moving data reliably from source systems into the platform — APIs, files, databases, and change streams.
 

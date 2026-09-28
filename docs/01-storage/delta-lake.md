@@ -1,3 +1,9 @@
+---
+verified: 2026-09-27
+lab_tested: "Delta Lake 4.4.0"
+lab_source: labs/03-spark-lakehouse/requirements.txt
+---
+
 # Delta Lake
 > An open table format that adds ACID transactions, `MERGE`, time travel and schema control to Parquet files, and works with or without Databricks.
 

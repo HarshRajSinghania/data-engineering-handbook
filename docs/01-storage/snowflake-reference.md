@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Snowflake Reference
 > From first query to production-grade cloud data warehouse patterns.
 

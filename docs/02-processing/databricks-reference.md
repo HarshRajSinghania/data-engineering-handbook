@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Databricks Reference
 > From first notebook to production-grade lakehouse pipelines.
 

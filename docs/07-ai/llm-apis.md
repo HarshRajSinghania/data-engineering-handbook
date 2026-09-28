@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # LLM APIs & SDKs
 > Working with Anthropic Claude and OpenAI APIs — from first call to production patterns.
 

@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # SQL Interview Patterns
 > Fifteen query patterns that cover most data engineering SQL interviews, each tested on a small dataset you can paste into DuckDB.
 

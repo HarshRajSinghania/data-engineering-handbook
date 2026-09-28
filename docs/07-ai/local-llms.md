@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Local & Open-Source LLMs
 > Run powerful language models on your own machine — no API keys, no data leaving your environment.
 

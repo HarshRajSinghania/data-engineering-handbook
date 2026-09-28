@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Fine-Tuning LLMs
 > When and how to customize a pre-trained model on your own data.
 

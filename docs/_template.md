@@ -1,3 +1,12 @@
+---
+# Date you last checked this guide's commands, versions and links against the vendor docs
+verified: YYYY-MM-DD
+# Optional: only when a lab in labs/ runs this tool in CI. Both fields, or neither.
+# The version must appear in the lab file (a pinned requirement or container image).
+# lab_tested: "Tool 1.2.3"
+# lab_source: labs/NN-name/requirements.txt
+---
+
 <!-- Copy into the right topic folder (docs/NN-topic/). Links below assume that location. -->
 # Topic Name
 > One-line summary: what this is and why a data engineer cares.

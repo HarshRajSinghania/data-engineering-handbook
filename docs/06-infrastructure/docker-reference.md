@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Docker Reference
 > From first container to production-ready data pipeline environments.
 

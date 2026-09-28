@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Amazon Redshift Reference
 > AWS's cloud data warehouse — provisioned and serverless deployment, data distribution, loading from S3, performance tuning, and integration with the data lake.
 

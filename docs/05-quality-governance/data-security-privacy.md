@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Data Security & Privacy
 > How to protect data in pipelines: least-privilege access, encryption, secrets, PII handling, masking, deletion requests and audit trails.
 

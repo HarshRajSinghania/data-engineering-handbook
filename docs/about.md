@@ -30,9 +30,9 @@ Tools change faster than books. Three things keep this one honest:
 
 - **Every code block is parsed in CI**, and the labs run end to end, so examples don't silently rot.
 - **Model IDs and prices are not hardcoded.** The AI guides link to the vendor pages and load prices from config. A scheduled check flags any retired model ID.
-- **Every page shows when it was last updated**, taken from the Git history, and links are checked weekly.
+- **Every guide shows when it was last reviewed** against the vendor documentation, and a guide that is more than six months overdue says so on the page. Links are checked weekly.
 
-If you find something out of date, please [tell me](https://github.com/sarangambekar1997/data-engineering-handbook/issues).
+[How it is maintained](maintenance.md) explains what each label means and how you can help. If you find something out of date, please [tell me](https://github.com/sarangambekar1997/data-engineering-handbook/issues).
 
 ## License
 

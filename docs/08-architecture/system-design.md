@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Data Engineering System Design
 > How to design data platforms and pipelines end to end — requirements, estimation, architecture patterns, trade-offs, and worked examples.
 

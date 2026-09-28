@@ -17,6 +17,7 @@ Open an [issue](https://github.com/sarangambekar1997/data-engineering-handbook/i
    mkdocs build --strict              # fails on broken internal links and anchors
    python tools/check_code_blocks.py  # every python/json/yaml block must parse
    python tools/check_model_ids.py    # no retired model IDs
+   python tools/check_freshness.py    # review dates and lab versions are valid
    mkdocs serve                       # preview at http://127.0.0.1:8000
    ```
 
@@ -28,6 +29,7 @@ Open an [issue](https://github.com/sarangambekar1997/data-engineering-handbook/i
 - Code blocks state their language and run as written, or say what they need (credentials, a cluster, sample data). A block that is a deliberate fragment goes after `<!-- docs-parse: skip -->`.
 - Do not hardcode prices or "latest" model names. Link to the vendor page, or load values from config as the AI guides do. When a model is retired, add its ID pattern to [`tools/deprecated_models.txt`](tools/deprecated_models.txt) so CI finds every remaining mention.
 - Use relative links between guides, and pick the anchor from the rendered heading.
+- Every guide has `verified: YYYY-MM-DD` in its front matter. Set it only after you have actually checked the guide's commands, versions and links against the vendor documentation, and say what you checked in the pull request. A typo fix does not change it. See [How the handbook is maintained](docs/maintenance.md).
 
 ## Labs
 

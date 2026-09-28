@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Apache Iceberg
 > An open table format that brings ACID transactions, schema evolution, and time travel to any data lake.
 

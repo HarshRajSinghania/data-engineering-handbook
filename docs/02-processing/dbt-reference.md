@@ -1,3 +1,9 @@
+---
+verified: 2026-09-27
+lab_tested: "dbt-core 1.12.5"
+lab_source: labs/02-dbt-transformations/requirements.txt
+---
+
 # dbt Reference
 > From first model to production-grade ELT transformation layer.
 

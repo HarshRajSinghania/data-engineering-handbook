@@ -39,3 +39,14 @@
   padding-left: 0.6rem;
   margin-left: -0.6rem;
 }
+
+/* "Last reviewed" line under each guide's summary (hooks/freshness.py). */
+.md-typeset .page-freshness {
+  margin: 0.4rem 0 1.2rem;
+  font-size: 0.72rem;
+  color: var(--md-default-fg-color--light);
+}
+
+.md-typeset .page-freshness--stale {
+  color: var(--md-code-hl-number-color, #d9480f);
+}

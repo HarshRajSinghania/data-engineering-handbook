@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Apache Flink Reference
 > Stateful stream processing — event time, watermarks, windows, exactly-once state, and Flink SQL.
 

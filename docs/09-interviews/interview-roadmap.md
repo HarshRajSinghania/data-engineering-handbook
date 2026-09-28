@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Interview Roadmap
 > What a data engineering interview loop tests, which handbook guides cover each part, and a four-week plan to prepare.
 

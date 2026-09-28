@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Vector Databases
 > Storing, indexing, and querying embeddings at scale for RAG, semantic search, and similarity lookups.
 

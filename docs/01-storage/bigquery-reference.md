@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # BigQuery Reference
 > Google Cloud's serverless data warehouse — architecture, loading, partitioning, cost control, and security.
 

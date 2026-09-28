@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Data Engineering — Essential Concepts
 > A developer-focused reference covering the core ideas every data engineer needs to know.
 

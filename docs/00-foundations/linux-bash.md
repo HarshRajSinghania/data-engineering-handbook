@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Linux & Bash for Data Engineers
 > Essential command-line skills every data engineer uses daily.
 
