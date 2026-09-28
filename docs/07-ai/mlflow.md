@@ -1,6 +1,5 @@
 ---
-verified: 2026-09-27
-review_status: baseline
+verified: 2026-09-28
 ---
 
 # MLflow
@@ -188,7 +187,7 @@ with mlflow.start_run():
     # ── Artifacts (files) ─────────────────────────────────────────────────────
     mlflow.log_artifact("feature_importance.png")          # single file
     mlflow.log_artifacts("./output/")                      # entire directory
-    mlflow.log_artifact("model_config.yaml", "configs/")   # into subfolder
+    mlflow.log_artifact("model_config.yaml", "configs")    # into a subfolder (no trailing slash)
 
     # Log in-memory objects
     import json
@@ -204,7 +203,7 @@ with mlflow.start_run():
 
     # ── Model ─────────────────────────────────────────────────────────────────
     # (see MLflow flavors below)
-    mlflow.sklearn.log_model(model, "model")
+    mlflow.sklearn.log_model(model, name="model")
 ```
 
 ---
@@ -257,17 +256,14 @@ client = MlflowClient()
 # ── Register a model ───────────────────────────────────────────────────────────
 # Option 1: register at log time
 with mlflow.start_run():
-    mlflow.sklearn.log_model(
+    info = mlflow.sklearn.log_model(
         model,
-        "model",
+        name="model",
         registered_model_name="orders-forecaster"
     )
 
-# Option 2: register an existing run's model
-mlflow.register_model(
-    model_uri=f"runs:/{run_id}/model",
-    name="orders-forecaster"
-)
+# Option 2: register a model that is already logged
+mlflow.register_model(model_uri=info.model_uri, name="orders-forecaster")
 
 # ── List versions ──────────────────────────────────────────────────────────────
 for v in client.search_model_versions("name='orders-forecaster'"):
@@ -350,7 +346,7 @@ mlflow.anthropic.autolog()     # every Anthropic SDK call is traced: prompt, res
 
 client = anthropic.Anthropic()
 response = client.messages.create(
-    model="claude-sonnet-5",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
     messages=[{"role": "user", "content": "What does the orders DAG load?"}],
 )
@@ -364,7 +360,7 @@ response = client.messages.create(
 # Log LLM experiment results
 with mlflow.start_run(run_name="rag-eval-v2"):
     mlflow.log_params({
-        "llm_model":        "claude-sonnet-5",
+        "llm_model":        "claude-sonnet-5-5",
         "embedding_model":  "text-embedding-3-small",
         "chunk_size":       512,
         "chunk_overlap":    50,
@@ -400,11 +396,12 @@ with mlflow.start_run(run_name="rag-eval-v2"):
 ## Model Serving
 
 ```bash
-# Serve a registered model
-mlflow models serve -m "models:/orders-forecaster@champion" -p 5001
+# Serve a registered model (--env-manager local reuses the current environment;
+# the default builds a fresh virtualenv for the model, which takes longer)
+mlflow models serve -m "models:/orders-forecaster@champion" -p 5001 --env-manager local
 
-# Serve a run's model
-mlflow models serve -m "runs:/abc123/model" -p 5001
+# Serve a model by URI from a run
+mlflow models serve -m "models:/m-<model_id>" -p 5001 --env-manager local
 
 # Test it
 curl http://localhost:5001/invocations \
@@ -471,7 +468,7 @@ with open("/tmp/vector_index.pkl", "wb") as f:
 
 with mlflow.start_run():
     mlflow.pyfunc.log_model(
-        "rag_model",
+        name="rag_model",
         python_model=RAGModel(),
         artifacts={"vector_index": "/tmp/vector_index.pkl"},
         registered_model_name="de-rag-assistant"
@@ -500,14 +497,14 @@ mlflow.set_experiment("/Users/alice@example.com/orders-forecasting")
 with mlflow.start_run():
     mlflow.log_param("model", "xgboost")
     mlflow.log_metric("rmse", 142.3)
-    mlflow.sklearn.log_model(model, "model",
+    mlflow.sklearn.log_model(model, name="model",
                               registered_model_name="orders-forecaster")
 
 # Unity Catalog model registry (Databricks Unity Catalog)
 mlflow.set_registry_uri("databricks-uc")
 
 mlflow.sklearn.log_model(
-    model, "model",
+    model, name="model",
     registered_model_name="main.ml_models.orders_forecaster"   # catalog.schema.model
 )
 
@@ -574,6 +571,7 @@ def check_model_drift_and_retrain(**context):
 | No signature or input example on logged models | Serving fails on schema mismatches | `infer_signature(X, y)` and `input_example` when logging |
 | Environment not captured | The model loads locally but not in serving | Let MLflow record `requirements.txt`/conda env; pin versions |
 | Huge artifacts logged every run | Storage costs balloon; the UI slows down | Log only what you need; lifecycle rules on the artifact store |
+| Sklearn tree models fail to log with an untrusted-types error | MLflow 3 saves sklearn models with the `skops` format by default, which refuses types it has not been told to trust (for example `sklearn.tree._tree.Tree`) | Review the listed types and pass them as `skops_trusted_types=[...]`; `serialization_format="cloudpickle"` works but can execute code when loaded |
 | Pickled custom models relying on local code | `ModuleNotFoundError` at load time | Package code with `code_paths`, or use a models-from-code approach |
 | Scoring with whatever model is newest | Unvalidated models reach production | Promote via alias only after automated evaluation passes |
 
@@ -594,11 +592,11 @@ def check_model_drift_and_retrain(**context):
 | Promote | `MlflowClient().set_registered_model_alias("orders-forecaster", "champion", version=3)` |
 | Load | `mlflow.pyfunc.load_model("models:/orders-forecaster@champion")` |
 | Score in Spark | `mlflow.pyfunc.spark_udf(spark, "models:/orders-forecaster@champion")` |
-| Serve locally | `mlflow models serve -m "models:/orders-forecaster@champion" -p 5001` |
+| Serve locally | `mlflow models serve -m "models:/orders-forecaster@champion" -p 5001 --env-manager local` |
 | Find the best run | `mlflow.search_runs(experiment_names=["x"], order_by=["metrics.rmse ASC"], max_results=1)` |
 | Start a server | `mlflow server --backend-store-uri postgresql://... --artifacts-destination s3://bucket/mlflow` |
 
-**Model URIs:** `runs:/<run_id>/model` · `models:/name/3` (version) · `models:/name@champion` (alias) · on Databricks with Unity Catalog: `models:/catalog.schema.name@champion`
+**Model URIs:** `models:/<model_id>` (MLflow 3 logged model, returned as `model_uri` by `log_model`) · `runs:/<run_id>/<artifact_path>` (artifact logged to a run) · `models:/name/3` (version) · `models:/name@champion` (alias) · on Databricks with Unity Catalog: `models:/catalog.schema.name@champion`
 
 ---
 
