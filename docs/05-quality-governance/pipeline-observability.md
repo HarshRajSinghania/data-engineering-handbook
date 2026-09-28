@@ -7,7 +7,7 @@ verified: 2026-09-27
 
 **Prerequisites:** [Data Quality](data-quality.md) · [Apache Airflow](../03-orchestration/airflow-reference.md)
 
-**Related:** [Governance & Lineage](governance-lineage.md) · [Dagster](../03-orchestration/dagster-reference.md) · [AI Observability](../07-ai/ai-observability.md) · [Glossary](../99-reference/glossary.md)
+**Related:** [DataOps](dataops-operations.md) · [Governance & Lineage](governance-lineage.md) · [Dagster](../03-orchestration/dagster-reference.md) · [AI Observability](../07-ai/ai-observability.md) · [Glossary](../99-reference/glossary.md)
 
 ---
 
@@ -360,4 +360,4 @@ A: It is blameless and specific: timeline, impact, root cause, why detection too
 
 ---
 
-**Previous:** [Data Security & Privacy](data-security-privacy.md) · **Next:** [Apache Airflow](../03-orchestration/airflow-reference.md) · **Back to:** [Index](../README.md)
+**Previous:** [Data Security & Privacy](data-security-privacy.md) · **Next:** [DataOps](dataops-operations.md) · **Back to:** [Index](../README.md)

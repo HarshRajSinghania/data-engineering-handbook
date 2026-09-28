@@ -7,7 +7,7 @@ verified: 2026-09-27
 
 **Prerequisites:** [DE Concepts](../00-foundations/de-concepts.md) · [Data Quality](data-quality.md)
 
-**Related:** [Data Modeling](../01-storage/data-modeling.md) · [System Design](../08-architecture/system-design.md) · [Terraform](../06-infrastructure/terraform-for-de.md) · [Glossary](../99-reference/glossary.md)
+**Related:** [Data Catalogs](data-catalogs.md) · [Data Modeling](../01-storage/data-modeling.md) · [System Design](../08-architecture/system-design.md) · [Terraform](../06-infrastructure/terraform-for-de.md) · [Glossary](../99-reference/glossary.md)
 
 ---
 
@@ -358,4 +358,4 @@ A: Automate it and put it where engineers already work: harvest metadata automat
 
 ---
 
-**Previous:** [Data Quality](data-quality.md) · **Next:** [Data Security & Privacy](data-security-privacy.md) · **Back to:** [Index](../README.md)
+**Previous:** [Data Quality](data-quality.md) · **Next:** [Data Catalogs in Practice](data-catalogs.md) · **Back to:** [Index](../README.md)

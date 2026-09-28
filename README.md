@@ -20,10 +20,10 @@ Every guide goes **Basic → Intermediate → Advanced** with working code examp
 | [`docs/02-processing`](docs/02-processing) | Data ingestion & CDC, DuckDB & Polars, PySpark, Databricks, Trino, dbt, semantic layer, BI tools (Superset, Metabase) |
 | [`docs/03-orchestration`](docs/03-orchestration) | Apache Airflow, Dagster, Prefect |
 | [`docs/04-streaming`](docs/04-streaming) | Apache Kafka, Apache Flink, Apache Beam and Dataflow, streaming SQL (RisingWave, Materialize) |
-| [`docs/05-quality-governance`](docs/05-quality-governance) | Data quality, governance, lineage, contracts, security & privacy, pipeline observability |
+| [`docs/05-quality-governance`](docs/05-quality-governance) | Data quality, governance, lineage, contracts, data catalogs (DataHub, OpenMetadata), security & privacy, pipeline observability, DataOps and incident response |
 | [`docs/06-infrastructure`](docs/06-infrastructure) | Docker, Kubernetes, Terraform, testing and CI/CD for data pipelines |
-| [`docs/07-ai`](docs/07-ai) | Prompting, LLM APIs, embeddings, RAG, vector DBs, agents, evals, MLflow, fine-tuning |
-| [`docs/08-architecture`](docs/08-architecture) | System design, cost optimization |
+| [`docs/07-ai`](docs/07-ai) | Prompting, LLM APIs, embeddings, RAG, vector DBs, agents, MCP and text-to-SQL, evals, MLflow, fine-tuning |
+| [`docs/08-architecture`](docs/08-architecture) | System design, choosing a stack, cost optimization |
 | [`docs/09-interviews`](docs/09-interviews) | Interview roadmap, SQL patterns, system design case studies |
 | [`docs/99-reference`](docs/99-reference) | Glossary |
 | [`labs`](labs) | Hands-on labs (SQL, dbt, Spark & Delta Lake, Kafka, Airflow) and two capstone projects |

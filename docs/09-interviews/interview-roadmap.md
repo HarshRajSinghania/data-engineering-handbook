@@ -89,6 +89,10 @@ Where the questions come from, ordered by how often they appear in practice.
 | | Event time, windows and late data | [Beam and Dataflow](../04-streaming/beam-dataflow.md), [Streaming SQL](../04-streaming/streaming-sql.md) |
 | | NoSQL modelling and CDC from operational stores | [NoSQL and Operational Stores](../01-storage/nosql-operational-stores.md) |
 | | Serving data to the business | [BI Tools](../02-processing/bi-tools.md) |
+| | Incidents, on-call and postmortems | [DataOps](../05-quality-governance/dataops-operations.md) |
+| | Catalogs, ownership and lineage tooling | [Data Catalogs in Practice](../05-quality-governance/data-catalogs.md) |
+| | Choosing and defending a stack | [Choosing a Stack](../08-architecture/choosing-a-stack.md) |
+| | LLMs and data: safe SQL generation, MCP | [MCP and Text-to-SQL](../07-ai/mcp-text-to-sql.md) |
 | | Cloud platform specifics (Microsoft) | [Azure and Fabric](../01-storage/azure-fabric.md) |
 | | Security and privacy | [Data Security & Privacy](../05-quality-governance/data-security-privacy.md) |
 | **Growing** | LLMs, RAG, evals | [LLM APIs](../07-ai/llm-apis.md), [RAG](../07-ai/rag.md), [Evals](../07-ai/eval-and-evals.md) |

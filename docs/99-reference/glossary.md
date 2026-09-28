@@ -21,6 +21,10 @@ verified: 2026-09-27
 
 **Apache Arrow** — A columnar in-memory data format shared by many engines (pandas, Polars, DuckDB, Spark), allowing data to move between them with little or no copying.
 
+**Architecture Decision Record (ADR)** — A short document that captures one significant architecture decision: the context, the options considered, the choice, its consequences, and the signals that would reopen it. It is kept in the repository beside the code. See [Choosing a Stack](../08-architecture/choosing-a-stack.md).
+
+**Aspect and URN (DataHub)** — In DataHub, an aspect is one facet of an entity (ownership, tags, schema) and the smallest unit that can be written, and a URN is the stringified key of an entity, such as `urn:li:dataset:(urn:li:dataPlatform:postgres,shop.public.orders,PROD)`. See [Data Catalogs in Practice](../05-quality-governance/data-catalogs.md).
+
 **Asset Check** — A validation attached to a data asset (e.g., no negative amounts) whose pass or fail result is recorded next to the asset. A *blocking* check stops downstream assets when it fails. See [Dagster](../03-orchestration/dagster-reference.md).
 
 **Asset (Software-Defined Asset)** — In Dagster, a declaration that a table, file or model should exist, together with the code that produces it and its upstream dependencies. The orchestrator tracks each asset's materializations, checks and lineage. See [Dagster](../03-orchestration/dagster-reference.md).
@@ -30,6 +34,8 @@ verified: 2026-09-27
 ## B
 
 **Backfill** — Re-running a pipeline for past time periods, typically to populate historical data or fix incorrect past runs.
+
+**Blameless Postmortem** — A written review of an incident that identifies contributing causes in the system without blaming any individual or team, and ends in action items with owners. It assumes people acted reasonably with what they knew, which makes them willing to surface problems. See [DataOps](../05-quality-governance/dataops-operations.md).
 
 **Bronze Layer** — The first layer in medallion architecture. Stores raw, unmodified data exactly as it arrived from source systems.
 
@@ -129,6 +135,8 @@ verified: 2026-09-27
 
 **Event Time** — The time an event actually happened, as opposed to processing time, when the pipeline sees it. Windows defined on event time give results that reflect when things occurred, even when data arrives late or out of order. See [Beam and Dataflow](../04-streaming/beam-dataflow.md).
 
+**Execution Accuracy** — A text-to-SQL metric: a generated query is correct when it returns the same rows as a reference query, whatever its text, with row order ignored unless the reference orders its rows. See [MCP and Text-to-SQL](../07-ai/mcp-text-to-sql.md).
+
 **Executor (Spark)** — A JVM process on a worker node that runs tasks. Each executor has a number of cores and a memory allocation.
 
 ## F
@@ -142,6 +150,8 @@ verified: 2026-09-27
 **Federated Query** — A query that reads from more than one data source, such as a lake and a database, in a single statement, without copying the data first. Its efficiency depends on how much work the connectors push down to each source. See [Trino](../02-processing/trino-federation.md).
 
 **FinOps** — The practice of making cloud spend visible, attributable, and efficient through collaboration between engineering, finance, and business teams. See [Cost Optimization](../08-architecture/cost-optimization.md).
+
+**Fitness Function** — An automated check that a system keeps a desired architectural property, such as "no streaming layer without a freshness requirement" or "every layer has an owner". It turns a principle into something that fails a build. See [Choosing a Stack](../08-architecture/choosing-a-stack.md).
 
 **Flow (Prefect)** — A Python function decorated with `@flow` that Prefect runs, tracks and can schedule. It can contain tasks and other flows. See [Prefect](../03-orchestration/prefect-reference.md).
 
@@ -178,6 +188,8 @@ verified: 2026-09-27
 ## I
 
 **Iceberg (Apache Iceberg)** — An open table format for huge analytic datasets. Like Delta Lake but more portable — supported by Spark, Flink, Trino, Snowflake, and others.
+
+**Incident Commander** — The person who holds the overall state of an incident, structures the response and assigns roles, without fixing the problem personally. Other roles are the operations lead, communications and planning. See [DataOps](../05-quality-governance/dataops-operations.md).
 
 **IVFFlat** — A vector index algorithm that partitions vectors into clusters (inverted file) and searches only nearby clusters. Faster than brute force, lower memory than HNSW.
 
@@ -230,6 +242,8 @@ verified: 2026-09-27
 **Micro-partition** — Snowflake's internal storage unit. Each micro-partition holds 50–500MB of compressed data. Snowflake prunes irrelevant micro-partitions at query time.
 
 **Micro-batch** — Spark Structured Streaming's default processing mode: collect data into small time-window batches and process each one. Contrast with continuous processing.
+
+**Model Context Protocol (MCP)** — An open standard for connecting AI applications to external systems. A host application runs one client per server, and a server exposes tools, resources and prompts over JSON-RPC, on stdio for local servers or Streamable HTTP for remote ones. See [MCP and Text-to-SQL](../07-ai/mcp-text-to-sql.md).
 
 ## N
 
@@ -354,6 +368,8 @@ verified: 2026-09-27
 **Taint and Toleration (Kubernetes)** — A taint on a node repels pods, and a toleration on a pod allows it to be scheduled there. They reserve node pools, for example spot capacity for batch work. See [Kubernetes](../06-infrastructure/kubernetes-for-de.md).
 
 **Temporal Filter (Materialize)** — A `WHERE` condition on `mz_now()`, Materialize's current virtual timestamp, such as `mz_now() <= event_ts + INTERVAL '1 hour'`. As time advances, rows that no longer satisfy it are retracted from the result, giving a sliding window that expires old data and bounds state. See [Streaming SQL](../04-streaming/streaming-sql.md).
+
+**Text-to-SQL** — Using a language model to turn a natural-language question into a SQL query. The hard parts are schema linking, business definitions and ambiguity, and safety comes from validating and restricting the SQL, not from the prompt. See [MCP and Text-to-SQL](../07-ai/mcp-text-to-sql.md).
 
 **Time Travel** — The ability to query historical versions of a table. Supported natively by Delta Lake, Snowflake (up to 90 days), and Apache Iceberg.
 

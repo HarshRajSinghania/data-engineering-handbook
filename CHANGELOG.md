@@ -16,7 +16,8 @@ Contributors are credited by GitHub handle on the entry for their change.
 
 - Coverage round A, five new guides, bringing the total to 53: [Azure and Microsoft Fabric](docs/01-storage/azure-fabric.md), [Real-Time Analytics Databases](docs/01-storage/realtime-olap.md) (ClickHouse, Druid, Pinot), [Trino and Query Federation](docs/02-processing/trino-federation.md), [Kubernetes for Data Workloads](docs/06-infrastructure/kubernetes-for-de.md) and [Testing and CI/CD for Data Pipelines](docs/06-infrastructure/testing-cicd.md).
 - Coverage round B, four new guides, bringing the total to 57: [Apache Beam and Dataflow](docs/04-streaming/beam-dataflow.md), [Streaming SQL](docs/04-streaming/streaming-sql.md) (RisingWave, Materialize), [BI Tools](docs/02-processing/bi-tools.md) (Superset, Metabase) and [NoSQL and Operational Stores](docs/01-storage/nosql-operational-stores.md).
-- Twenty-five glossary terms introduced by the new guides.
+- Coverage round C, four new guides, bringing the total to 61: [MCP and Text-to-SQL](docs/07-ai/mcp-text-to-sql.md), [Data Catalogs in Practice](docs/05-quality-governance/data-catalogs.md) (DataHub, OpenMetadata), [DataOps](docs/05-quality-governance/dataops-operations.md) (on-call and incident response) and [Choosing a Stack](docs/08-architecture/choosing-a-stack.md).
+- Thirty-three glossary terms introduced by the new guides.
 - Community files: `CODEOWNERS`, `CITATION.cff`, this changelog, release-note categories and a public [roadmap](docs/roadmap.md).
 - A "first contribution" path and contributor recognition policy in [CONTRIBUTING.md](CONTRIBUTING.md).
 
