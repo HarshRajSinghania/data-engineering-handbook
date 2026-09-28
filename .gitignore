@@ -41,6 +41,7 @@ data/temp/
 *.json
 *.jsonl
 !.devcontainer/devcontainer.json
+!labs/10-cdc-debezium/connector.json
 
 # Keep directory structure
 !data/.gitkeep

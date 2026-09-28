@@ -373,6 +373,8 @@ verified: 2026-09-27
 
 **Time Travel** — The ability to query historical versions of a table. Supported natively by Delta Lake, Snowflake (up to 90 days), and Apache Iceberg.
 
+**Tombstone (Kafka)** — A message with a key and a null value. On a compacted topic it tells Kafka to remove earlier messages with that key. Debezium sends one after each delete event so the deleted row's history can be compacted away; a consumer that applies changes must not treat it as a change. See [Ingestion & CDC](../02-processing/ingestion-cdc.md).
+
 **Tool Use** — An LLM feature where the model can call functions defined by the developer — search, run SQL, call APIs — and use their results to answer questions.
 
 **Transaction (database)** — A group of SQL operations that succeed or fail together (ACID). Ensures data consistency.
@@ -404,6 +406,8 @@ verified: 2026-09-27
 **Work Pool (Prefect)** — A queue of flow runs bound to an infrastructure type (process, Docker, Kubernetes, serverless). Workers in your own environment poll it and start the runs. See [Prefect](../03-orchestration/prefect-reference.md).
 
 **Workload Identity Federation** — Exchanging a workload's native identity token (from a cloud, CI system, or Kubernetes) for short-lived credentials in another system, avoiding long-lived access keys.
+
+**Write-Ahead Log (WAL)** — A database's log of every change, written before the change is applied to the data files, so the database can recover after a crash. Log-based CDC reads it (Postgres needs `wal_level = logical`), and an unread replication slot makes Postgres keep it. See [Ingestion & CDC](../02-processing/ingestion-cdc.md).
 
 **Write-Audit-Publish (WAP)** — A publishing pattern: write the output to a staging table, audit it, and swap it in only if every audit passes, so consumers never see invalid or partial data. See [Testing and CI/CD](../06-infrastructure/testing-cicd.md).
 
