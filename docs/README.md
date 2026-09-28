@@ -3,6 +3,8 @@
 A comprehensive reference for data engineers — from first query to production pipelines.
 Each guide follows a **Basic → Intermediate → Advanced** progression with real, working code examples.
 
+**Offline?** [Download the whole handbook as a PDF](https://sarangambekar1997.github.io/data-engineering-handbook/sarangs-data-engineering-handbook.pdf) (about 24 MB, bookmarked), or the PDF of any single guide from its page.
+
 ---
 
 ## Browse by Topic

@@ -68,6 +68,9 @@ theme:
 extra_css:
   - stylesheets/extra.css
 
+extra_javascript:
+  - javascripts/print-cheatsheet.js
+
 plugins:
   - search
   - git-revision-date-localized:
@@ -76,6 +79,8 @@ plugins:
       fallback_to_build_date: true
 
 extra:
+  # Links each guide to its PDF. The PDFs are built after the site by tools/build_pdfs.py (see docs/maintenance.md)
+  pdf_downloads: true
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/sarangambekar1997

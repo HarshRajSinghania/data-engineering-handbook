@@ -9,6 +9,8 @@ Every guide goes **Basic → Intermediate → Advanced** with working code examp
 
 **→ Or start here on GitHub: [Full index & learning paths](docs/README.md)**
 
+**→ Offline: [download the whole handbook as a PDF](https://sarangambekar1997.github.io/data-engineering-handbook/sarangs-data-engineering-handbook.pdf)** (about 24 MB, with bookmarks)
+
 **→ Run the labs without local setup:** [open in a GitHub Codespace](https://codespaces.new/sarangambekar1997/data-engineering-handbook) (Python, Java and Docker included)
 
 ---

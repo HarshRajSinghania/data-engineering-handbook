@@ -72,8 +72,9 @@ New guides follow the same template as the existing ones: Basic to Advanced, pit
 
 | Item | Status |
 |------|--------|
-| PDF and EPUB export | Planned |
-| Print-friendly cheat sheets | Planned, *help wanted* |
+| PDF export: one PDF per guide and one for the whole handbook | Done ([how it works](maintenance.md#pdfs-and-printing)) |
+| EPUB export | Not planned: the guides are code and diagram heavy, which suits fixed-layout PDF better. Open a [topic request](https://github.com/sarangambekar1997/data-engineering-handbook/issues/new?template=topic-request.yml) if you need it. |
+| Print-friendly guides and cheat sheets | Done |
 | Role-based learning paths (analytics engineer, platform engineer, AI engineer) | Done ([paths](paths/index.md)) |
 
 ## How to influence the roadmap

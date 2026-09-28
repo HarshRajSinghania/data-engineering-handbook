@@ -74,6 +74,14 @@ jobs:
       - name: Search and sharing metadata
         run: python tools/check_seo.py
 
+      # One PDF per guide and one for the whole handbook, rendered from the built site with its print
+      # stylesheet. Pull requests build three, to prove the setup works; the deployed site gets all of them.
+      - name: PDF export
+        run: |
+          pip install -r requirements-pdf.txt
+          playwright install --with-deps chromium
+          python tools/build_pdfs.py ${{ github.event_name == 'pull_request' && '--sample 3' || '' }}
+
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v5
