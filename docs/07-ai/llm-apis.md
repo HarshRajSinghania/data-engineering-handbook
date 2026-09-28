@@ -1,6 +1,5 @@
 ---
-verified: 2026-09-27
-review_status: baseline
+verified: 2026-09-28
 ---
 
 # LLM APIs & SDKs
@@ -70,13 +69,13 @@ sequenceDiagram
 
 | | Anthropic | OpenAI |
 |-|-----------|--------|
-| **Top model** | Claude Fable 5.1 (most capable) · Claude Opus 5 | GPT-5 family |
-| **Fast model** | Claude Haiku 4.5 | Smaller GPT-5 variants |
-| **API style** | Messages API | Chat Completions |
+| **Top model** | Claude Fable 5.1 (demanding reasoning, long-horizon agents) · Claude Opus 5.5 | GPT-6 family (`gpt-6-astra`, `gpt-6-sol`) |
+| **Fast model** | Claude Haiku 4.5 | `gpt-6-luna` |
+| **API style** | Messages API | Responses API (recommended for new projects) · Chat Completions |
 | **Tool use** | Yes | Yes (function calling) |
 | **Vision** | Yes | Yes |
 | **Structured output** | Native JSON schema (`output_config.format`, `messages.parse`) | `response_format` with a JSON schema |
-| **Prompt caching** | Yes (explicit) | Yes (automatic) |
+| **Prompt caching** | Yes (`cache_control`) | Yes |
 | **Python SDK** | `anthropic` | `openai` |
 
 > Model names change often — check [Anthropic's models overview](https://platform.claude.com/docs/en/models/overview) and [OpenAI's models page](https://developers.openai.com/api/docs/models) before choosing. OpenAI examples below use `gpt-6-sol`.
@@ -109,11 +108,13 @@ ANTHROPIC_API_KEY=sk-ant-...
 
 ```python
 # Current models (as of September 2026) — list them live with client.models.list()
-CLAUDE_FABLE   = "claude-fable-5-1"       # most capable, premium price
-CLAUDE_OPUS    = "claude-opus-5-5"        # recommended default for most workloads
-CLAUDE_SONNET  = "claude-sonnet-5"        # balanced cost and quality
-CLAUDE_HAIKU   = "claude-haiku-4-5"       # fastest, cheapest
+CLAUDE_FABLE   = "claude-fable-5-1"       # demanding reasoning and long-horizon agentic work
+CLAUDE_OPUS    = "claude-opus-5-5"        # Anthropic's suggested starting point for most workloads
+CLAUDE_SONNET  = "claude-sonnet-5-5"      # the best combination of speed and intelligence
+CLAUDE_HAIKU   = "claude-haiku-4-5"       # fastest, lowest cost
 ```
+
+Older IDs such as `claude-sonnet-5` stay available for a while, but they are marked legacy. Every model has a published retirement date, and among the current models Haiku 4.5's is the nearest: check [model deprecations](https://platform.claude.com/docs/en/about-claude/model-deprecations) before you pin a model in a long-lived pipeline.
 
 ---
 
@@ -125,7 +126,7 @@ import anthropic
 client = anthropic.Anthropic()
 
 message = client.messages.create(
-    model="claude-sonnet-5",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
     messages=[
         {"role": "user", "content": "Explain what a data lakehouse is in 3 bullet points."}
@@ -139,7 +140,7 @@ print(next(b.text for b in message.content if b.type == "text"))
 
 ```python
 message = client.messages.create(
-    model="claude-sonnet-5",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
     system="You are a concise technical writer. Always use bullet points.",
     messages=[
@@ -153,7 +154,7 @@ message = client.messages.create(
 ```python
 message.id            # unique message ID
 message.model         # model used
-message.stop_reason   # "end_turn" | "max_tokens" | "stop_sequence" | "tool_use" | "pause_turn" | "refusal"
+message.stop_reason   # "end_turn" | "max_tokens" | "stop_sequence" | "tool_use" | "pause_turn" | "refusal" | "model_context_window_exceeded"
 message.usage         # Usage(input_tokens=45, output_tokens=210, ...)
 message.content       # list of content blocks: "thinking", "text", "tool_use", ...
 
@@ -174,9 +175,24 @@ from openai import OpenAI
 
 client = OpenAI()  # reads OPENAI_API_KEY from env
 
+# Responses API: the recommended interface for new projects
+response = client.responses.create(
+    model="gpt-6-sol",
+    instructions="You are a helpful data engineer.",
+    input="What is the difference between a fact and a dimension table?",
+    max_output_tokens=1024,
+)
+
+print(response.output_text)
+response.usage.input_tokens, response.usage.output_tokens
+```
+
+The Chat Completions API is still supported and appears in a lot of existing code. `max_tokens` is deprecated there in favour of `max_completion_tokens`, so use the new name:
+
+```python
 response = client.chat.completions.create(
     model="gpt-6-sol",
-    max_tokens=1024,
+    max_completion_tokens=1024,
     messages=[
         {"role": "system",    "content": "You are a helpful data engineer."},
         {"role": "user",      "content": "What is the difference between a fact and a dimension table?"}
@@ -198,26 +214,27 @@ response.usage.total_tokens
 | Parameter | Description | Typical values |
 |-----------|-------------|----------------|
 | `model` | Which model to use | see model IDs above |
-| `max_tokens` | Max output tokens | 256–4096 for most tasks |
-| `temperature` | Randomness (0=deterministic, 1=creative) | 0 for data tasks, 0.7 for creative — **Haiku 4.5 and older only**; Sonnet 5 / Opus 5+ return a 400 |
-| `top_p` | Nucleus sampling (alternative to temperature) | Same restriction as `temperature` |
-| `output_config` | Effort (`{"effort": "low"…"max"}`) and structured output format | The main control on current Claude models |
+| `max_tokens` | Max output tokens (OpenAI Chat Completions: `max_completion_tokens`) | 256–4096 for most tasks |
+| `temperature` | Randomness (0=deterministic, 1=creative) | **Not a parameter of the Python SDK v1.0 and later** (passing it raises `TypeError`). Opus 4.7 and later models, including Opus 5.5, and Sonnet 5.5 return a 400 for a non-default value. Earlier models, Haiku 4.5 among them, still accept it in the request body: `extra_body={"temperature": 0}` |
+| `top_p` | Nucleus sampling (alternative to temperature) | Same restrictions as `temperature`; `top_k` too |
+| `output_config` | Effort (`{"effort": "low"…"max"}`) and structured output format | The main control on current Claude models. Haiku 4.5 does not support `effort` |
 | `stop_sequences` | Stop generation at these strings | `["\n\n", "END"]` |
 | `system` | System prompt (Anthropic) | Instructions, persona, format |
 
 ```python
-# For data extraction — want determinism
+# For data extraction on a model that still accepts sampling parameters — want determinism.
+# The Python SDK does not define `temperature`, so it goes in the request body
 message = client.messages.create(
     model="claude-haiku-4-5-20251001",
     max_tokens=512,
-    temperature=0,           # deterministic
+    extra_body={"temperature": 0},      # deterministic
     messages=[{"role": "user", "content": "Extract the table name from: SELECT * FROM orders"}]
 )
 
 # For creative content generation on current models — no sampling params (they return a 400);
 # ask for variety in the prompt and tune effort instead
 message = client.messages.create(
-    model="claude-sonnet-5",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
     output_config={"effort": "low"},   # low | medium | high | xhigh | max
     messages=[{"role": "user", "content": "Write 3 clearly different error message suggestions for a failed pipeline."}]
@@ -233,7 +250,7 @@ Stream tokens as they're generated — essential for interactive UIs and long ou
 ```python
 # Anthropic streaming
 with client.messages.stream(
-    model="claude-sonnet-5",
+    model="claude-sonnet-5-5",
     max_tokens=2048,
     messages=[{"role": "user", "content": "Explain PySpark window functions in detail."}]
 ) as stream:
@@ -249,7 +266,7 @@ print(f"\nTotal tokens: {message.usage.input_tokens + message.usage.output_token
 # OpenAI streaming
 stream = client.chat.completions.create(
     model="gpt-6-sol",
-    max_tokens=2048,
+    max_completion_tokens=2048,
     stream=True,
     messages=[{"role": "user", "content": "Explain PySpark window functions."}]
 )
@@ -268,7 +285,7 @@ async_client = anthropic.AsyncAnthropic()
 
 async def stream_response(prompt: str):
     async with async_client.messages.stream(
-        model="claude-sonnet-5",
+        model="claude-sonnet-5-5",
         max_tokens=1024,
         messages=[{"role": "user", "content": prompt}]
     ) as stream:
@@ -339,7 +356,7 @@ messages = [{"role": "user", "content": "How many orders are in the orders table
 
 while True:
     response = client.messages.create(
-        model="claude-sonnet-5",
+        model="claude-sonnet-5-5",
         max_tokens=1024,
         tools=tools,
         messages=messages
@@ -389,7 +406,7 @@ client = anthropic.Anthropic()
 image_data = base64.standard_b64encode(Path("pipeline_diagram.png").read_bytes()).decode("utf-8")
 
 message = client.messages.create(
-    model="claude-sonnet-5",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
     messages=[
         {
@@ -414,7 +431,7 @@ message = client.messages.create(
 
 # Option 2: Image from URL
 message = client.messages.create(
-    model="claude-sonnet-5",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
     messages=[
         {
@@ -452,7 +469,7 @@ class PipelineMetadata(BaseModel):
     estimated_rows: int | None
 
 response = client.messages.parse(
-    model="claude-sonnet-5",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
     messages=[{"role": "user", "content": "We have a nightly job that pulls 50k new transactions from the payments API and loads them into the warehouse at 2am."}],
     output_format=PipelineMetadata,
@@ -462,7 +479,7 @@ metadata = response.parsed_output     # validated PipelineMetadata instance
 
 ### Anthropic: tool-based structured output
 
-Useful when the model should *choose* between several tools. Add `"strict": True` to guarantee the arguments match the schema. Forcing a specific tool (`tool_choice={"type": "tool", ...}`) returns a 400 on Claude Opus 5.5 and Fable 5.1 — use native structured outputs there.
+Useful when the model should *choose* between several tools. Add `"strict": True` to guarantee the arguments match the schema. Forcing a specific tool (`tool_choice={"type": "tool", ...}` or `{"type": "any"}`) is rejected with a 400 on Claude Opus 5.5, Sonnet 5.5 and Fable 5.1, so on those models use native structured outputs when you need one specific shape. Earlier models, such as Sonnet 5, still accept a forced tool.
 
 ```python
 tools = [{
@@ -486,19 +503,19 @@ tools = [{
 }]
 
 response = client.messages.create(
-    model="claude-sonnet-5",
+    model="claude-sonnet-5-5",
     max_tokens=512,
     tools=tools,
-    tool_choice={"type": "tool", "name": "extract_pipeline_metadata"},  # force this tool
-    messages=[{"role": "user", "content": "We have a nightly job that pulls 50k new transactions from the payments API and loads them into the warehouse at 2am."}]
+    tool_choice={"type": "auto"},   # the default; naming the tool here is rejected on current models
+    messages=[{"role": "user", "content": "Use the extract_pipeline_metadata tool on this description. We have a nightly job that pulls 50k new transactions from the payments API and loads them into the warehouse at 2am."}]
 )
 
-# Extract the structured result
+# Extract the structured result (the model may also add text or thinking blocks)
 for block in response.content:
     if block.type == "tool_use":
         metadata = block.input
         print(metadata)
-# {'pipeline_name': 'payments_transactions_load', 'schedule': '0 2 * * *',
+# Example output: {'pipeline_name': 'payments_transactions_load', 'schedule': '0 2 * * *',
 #  'source_system': 'payments API', 'destination': 'warehouse',
 #  'is_incremental': True, 'estimated_rows': 50000}
 ```
@@ -529,16 +546,16 @@ data = json.loads(response.choices[0].message.content)
 
 ## Prompt Caching (Anthropic)
 
-Cache long, repeated content (system prompts, documents) to reduce cost and latency. Cached tokens cost ~10% of regular input tokens.
+Cache long, repeated content (system prompts, documents) to reduce cost and latency. Cache reads cost a fraction of the normal input price: about a tenth on most models, and less on some (see the pricing page). Writing to the cache costs more than a normal input token.
 
 ```python
 # Mark content for caching with cache_control: {"type": "ephemeral"}
-# Ephemeral cache = 5 minutes TTL (resets on each use)
+# Ephemeral cache = 5 minutes TTL by default (resets on each use); add "ttl": "1h" for a one-hour cache
 
 long_document = Path("data_dictionary.md").read_text()
 
 response = client.messages.create(
-    model="claude-sonnet-5",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
     system=[
         {
@@ -560,7 +577,7 @@ print(response.usage.cache_read_input_tokens)       # tokens read from cache (su
 ```
 
 **When to cache:**
-- Large system prompts (> 1000 tokens)
+- Large system prompts. A prompt below the model's minimum cacheable length is processed normally with no error and nothing cached; the minimum depends on the model (512 to 4,096 tokens today, 4,096 for Haiku 4.5), so check that `cache_read_input_tokens` is above zero on the second call
 - Reference documents (data dictionaries, schemas, codebases)
 - Few-shot examples at the start of the system prompt
 - Multi-turn conversations where the context grows large
@@ -569,7 +586,7 @@ print(response.usage.cache_read_input_tokens)       # tokens read from cache (su
 
 ## Batching
 
-For offline workloads (document processing, bulk classification), use the Batch API — up to 50% cheaper, processed within 24 hours.
+For offline workloads (document processing, bulk classification), use the Batch API — 50% cheaper. Most batches finish within an hour, and results are available when every request has finished or after 24 hours, whichever comes first.
 
 ```python
 # Anthropic Batch API
@@ -631,7 +648,7 @@ def call_with_retry(client, max_retries=3, **kwargs):
 
 ```python
 # Prices change often, so keep them in config, not code. pricing.json holds USD per 1M tokens:
-#   {"claude-sonnet-5": {"input": 2.00, "output": 10.00}, ...}
+#   {"claude-sonnet-5-5": {"input": 2.00, "output": 10.00}, ...}   (example values)
 # Current prices: https://platform.claude.com/docs/en/about-claude/pricing
 import json
 from pathlib import Path
@@ -664,7 +681,7 @@ async def classify(text: str, idx: int) -> dict:
     response = await async_client.messages.create(
         model="claude-haiku-4-5-20251001",
         max_tokens=64,
-        temperature=0,
+        extra_body={"temperature": 0},     # Haiku 4.5 accepts it; the SDK does not define it
         messages=[{"role": "user", "content": f"Classify as PASS or FAIL: {text}"}]
     )
     return {"idx": idx, "result": next(b.text for b in response.content if b.type == "text").strip()}
@@ -711,7 +728,7 @@ def create_message(client, **kwargs):
 | Reading `response.content[0].text` | Crashes or returns empty text when the first block is a thinking or tool block | Iterate the blocks and pick `type == "text"` |
 | Not checking `stop_reason` | Truncated JSON (`max_tokens`), unhandled tool calls, or silent refusals | Handle `max_tokens`, `tool_use`, `pause_turn`, and `refusal` explicitly |
 | `max_tokens` set too low | Output cut off mid-sentence or mid-JSON | Generous limits (thousands, not hundreds) for generation; stream long outputs |
-| Copying parameters between models | 400 errors — e.g. `temperature` on Sonnet 5 / Opus 5, assistant prefill on the 4.6+ family | Check the model's supported parameters; control behavior with `effort` and structured outputs |
+| Copying parameters between models | 400 errors — e.g. `temperature` on Opus 4.7 and later or Sonnet 5.5, forced `tool_choice` on Opus 5.5 / Sonnet 5.5 / Fable 5.1, assistant prefill on the 4.6+ family; and a `TypeError` for `temperature` in the Python SDK v1.0+ | Check the model's supported parameters; control behavior with `effort` and structured outputs |
 | API keys in code or notebooks | Leaked keys and surprise bills | Environment variables or a secrets manager; separate keys per environment with spend limits |
 | Unbounded `asyncio.gather` over thousands of calls | 429 rate-limit storms | Cap concurrency with a semaphore; the Batch API for offline work |
 | Rebuilding a big identical prefix on every call | Paying full input price for the same system prompt and documents | Prompt caching — stable content first, `cache_control` on it |
@@ -725,7 +742,7 @@ def create_message(client, **kwargs):
 
 | Task | Anthropic (Python) |
 |------|--------------------|
-| Basic call | `client.messages.create(model="claude-sonnet-5", max_tokens=1024, messages=[{"role": "user", "content": "..."}])` |
+| Basic call | `client.messages.create(model="claude-sonnet-5-5", max_tokens=1024, messages=[{"role": "user", "content": "..."}])` |
 | Get the text | `next(b.text for b in r.content if b.type == "text")` |
 | System prompt | `system="You are..."` |
 | Reasoning depth | `output_config={"effort": "low"\|"medium"\|"high"\|"xhigh"\|"max"}` |
@@ -740,14 +757,14 @@ def create_message(client, **kwargs):
 
 | Concept | Anthropic | OpenAI |
 |---------|-----------|--------|
-| Endpoint | Messages API | Responses / Chat Completions |
+| Endpoint | Messages API | Responses (recommended) / Chat Completions |
 | System prompt | `system=` parameter | `system`/`developer` message or `instructions` |
 | Output location | `content` blocks | `choices[0].message.content` / `output` items |
 | JSON schema output | `output_config.format` / `messages.parse` | `response_format` / `.parse()` |
 | Usage | `usage.input_tokens`, `usage.output_tokens` | `usage.prompt_tokens`, `usage.completion_tokens` |
 | Offline discount | Message Batches (50%) | Batch API (50%) |
 
-**Choosing a model:** start with a mid-tier model (Sonnet) and measure on your eval set · move up (Opus, Fable) when quality falls short · move down (Haiku) for high-volume classification or extraction once evals prove it's good enough
+**Choosing a model:** Anthropic suggests starting with Opus for most workloads, or with Sonnet where speed and cost matter · measure on your eval set · move up (Fable) when quality still falls short at higher effort · move down (Sonnet, Haiku) for high-volume classification or extraction once evals prove it's good enough
 
 ---
 
@@ -779,7 +796,8 @@ A: Generation involves sampling, and current reasoning models don't expose a tem
 - [Claude models overview](https://platform.claude.com/docs/en/models/overview) and [pricing](https://platform.claude.com/docs/en/about-claude/pricing)
 - [Prompt caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching) and [Message Batches](https://platform.claude.com/docs/en/build-with-claude/batch-processing)
 - [OpenAI API reference](https://developers.openai.com/api/reference/overview)
-- [Anthropic Cookbook](https://github.com/anthropics/anthropic-cookbook) — runnable notebooks for tool use, RAG, extraction, and more
+- [Claude Cookbooks](https://github.com/anthropics/claude-cookbooks) — runnable notebooks for tool use, RAG, extraction, and more
+- [Model deprecations](https://platform.claude.com/docs/en/about-claude/model-deprecations) — retirement dates for every Claude model
 
 ---
 

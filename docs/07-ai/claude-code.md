@@ -1,6 +1,5 @@
 ---
-verified: 2026-09-27
-review_status: baseline
+verified: 2026-09-28
 ---
 
 # Claude Code
@@ -94,7 +93,7 @@ Claude Code:                 Claude reads your repo, edits files directly,
 # Install — native installer (recommended; auto-updates)
 curl -fsSL https://claude.ai/install.sh | bash
 
-# Or via npm (requires Node.js 18+)
+# Or via npm (requires Node.js 22 or later; the native installer needs no Node.js)
 npm install -g @anthropic-ai/claude-code
 
 # Verify
@@ -152,11 +151,12 @@ claude --print "List all Python files that import pandas"
 /help                    # show available commands
 /clear                   # clear conversation context
 /compact                 # summarize context to save tokens
-/cost                    # show token usage and cost for this session
+/usage                   # show token usage and cost for this session (/cost is an alias)
 /status                  # show current model, context, settings
 
-# Model selection
-/model claude-sonnet-5   # switch model mid-session
+# Model and effort
+/model sonnet            # switch model mid-session: an alias (sonnet, opus, haiku, fable) or a full model ID
+/effort                  # set how hard the model thinks (an interactive slider, or /effort high)
 /fast                    # toggle fast mode (Opus with faster output)
 
 # Memory
@@ -196,10 +196,12 @@ Claude Code reads files before editing them — it always has full context.
 
 | Mode | What auto-approves |
 |------|--------------------|
-| `default` | File reads; prompts for edits and shell commands |
-| `acceptEdits` | File reads and edits; prompts for shell commands |
+| `default` (labelled *Manual* in newer versions) | File reads; prompts on first use of each other tool |
+| `acceptEdits` | File reads, file edits, and common filesystem commands such as `mkdir`, `touch`, `mv` and `cp` in the working directory; prompts for other shell commands |
 | `plan` | Nothing is changed — Claude researches and proposes a plan first |
-| `bypassPermissions` (`--dangerously-skip-permissions`) | Everything — only in isolated sandboxes/containers |
+| `auto` | Tool calls, with background safety checks that verify each action matches your request |
+| `dontAsk` | Nothing new: anything that would prompt is denied, and only pre-approved tools run |
+| `bypassPermissions` (`--dangerously-skip-permissions`) | Everything except a few actions no mode approves — only in isolated sandboxes/containers |
 
 ```bash
 # Auto-accept file edits for this session
@@ -213,7 +215,7 @@ claude --allowedTools "Read,Grep,Glob,Edit,Bash(pytest:*)" --disallowedTools "Ba
 
 ## Memory System
 
-Claude Code persists memory across sessions in `~/.claude/projects/<project>/memory/`.
+Claude Code persists what it learns across sessions as *auto memory* in `~/.claude/projects/<project>/memory/`. It is local to your machine and shared by every worktree of the same repository. Run `/memory` to browse it and to turn it off. The first 200 lines (25 KB) of its `MEMORY.md` index load at the start of each session.
 
 ```bash
 # Explicitly ask Claude to remember something
@@ -392,6 +394,7 @@ Hooks run shell commands automatically at specific points in Claude Code's lifec
 | `UserPromptSubmit` | When you submit a prompt — can add context or block it |
 | `Notification` | Claude Code sends a notification (e.g. waiting for permission) |
 | `Stop` / `SubagentStop` | The main agent / a subagent finishes responding |
+| `PostToolUseFailure` / `PermissionRequest` | A tool call fails / needs a permission decision |
 | `SessionStart` / `SessionEnd` | A session starts or ends |
 | `PreCompact` | Before the conversation is compacted |
 
@@ -405,7 +408,7 @@ if [[ "$file" == *profiles.yml ]]; then
 fi
 ```
 
-Use `/hooks` in a session to view and edit hooks interactively.
+There are many more events (for file changes, worktrees, model switches and so on); the [hooks reference](https://code.claude.com/docs/en/hooks) lists them all. Use `/hooks` in a session to view the configured hooks.
 
 ---
 
@@ -453,7 +456,7 @@ Debug the DAG named in $ARGUMENTS:
 > /pipeline-debug daily_orders
 ```
 
-**Subagents** are different: specialized assistants with their own system prompt, tools, and context window, defined in `.claude/agents/<name>.md`. Claude delegates tasks to them (e.g. a read-only `sql-reviewer` agent), which keeps the main conversation's context clean.
+**Subagents** are different: specialized assistants with their own system prompt, tools, and context window, defined in `.claude/agents/<name>.md` (or `~/.claude/agents/`). Claude delegates tasks to them (e.g. a read-only `sql-reviewer` agent), which keeps the main conversation's context clean. Ask Claude to create one, or write the file; from version 2.1.198 the `/agents` command no longer opens a creation wizard.
 
 ---
 
@@ -484,9 +487,13 @@ jobs:
   review:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0   # full history for git diff
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"   # Claude Code's npm package needs Node.js 22 or later
 
       - name: Install Claude Code
         run: npm install -g @anthropic-ai/claude-code
@@ -505,7 +512,7 @@ jobs:
             > review.md
 
       - name: Post review as PR comment
-        uses: marocchino/sticky-pull-request-comment@v2
+        uses: marocchino/sticky-pull-request-comment@v3
         with:
           path: review.md
 ```
@@ -598,9 +605,9 @@ jobs:
 | Plan before changing anything | Shift+Tab to plan mode, or `claude --permission-mode plan` |
 | Pre-approve safe tools | `claude --allowedTools "Read,Grep,Glob,Bash(pytest:*)"` |
 | Clear / compact context | `/clear` · `/compact` |
-| Switch model | `/model` |
+| Switch model / effort | `/model sonnet` · `/effort` |
 | Add an MCP server | `claude mcp add <name> -- <command>` · `--scope project` writes `.mcp.json` |
-| Hooks / permissions / agents | `/hooks` · `/permissions` · `/agents` |
+| Hooks / permissions | `/hooks` · `/permissions` (subagents: ask Claude, or edit `.claude/agents/`) |
 | Code review | `/code-review` |
 | Reference a file in a prompt | `@models/marts/fct_orders.sql` |
 | Run a shell command inline | `! pytest tests/unit -q` |
@@ -639,7 +646,7 @@ A: Layered context: a concise `CLAUDE.md` with conventions, commands, and gotcha
 ## Further Reading
 
 - [Claude Code documentation](https://code.claude.com/docs/en/overview)
-- [Claude Code best practices](https://www.anthropic.com/engineering/claude-code-best-practices)
+- [Claude Code best practices](https://code.claude.com/docs/en/best-practices)
 - [Hooks reference](https://code.claude.com/docs/en/hooks) · [Skills](https://code.claude.com/docs/en/skills) · [MCP](https://code.claude.com/docs/en/mcp)
 - [Claude Code GitHub Action](https://github.com/anthropics/claude-code-action)
 - [Model Context Protocol](https://modelcontextprotocol.io/)
