@@ -49,6 +49,10 @@ where they sit in a pipeline, and a new top-level area gets the next free number
 
 The full learning paths, the "when should I use what" tables, and the cheat sheets are in the [index](docs/README.md). By role: [analytics engineer](docs/paths/analytics-engineer.md), [data platform engineer](docs/paths/platform-engineer.md) and [AI data engineer](docs/paths/ai-data-engineer.md).
 
+## Contributing and governance
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for how to help, and [GOVERNANCE.md](GOVERNANCE.md) for roles, decisions and how to become a reviewer or maintainer. Reviewers are wanted for the labs and the AI guides.
+
 ## Hands-on labs
 
 [Eight labs and two capstone projects](labs/README.md) turn the guides into practice on one realistic e-commerce dataset, with its duplicates, missing keys, late events and changing records. Each runs locally without a cloud account, and each has runnable exercises and reference solutions that were run end to end.
