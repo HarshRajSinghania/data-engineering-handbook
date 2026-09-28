@@ -1020,4 +1020,4 @@ A: `LocalExecutor` runs tasks as subprocesses on the same machine as the schedul
 
 ---
 
-**Previous:** [Pipeline Observability](../05-quality-governance/pipeline-observability.md) · **Next:** [Dagster](dagster-reference.md) · **Back to:** [Index](../README.md)
+**Previous:** [DataOps](../05-quality-governance/dataops-operations.md) · **Next:** [Dagster](dagster-reference.md) · **Back to:** [Index](../README.md)

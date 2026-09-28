@@ -10,8 +10,8 @@ This page states intent, not commitments. Items move as priorities change, and a
 
 ```mermaid
 flowchart LR
-    N["Now<br/>Coverage round C<br/>and review of existing guides"] --> A["Next<br/>New labs,<br/>lab CI"]
-    A --> B["Then<br/>Site features<br/>and launch"]
+    N["Now<br/>New labs, lab CI<br/>and review of existing guides"] --> A["Next<br/>Site features"]
+    A --> B["Then<br/>Launch"]
     B --> V["1.0<br/>Complete coverage,<br/>all labs in CI,<br/>all guides reviewed"]
 ```
 
@@ -23,6 +23,7 @@ flowchart LR
 | Contributor path: first-contribution guide, code owners, changelog, citation file | Done |
 | Coverage round A: five new guides (see below) | Done |
 | Coverage round B: four new guides (see below) | Done |
+| Coverage round C: four new guides (see below) | Done |
 | Review each existing guide against current vendor documentation, so the review dates reflect real checks | Open, *help wanted* |
 
 ## Coverage
@@ -48,14 +49,14 @@ New guides follow the same template as the existing ones: Basic to Advanced, pit
 | [BI Tools](02-processing/bi-tools.md) | Apache Superset and Metabase: modelling, performance, row-level security, embedding, operations |
 | [NoSQL and Operational Stores](01-storage/nosql-operational-stores.md) | DynamoDB, MongoDB, Valkey and Redis, and Cassandra: modelling, CDC and exports, serving data back |
 
-### Round C
+### Round C (published)
 
 | Guide | Scope |
 |-------|-------|
-| DataOps and incident response | SLAs and SLOs, on-call, runbooks, post-incident reviews |
-| MCP and text-to-SQL | Exposing data to LLM agents safely, evaluation of generated SQL |
-| Data catalogs | DataHub and OpenMetadata: metadata ingestion, lineage, ownership |
-| Choosing a stack | A decision guide across the tools in the handbook |
+| [DataOps](05-quality-governance/dataops-operations.md) | Severity levels, on-call, runbooks, incident response, blameless postmortems, operating metrics |
+| [MCP and Text-to-SQL](07-ai/mcp-text-to-sql.md) | A tested read-only SQL server for assistants, SQL validation, evaluation of generated SQL |
+| [Data Catalogs in Practice](05-quality-governance/data-catalogs.md) | DataHub and OpenMetadata: ingestion, metadata model, catalog as code |
+| [Choosing a Stack](08-architecture/choosing-a-stack.md) | Requirements first, reference architectures, stack review checks, decision records |
 
 ## Labs
 

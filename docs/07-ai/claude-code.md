@@ -7,7 +7,7 @@ verified: 2026-09-27
 
 **Prerequisites:** [Git for DE](../00-foundations/git-for-de.md) · [Linux & Bash](../00-foundations/linux-bash.md)
 
-**Related:** [AI Agents](ai-agents.md) · [LLM APIs](llm-apis.md) · [Glossary](../99-reference/glossary.md)
+**Related:** [AI Agents](ai-agents.md) · [LLM APIs](llm-apis.md) · [MCP & Text-to-SQL](mcp-text-to-sql.md) · [Glossary](../99-reference/glossary.md)
 
 ---
 

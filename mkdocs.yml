@@ -159,8 +159,10 @@ nav:
   - Quality & Infrastructure:
       - Data Quality: 05-quality-governance/data-quality.md
       - Governance & Lineage: 05-quality-governance/governance-lineage.md
+      - Data Catalogs (DataHub & OpenMetadata): 05-quality-governance/data-catalogs.md
       - Data Security & Privacy: 05-quality-governance/data-security-privacy.md
       - Pipeline Observability: 05-quality-governance/pipeline-observability.md
+      - DataOps (On-Call & Incidents): 05-quality-governance/dataops-operations.md
       - Docker: 06-infrastructure/docker-reference.md
       - Kubernetes: 06-infrastructure/kubernetes-for-de.md
       - Terraform: 06-infrastructure/terraform-for-de.md
@@ -172,6 +174,7 @@ nav:
       - RAG: 07-ai/rag.md
       - Vector Databases: 07-ai/vector-databases.md
       - AI Agents: 07-ai/ai-agents.md
+      - MCP & Text-to-SQL: 07-ai/mcp-text-to-sql.md
       - LangChain & LlamaIndex: 07-ai/langchain-llamaindex.md
       - Evals: 07-ai/eval-and-evals.md
       - MLflow: 07-ai/mlflow.md
@@ -181,6 +184,7 @@ nav:
       - Local LLMs: 07-ai/local-llms.md
   - Architecture:
       - System Design: 08-architecture/system-design.md
+      - Choosing a Stack: 08-architecture/choosing-a-stack.md
       - Cost Optimization: 08-architecture/cost-optimization.md
   - Projects:
       - Capstone Projects: projects/index.md

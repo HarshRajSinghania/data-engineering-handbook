@@ -642,4 +642,4 @@ A: Tracing first: LangSmith, Langfuse, or an OpenTelemetry-based tool shows ever
 
 ---
 
-**Previous:** [AI Agents](ai-agents.md) · **Next:** [Evals](eval-and-evals.md) · **Back to:** [Index](../README.md)
+**Previous:** [MCP and Text-to-SQL](mcp-text-to-sql.md) · **Next:** [Evals](eval-and-evals.md) · **Back to:** [Index](../README.md)

@@ -45,17 +45,17 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 
     ---
 
-    Data quality, security & privacy, pipeline observability, governance & lineage.
+    Data quality, governance & lineage, catalogs, security & privacy, observability, DataOps.
 
-    [:octicons-arrow-right-24: 4 guides](#quality--observability)
+    [:octicons-arrow-right-24: 6 guides](#quality--observability)
 
 -   :material-robot-outline:{ .lg .middle } **AI & Machine Learning**
 
     ---
 
-    Prompting, RAG, agents, evals, fine-tuning, observability, local LLMs.
+    Prompting, RAG, agents, MCP and text-to-SQL, evals, fine-tuning, observability, local LLMs.
 
-    [:octicons-arrow-right-24: 13 guides](#ai--machine-learning)
+    [:octicons-arrow-right-24: 14 guides](#ai--machine-learning)
 
 -   :material-cloud-outline:{ .lg .middle } **Infrastructure**
 
@@ -77,9 +77,9 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 
     ---
 
-    System design and cost optimization.
+    System design, choosing a stack, and cost optimization.
 
-    [:octicons-arrow-right-24: 2 guides](#architecture)
+    [:octicons-arrow-right-24: 3 guides](#architecture)
 
 -   :material-flask-outline:{ .lg .middle } **Hands-on Labs**
 
@@ -169,6 +169,8 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 | [Data Security & Privacy](05-quality-governance/data-security-privacy.md) | Classification, least privilege, secrets, encryption, masking and pseudonymisation, erasure requests, LLM security |
 | [Pipeline Observability](05-quality-governance/pipeline-observability.md) | SLIs and SLOs, freshness and volume monitoring, structured logging, alert design, incident runbook |
 | [Data Governance & Lineage](05-quality-governance/governance-lineage.md) | Catalogs, ownership, classification, access models, lineage and OpenLineage, contracts, retention and deletion |
+| [Data Catalogs in Practice](05-quality-governance/data-catalogs.md) | DataHub and OpenMetadata: architecture, ingestion recipes and workflows, metadata as code validated in CI, running a catalog |
+| [DataOps](05-quality-governance/dataops-operations.md) | Severity levels, on-call design, runbooks, incident roles and the data playbook, blameless postmortems, operating metrics |
 
 ### AI & Machine Learning
 
@@ -180,6 +182,7 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 | [RAG](07-ai/rag.md) | Build retrieval-augmented generation pipelines, hybrid search, re-ranking, evaluation |
 | [Vector Databases](07-ai/vector-databases.md) | pgvector, Pinecone, Chroma, Weaviate — indexing, filtering, multi-tenancy |
 | [AI Agents & Tool Use](07-ai/ai-agents.md) | Agentic loops, tool definitions, ReAct, multi-agent systems, human-in-the-loop |
+| [MCP & Text-to-SQL](07-ai/mcp-text-to-sql.md) | A tested read-only SQL MCP server, SQL validation, execution-accuracy evaluation, security and governance |
 | [LangChain & LlamaIndex](07-ai/langchain-llamaindex.md) | RAG chains, agents, LCEL, custom retrievers, LangSmith tracing |
 | [Eval & Evals](07-ai/eval-and-evals.md) | Unit tests for LLMs, LLM-as-judge, RAGAS, regression testing, eval-driven development |
 | [MLflow](07-ai/mlflow.md) | Experiment tracking, model registry, serving, custom models, DE integration |
@@ -210,6 +213,7 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 |-------|------------------|
 | [Cost Optimization](08-architecture/cost-optimization.md) | Unit economics, attribution, spend monitoring per platform, compute/query/storage optimization, guardrails |
 | [Data Engineering System Design](08-architecture/system-design.md) | Requirements, capacity estimation, architecture patterns, batch vs streaming, reliability, security, cost, worked designs |
+| [Choosing a Stack](08-architecture/choosing-a-stack.md) | Requirements first, four reference architectures, signals to grow, buy vs run vs build, stack review checks, ADRs, exit plans |
 
 ---
 
@@ -255,6 +259,8 @@ Practise with [five labs and two capstone projects](https://github.com/sarangamb
 10. [Terraform for DE](06-infrastructure/terraform-for-de.md) — provision infra as code
 11. [Data Ingestion & CDC](02-processing/ingestion-cdc.md) — get data in reliably
 12. [Data Engineering System Design](08-architecture/system-design.md) — put it all together
+13. [DataOps](05-quality-governance/dataops-operations.md) — run it reliably, with on-call and incident response
+14. [Choosing a Stack](08-architecture/choosing-a-stack.md) — pick tools from requirements
 
 ### Path 2: Warehouse & transformation focus
 
@@ -262,7 +268,7 @@ Practise with [five labs and two capstone projects](https://github.com/sarangamb
 2. A cloud warehouse: [Snowflake](01-storage/snowflake-reference.md), [BigQuery](01-storage/bigquery-reference.md), or [Amazon Redshift](01-storage/redshift-reference.md)
 3. [dbt Reference](02-processing/dbt-reference.md)
 4. [Data Quality](05-quality-governance/data-quality.md)
-5. [Data Governance & Lineage](05-quality-governance/governance-lineage.md)
+5. [Data Governance & Lineage](05-quality-governance/governance-lineage.md), then [Data Catalogs in Practice](05-quality-governance/data-catalogs.md)
 6. [Git for DE](00-foundations/git-for-de.md) — CI/CD section
 7. [Testing and CI/CD for Data Pipelines](06-infrastructure/testing-cicd.md) — prove changes are safe before they ship
 8. [BI Tools](02-processing/bi-tools.md) — serve the models to the business
@@ -307,6 +313,7 @@ Practise with [five labs and two capstone projects](https://github.com/sarangamb
 11. [Fine-Tuning LLMs](07-ai/fine-tuning.md) — when RAG isn't enough
 12. [AI Observability](07-ai/ai-observability.md) — monitor production LLM apps
 13. [Local LLMs](07-ai/local-llms.md) — run models without the API bill
+14. [MCP & Text-to-SQL](07-ai/mcp-text-to-sql.md) — give assistants safe, measured access to your data
 
 ---
 
@@ -341,6 +348,10 @@ Practise with [five labs and two capstone projects](https://github.com/sarangamb
 | Always-fresh SQL views over streams, without a streaming job | A streaming database (RisingWave, Materialize) |
 | Low-latency lookups and key-based serving for applications | DynamoDB, MongoDB or Valkey/Redis |
 | Dashboards for the business | Superset or Metabase over curated marts |
+| Find, own and trace data assets | A catalog: DataHub or OpenMetadata, with metadata in Git |
+| Let an AI assistant query data safely | An MCP server with a validated, read-only SQL tool |
+| Respond to data incidents reliably | Severity levels, on-call, runbooks, blameless postmortems |
+| Decide which tools to adopt | Requirements first, the simplest stack, an ADR, and stack review checks |
 
 ### File format cheat sheet
 

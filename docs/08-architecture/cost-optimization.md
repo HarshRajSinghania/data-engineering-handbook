@@ -319,4 +319,4 @@ A: When the business decision it supports genuinely needs low latency and the va
 
 ---
 
-**Previous:** [System Design](system-design.md) · **Next:** [Prompt Engineering](../07-ai/prompt-engineering.md) · **Back to:** [Index](../README.md)
+**Previous:** [Choosing a Stack](choosing-a-stack.md) · **Next:** [Prompt Engineering](../07-ai/prompt-engineering.md) · **Back to:** [Index](../README.md)

@@ -7,7 +7,7 @@ verified: 2026-09-27
 
 **Prerequisites:** [LLM APIs](llm-apis.md) · [Prompt Engineering](prompt-engineering.md)
 
-**Related:** [LangChain & LlamaIndex](langchain-llamaindex.md) · [Claude Code](claude-code.md) · [Evals](eval-and-evals.md) · [Glossary](../99-reference/glossary.md)
+**Related:** [LangChain & LlamaIndex](langchain-llamaindex.md) · [Claude Code](claude-code.md) · [MCP & Text-to-SQL](mcp-text-to-sql.md) · [Evals](eval-and-evals.md) · [Glossary](../99-reference/glossary.md)
 
 ---
 
@@ -734,4 +734,4 @@ A: The conversation grows with every tool call and result, so long tasks can hit
 
 ---
 
-**Previous:** [Vector Databases](vector-databases.md) · **Next:** [LangChain & LlamaIndex](langchain-llamaindex.md) · **Back to:** [Index](../README.md)
+**Previous:** [Vector Databases](vector-databases.md) · **Next:** [MCP and Text-to-SQL](mcp-text-to-sql.md) · **Back to:** [Index](../README.md)
