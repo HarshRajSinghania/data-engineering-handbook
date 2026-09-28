@@ -1,0 +1,121 @@
+# Monthly update pull requests for the pinned versions the handbook depends on.
+#
+# The versions in the labs are what the guides' "Lab-tested with" lines report, so an update is never
+# merged blindly: the Labs workflow runs the lab against the new version, and the freshness check fails
+# until the guide's `lab_tested` line matches the new pin. Updates are grouped to keep the number of
+# pull requests small.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: {interval: monthly}
+    labels: [maintenance]
+    commit-message: {prefix: "deps"}
+    groups:
+      actions: {patterns: ["*"]}
+
+  - package-ecosystem: pip
+    directory: /
+    schedule: {interval: monthly}
+    labels: [maintenance]
+    commit-message: {prefix: "deps"}
+    # requirements-docs.txt and requirements-pdf.txt build the site. mkdocs is capped below 2.0 on purpose
+    # (see requirements-docs.txt), and Dependabot respects that range.
+    groups:
+      site: {patterns: ["*"]}
+
+  - package-ecosystem: pip
+    directory: /labs/01-sql-analytics
+    schedule: {interval: monthly}
+    labels: [maintenance, labs]
+    commit-message: {prefix: "deps(labs)"}
+    open-pull-requests-limit: 3
+
+  - package-ecosystem: pip
+    directory: /labs/02-dbt-transformations
+    schedule: {interval: monthly}
+    labels: [maintenance, labs]
+    commit-message: {prefix: "deps(labs)"}
+    open-pull-requests-limit: 3
+
+  - package-ecosystem: pip
+    directory: /labs/03-spark-lakehouse
+    schedule: {interval: monthly}
+    labels: [maintenance, labs]
+    commit-message: {prefix: "deps(labs)"}
+    open-pull-requests-limit: 3
+    # pyspark and delta-spark must move together: a Delta release supports specific Spark versions
+    groups:
+      spark: {patterns: ["pyspark", "delta-spark"]}
+
+  - package-ecosystem: pip
+    directory: /labs/04-kafka-streaming
+    schedule: {interval: monthly}
+    labels: [maintenance, labs]
+    commit-message: {prefix: "deps(labs)"}
+    open-pull-requests-limit: 3
+
+  - package-ecosystem: pip
+    directory: /labs/05-airflow-orchestration
+    schedule: {interval: monthly}
+    labels: [maintenance, labs]
+    commit-message: {prefix: "deps(labs)"}
+    open-pull-requests-limit: 3
+    # The Airflow version is set by the image tag in the Dockerfile; this file holds only the lab's own extras
+
+  - package-ecosystem: pip
+    directory: /labs/06-capstone-ecommerce
+    schedule: {interval: monthly}
+    labels: [maintenance, labs]
+    commit-message: {prefix: "deps(labs)"}
+    open-pull-requests-limit: 3
+
+  - package-ecosystem: pip
+    directory: /labs/08-data-quality
+    schedule: {interval: monthly}
+    labels: [maintenance, labs]
+    commit-message: {prefix: "deps(labs)"}
+    open-pull-requests-limit: 3
+
+  - package-ecosystem: pip
+    directory: /labs/09-iceberg-lakehouse
+    schedule: {interval: monthly}
+    labels: [maintenance, labs]
+    commit-message: {prefix: "deps(labs)"}
+    open-pull-requests-limit: 3
+    # Iceberg publishes its Spark runtime only for some Spark versions (Iceberg 1.11: up to Spark 4.1), so
+    # a new Spark minor or major version must be adopted by hand together with the runtime in lake.py
+    ignore:
+      - dependency-name: pyspark
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+
+  - package-ecosystem: pip
+    directory: /labs/10-cdc-debezium
+    schedule: {interval: monthly}
+    labels: [maintenance, labs]
+    commit-message: {prefix: "deps(labs)"}
+    open-pull-requests-limit: 3
+
+  - package-ecosystem: docker-compose
+    directory: /labs/04-kafka-streaming
+    schedule: {interval: monthly}
+    labels: [maintenance, labs]
+    commit-message: {prefix: "deps(labs)"}
+
+  - package-ecosystem: docker-compose
+    directory: /labs/05-airflow-orchestration
+    schedule: {interval: monthly}
+    labels: [maintenance, labs]
+    commit-message: {prefix: "deps(labs)"}
+
+  - package-ecosystem: docker-compose
+    directory: /labs/10-cdc-debezium
+    schedule: {interval: monthly}
+    labels: [maintenance, labs]
+    commit-message: {prefix: "deps(labs)"}
+
+  - package-ecosystem: docker
+    directory: /labs/05-airflow-orchestration
+    schedule: {interval: monthly}
+    labels: [maintenance, labs]
+    commit-message: {prefix: "deps(labs)"}

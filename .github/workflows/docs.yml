@@ -57,6 +57,9 @@ jobs:
       - name: Review dates and lab versions
         run: python tools/check_freshness.py
 
+      - name: Maintenance tools
+        run: python -m unittest tools/test_maintenance_tools.py
+
       - uses: actions/setup-node@v7
         with:
           node-version: "24"

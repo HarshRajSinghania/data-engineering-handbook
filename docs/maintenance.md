@@ -39,6 +39,35 @@ The site footer also shows a separate *last updated* date, taken from the Git hi
 | Retired model IDs | Every pull request, and weekly | References to model IDs listed in `tools/deprecated_models.txt` |
 | External link check | Weekly | Dead links to vendor documentation |
 | Strict site build | Every pull request | Broken internal links and anchors |
+| Search metadata check (`tools/check_seo.py`) | Every pull request | A page without its own description, canonical URL or structured data, or missing from the sitemap |
+| Dependabot | Monthly | New versions of the packages and images the labs pin, tested by the Labs workflow |
+
+## Monthly routine
+
+Two workflows keep the project moving without relying on memory.
+
+| Workflow | When | What it does |
+|----------|------|--------------|
+| **Monthly maintenance** | The 1st of each month | Opens a *Monthly maintenance* issue with a checklist and the month's numbers, and makes sure at least five *Review the ... guide* issues are open. It picks guides that no lab covers first, then the oldest review date, and skips any reviewed in the last 30 days |
+| **Metrics** | Every Monday | Saves repository traffic and star history to the `metrics` branch |
+
+The checklist covers triage, dependency updates, the state of the scheduled Docs and Labs runs, overdue guides, the review queue, the changelog and a release, and thanking contributors. To see what the monthly workflow would create without creating it, run it from the *Actions* tab with *dry run* checked.
+
+## Dependency updates
+
+Dependabot opens one grouped pull request a month per area: the site's Python packages, GitHub Actions, and each lab's pinned packages and container images (`.github/dependabot.yml`). A version bump is never merged on its own. The Labs workflow runs the lab against the new version, and the freshness check fails until the guide's *Lab-tested with* line matches the new pin. Lab 09's Spark version is excluded from automatic updates, because Iceberg publishes its Spark runtime only for some Spark versions; move it by hand together with the runtime in `lake.py`.
+
+## Metrics
+
+GitHub keeps only 14 days of repository traffic, so the *Metrics* workflow saves it every week to CSV files on the `metrics` branch (`traffic/views.csv`, `clones.csv`, `referrers.csv`, `paths.csv`, and `repo.csv` for stars and forks). The site itself has no tracker and sets no cookies, so the numbers describe repository views, clones and where visitors came from, not which guide was read.
+
+Reading the traffic needs push access, which the built-in workflow token does not have. To turn it on, create a repository secret named `TRAFFIC_TOKEN`:
+
+1. In GitHub, open *Settings → Developer settings → Personal access tokens → Fine-grained tokens* and generate a token. Set the repository access to only this repository, and an expiry of one year (note the date; the workflow then warns and the monthly issue shows no new numbers).
+2. Grant the repository permission **Administration: Read-only**. GitHub's documentation says only that the traffic endpoints need write access to the repository and does not name the fine-grained permission. If the workflow log shows a 403 warning, grant **Contents: Read and write** as well.
+3. In the repository, open *Settings → Secrets and variables → Actions* and add the token as `TRAFFIC_TOKEN`.
+
+Without the secret the workflow still records stars, forks and open issues, and warns in its log that traffic was skipped.
 
 ## PDFs and printing
 

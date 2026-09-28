@@ -1,0 +1,44 @@
+name: Monthly maintenance
+
+# On the first of each month: open the maintenance checklist issue, and make sure contributors always have
+# a handful of guide-review issues to pick up. Run it by hand with "dry run" checked to see what it would do.
+
+on:
+  schedule:
+    - cron: "0 7 1 * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Print what would be created, without creating it"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+jobs:
+  report:
+    name: Monthly issue and review queue
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v7
+
+      # The archive written by the Metrics workflow. It does not exist until that workflow has run once.
+      - uses: actions/checkout@v7
+        continue-on-error: true
+        with:
+          ref: metrics
+          path: metrics
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml
+
+      - name: Create the issues
+        run: python tools/monthly_report.py --metrics-dir metrics ${{ inputs.dry_run && '--dry-run' || '' }}

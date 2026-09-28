@@ -48,6 +48,10 @@ Open an [issue](https://github.com/sarangambekar1997/data-engineering-handbook/i
 - Use relative links between guides, and pick the anchor from the rendered heading.
 - Every guide has `verified: YYYY-MM-DD` in its front matter. Set it only after you have actually checked the guide's commands, versions and links against the vendor documentation, and say what you checked in the pull request. A typo fix does not change it. See [How the handbook is maintained](docs/maintenance.md).
 
+## Growing into a reviewer
+
+Regular contributors can become reviewers and, later, maintainers. [GOVERNANCE.md](GOVERNANCE.md) describes the roles and what each involves.
+
 ## Labs
 
 Each lab runs on a laptop and has a `README.md`, exercises and solutions. See [`labs/README.md`](labs/README.md) for the conventions. CI runs every lab end to end. Labs 04 and 05 start Kafka and Airflow with Docker Compose and run `ci_smoke.py`, which replays the README exercises and checks the results the README describes. You can run the same script locally, or open the repository in a [dev container](.devcontainer/devcontainer.json) that has Python, Java and Docker ready.
