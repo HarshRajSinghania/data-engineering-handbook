@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Git for Data Engineers
 > Version control workflows tailored to data pipelines, SQL transformation projects, and team collaboration.
 

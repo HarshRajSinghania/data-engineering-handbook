@@ -1,3 +1,9 @@
+---
+verified: 2026-09-27
+lab_tested: "PySpark 4.2.0"
+lab_source: labs/03-spark-lakehouse/requirements.txt
+---
+
 # PySpark Reference
 > From first DataFrame to production-grade distributed data processing.
 

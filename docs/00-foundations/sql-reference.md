@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # SQL Reference
 > A developer-focused guide from basic queries to advanced patterns.
 

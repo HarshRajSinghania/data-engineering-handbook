@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Data Engineering Glossary
 > Definitions for every term used across this handbook — one place to look things up.
 

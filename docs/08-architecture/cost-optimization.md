@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Cost Optimization for Data Platforms
 > Making data platform spend visible, attributable, and efficient — without sacrificing reliability or freshness.
 

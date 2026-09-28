@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Terraform for Data Engineers
 > Provision and manage cloud data infrastructure as code — storage, access control, warehouses, compute platforms, and orchestration.
 

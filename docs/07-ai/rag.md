@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # RAG (Retrieval-Augmented Generation)
 > Build LLM applications that answer questions from your own data — not just training data.
 

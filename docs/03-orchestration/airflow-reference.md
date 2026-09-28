@@ -1,3 +1,9 @@
+---
+verified: 2026-09-27
+lab_tested: "Apache Airflow 3.3.2"
+lab_source: labs/05-airflow-orchestration/Dockerfile
+---
+
 # Apache Airflow Reference
 > From first DAG to production-grade pipeline orchestration.
 

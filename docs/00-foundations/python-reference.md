@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Python Reference
 > From first script to production-grade data engineering patterns.
 

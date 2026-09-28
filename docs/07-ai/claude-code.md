@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Claude Code
 > Anthropic's official CLI and agentic coding tool — from first command to advanced workflows.
 

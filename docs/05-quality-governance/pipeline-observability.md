@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Pipeline Observability & Incident Response
 > How to know your pipelines are healthy before the business tells you they are not: SLAs, freshness and volume monitoring, structured logs, alerts, and a runbook for when something breaks.
 

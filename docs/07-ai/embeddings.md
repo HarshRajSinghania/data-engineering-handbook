@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Embeddings
 > Turning text (and other data) into vectors for semantic search, clustering, classification, and RAG.
 

@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Cloud Storage for Data Engineers
 > S3, GCS, and ADLS — patterns, conventions, and tools every DE needs.
 

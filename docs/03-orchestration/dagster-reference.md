@@ -1,3 +1,9 @@
+---
+verified: 2026-09-27
+lab_tested: "Dagster 1.13.24"
+lab_source: labs/06-capstone-ecommerce/requirements.txt
+---
+
 # Dagster
 > An orchestrator built around data assets: you declare the tables and files you want to exist, and Dagster works out how to build, schedule and monitor them.
 

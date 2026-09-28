@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Semantic Layer & Metrics
 > Define each business metric once, in code, so every dashboard, notebook and AI assistant computes "revenue" the same way.
 

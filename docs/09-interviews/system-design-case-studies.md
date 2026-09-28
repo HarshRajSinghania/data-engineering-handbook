@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # System Design Case Studies
 > Five worked data engineering design problems, each with requirements, an architecture, the key trade-offs, failure modes and follow-up questions.
 

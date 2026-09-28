@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Data Governance & Lineage
 > Knowing what data exists, who owns it, where it came from, who may use it, and how long to keep it — enforced in code, not documents.
 

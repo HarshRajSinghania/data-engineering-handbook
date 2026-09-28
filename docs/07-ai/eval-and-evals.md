@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # AI Evaluation & Evals
 > How to measure, test, and improve LLM application quality systematically.
 

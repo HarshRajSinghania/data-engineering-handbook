@@ -61,15 +61,16 @@ The full learning paths, the "when should I use what" tables, and the cheat shee
 
 Copy [`docs/_template.md`](docs/_template.md). Every guide uses the same sections:
 
-1. Prerequisites / Related links at the top, plus a Practice link when a lab covers the topic
-2. Overview (the problem the topic solves and how, before any code)
-3. Table of contents split into Basic / Intermediate / Advanced
-4. Content sections with runnable code
-5. Common Pitfalls
-6. Cheat Sheet
-7. Interview Questions
-8. Further Reading
-9. Next / Back navigation at the bottom
+1. Front matter with `verified: YYYY-MM-DD` (see [how the handbook is maintained](docs/maintenance.md))
+2. Prerequisites / Related links at the top, plus a Practice link when a lab covers the topic
+3. Overview (the problem the topic solves and how, before any code)
+4. Table of contents split into Basic / Intermediate / Advanced
+5. Content sections with runnable code
+6. Common Pitfalls
+7. Cheat Sheet
+8. Interview Questions
+9. Further Reading
+10. Next / Back navigation at the bottom
 
 Then add the guide to [`docs/README.md`](docs/README.md), to any learning path it belongs in, and to the `nav` section of [`mkdocs.yml`](mkdocs.yml).
 
@@ -81,6 +82,7 @@ mkdocs serve                 # live preview at http://127.0.0.1:8000
 mkdocs build --strict        # the same check CI runs: fails on broken links or anchors
 python tools/check_code_blocks.py   # every python/json/yaml block must parse
 python tools/check_model_ids.py     # no retired model IDs
+python tools/check_freshness.py     # review dates and lab versions are valid
 ```
 
 Pull requests that touch `docs/` are built in strict mode by CI and every code block is parsed; merges to `main` deploy the site to GitHub Pages. Pull requests that touch `labs/` run Labs 01–03 end to end. See [CONTRIBUTING.md](CONTRIBUTING.md).

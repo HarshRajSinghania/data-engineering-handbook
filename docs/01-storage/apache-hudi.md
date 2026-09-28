@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Apache Hudi
 > An open table format built for record-level upserts and incremental processing on a data lake.
 

@@ -1,3 +1,9 @@
+---
+verified: 2026-09-27
+lab_tested: "Apache Kafka 4.3.1"
+lab_source: labs/04-kafka-streaming/docker-compose.yml
+---
+
 # Apache Kafka Reference
 > From first message to production-grade event streaming pipelines.
 

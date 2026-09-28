@@ -18,6 +18,10 @@ validation:
   unrecognized_links: warn
   anchors: warn
 
+# Renders each guide's "Last reviewed" line from its front matter (hooks/freshness.py)
+hooks:
+  - hooks/freshness.py
+
 theme:
   name: material
   language: en
@@ -176,4 +180,6 @@ nav:
       - SQL Interview Patterns: 09-interviews/sql-interview-patterns.md
       - System Design Case Studies: 09-interviews/system-design-case-studies.md
   - Glossary: 99-reference/glossary.md
-  - About: about.md
+  - About:
+      - About the Handbook: about.md
+      - How It Is Maintained: maintenance.md

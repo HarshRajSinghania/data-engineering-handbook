@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # AI Agents & Tool Use
 > Building LLM systems that take actions, use tools, and complete multi-step tasks autonomously.
 

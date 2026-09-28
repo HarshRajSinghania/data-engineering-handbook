@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # AI Observability
 > Monitor, trace, and debug LLM applications in production — cost, latency, quality, and errors.
 

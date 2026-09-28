@@ -1,3 +1,7 @@
+---
+verified: 2026-09-27
+---
+
 # Data Quality for Data Engineers
 > Frameworks, patterns, and tools for building reliable data pipelines.
 

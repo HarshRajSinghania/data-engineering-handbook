@@ -7,6 +7,7 @@ on:
       - "mkdocs.yml"
       - "requirements-docs.txt"
       - "tools/**"
+      - "hooks/**"
       - ".github/workflows/docs.yml"
   push:
     branches: [main]
@@ -15,6 +16,7 @@ on:
       - "mkdocs.yml"
       - "requirements-docs.txt"
       - "tools/**"
+      - "hooks/**"
       - ".github/workflows/docs.yml"
   schedule:
     - cron: "0 6 * * 1"        # Mondays 06:00 UTC — external link check
@@ -52,6 +54,9 @@ jobs:
       - name: No retired model IDs
         run: python tools/check_model_ids.py
 
+      - name: Review dates and lab versions
+        run: python tools/check_freshness.py
+
       - uses: actions/setup-node@v7
         with:
           node-version: "24"
@@ -74,7 +79,7 @@ jobs:
 
   deploy:
     name: Deploy to GitHub Pages
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-24.04
     permissions:
@@ -88,14 +93,51 @@ jobs:
         uses: actions/deploy-pages@v5
 
   freshness:
-    name: Retired model IDs
+    name: Freshness and retired model IDs
     if: github.event_name == 'schedule'
     runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      issues: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
     steps:
       - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml
+
       # Runs weekly so a newly retired model (added to tools/deprecated_models.txt)
       # is flagged even when no docs change
       - run: python tools/check_model_ids.py
+
+      - name: Review dates and lab versions are valid
+        run: python tools/check_freshness.py
+
+      # Guides not reviewed for 180 days go into one tracking issue that is
+      # kept up to date, and closed once nothing is overdue
+      - name: Report overdue guides
+        run: python tools/check_freshness.py --max-age-days 180 --report stale.md || true
+
+      - name: Open or update the tracking issue
+        if: hashFiles('stale.md') != ''
+        run: |
+          title="Guides overdue for review"
+          gh label create maintenance --color 5319e7 --description "Upkeep of existing guides" 2>/dev/null || true
+          number=$(gh issue list --label maintenance --state open --search "\"$title\" in:title" --json number --jq '.[0].number')
+          if [ -n "$number" ]; then
+            gh issue edit "$number" --body-file stale.md
+          else
+            gh issue create --title "$title" --label maintenance --body-file stale.md
+          fi
+
+      - name: Close the tracking issue when nothing is overdue
+        if: hashFiles('stale.md') == ''
+        run: |
+          number=$(gh issue list --label maintenance --state open --search "\"Guides overdue for review\" in:title" --json number --jq '.[0].number')
+          if [ -n "$number" ]; then gh issue close "$number" --comment "No guides are overdue for review."; fi
 
   external-links:
     name: Check external links
