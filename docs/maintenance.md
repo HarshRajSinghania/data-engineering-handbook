@@ -40,6 +40,19 @@ The site footer also shows a separate *last updated* date, taken from the Git hi
 | External link check | Weekly | Dead links to vendor documentation |
 | Strict site build | Every pull request | Broken internal links and anchors |
 
+## PDFs and printing
+
+Every guide prints cleanly: the print stylesheet in `docs/stylesheets/extra.css` drops the navigation, wraps code, fits tables to the page and shows the address of external links. The **Cheat Sheet** section of a guide has a *Print this cheat sheet* button that prints only the title and that section.
+
+The deployed site also serves a PDF of each guide (linked from the guide, under `pdf/`) and one PDF of the whole handbook, with bookmarks. `tools/build_pdfs.py` renders them from the built site with headless Chromium, so a PDF looks like the printed page, and rewrites links to other guides to the public site. To try it locally:
+
+```bash
+pip install -r requirements-pdf.txt && playwright install chromium
+mkdocs build && python tools/build_pdfs.py --sample 3
+```
+
+The *Download PDF* link on a guide returns a 404 in a local preview until you build the PDFs.
+
 ## Sources and policy
 
 - **Vendor documentation is the source of truth.** Guides link to it in *Further Reading*, and a claim that is version-specific names the version.

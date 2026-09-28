@@ -50,3 +50,93 @@
 .md-typeset .page-freshness--stale {
   color: var(--md-code-hl-number-color, #d9480f);
 }
+
+/* The button next to a guide's Cheat Sheet heading (docs/javascripts/print-cheatsheet.js). */
+.md-typeset .print-cheatsheet {
+  margin-left: 1rem;
+  padding: 0.15rem 0.7rem;
+  font: inherit;
+  font-size: 0.65rem;
+  vertical-align: middle;
+  color: var(--md-primary-fg-color);
+  background: none;
+  border: 1px solid var(--md-primary-fg-color);
+  border-radius: 0.2rem;
+  cursor: pointer;
+}
+
+.md-typeset .print-cheatsheet:hover {
+  color: var(--md-primary-bg-color);
+  background: var(--md-primary-fg-color);
+}
+
+/* Printing. Material already hides the navigation, search and footer; this makes the content itself print
+   well: code wraps instead of being cut off, tables use the page width and keep their rows together,
+   headings stay with what follows them, and external links show where they lead. */
+@media print {
+  .md-typeset {
+    font-size: 10pt;
+  }
+
+  .md-typeset pre,
+  .md-typeset pre > code {
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow: visible;
+  }
+
+  .md-typeset__scrollwrap {
+    overflow: visible;
+  }
+
+  .md-typeset table:not([class]) {
+    display: table;
+    width: 100%;
+    font-size: 8.5pt;
+    word-break: break-word;
+  }
+
+  .md-typeset table:not([class]) thead {
+    display: table-header-group;         /* repeat the header row on every page */
+  }
+
+  .md-typeset table:not([class]) tr,
+  .md-typeset .admonition,
+  .md-typeset details,
+  .md-typeset .mermaid,
+  .md-typeset blockquote {
+    break-inside: avoid;
+  }
+
+  .md-typeset h1,
+  .md-typeset h2,
+  .md-typeset h3,
+  .md-typeset h4 {
+    break-after: avoid;
+  }
+
+  .md-typeset p,
+  .md-typeset li {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* External links print their address, since a printed page cannot be clicked. */
+  .md-typeset a[href^="http"]:not(.headerlink)::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #555;
+    word-break: break-all;
+  }
+
+  .md-typeset .print-cheatsheet,
+  .md-typeset .pdf-link,
+  .md-typeset .headerlink {
+    display: none;
+  }
+
+  /* "Print this cheat sheet": show only the marked title and section */
+  body.print-cheatsheet-only .md-content__inner > *:not(.cheatsheet-section) {
+    display: none !important;
+  }
+}

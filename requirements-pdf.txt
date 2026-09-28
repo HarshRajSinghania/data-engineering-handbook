@@ -1,0 +1,4 @@
+# PDF export of the handbook (tools/build_pdfs.py): headless Chromium renders the built site with its print stylesheet
+playwright==1.63.0
+pypdf==6.19.0
+pyyaml
