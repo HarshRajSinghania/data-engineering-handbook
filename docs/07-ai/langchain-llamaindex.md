@@ -1,6 +1,5 @@
 ---
-verified: 2026-09-27
-review_status: baseline
+verified: 2026-09-28
 ---
 
 # LangChain & LlamaIndex
@@ -87,7 +86,7 @@ flowchart LR
 ## LangChain Setup
 
 ```bash
-pip install langchain langchain-anthropic langchain-openai langchain-community langchain-text-splitters   # LangChain 1.x
+pip install langchain langchain-anthropic langchain-openai langchain-text-splitters   # LangChain 1.x
 pip install faiss-cpu                  # local vector store
 pip install langchain-chroma           # Chroma vector store
 ```
@@ -97,7 +96,7 @@ pip install langchain-chroma           # Chroma vector store
 from langchain_anthropic import ChatAnthropic
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 
-llm        = ChatAnthropic(model="claude-sonnet-5")
+llm        = ChatAnthropic(model="claude-sonnet-5-5")
 llm_openai = ChatOpenAI(model="gpt-6-sol")
 embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 ```
@@ -112,11 +111,12 @@ embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 from langchain_anthropic import ChatAnthropic
 from langchain_core.messages import HumanMessage, SystemMessage
 
-llm = ChatAnthropic(model="claude-sonnet-5")
+llm = ChatAnthropic(model="claude-sonnet-5-5")
 
-# Simple call
+# Simple call. Use .text for the answer: on models with thinking, .content is a list of blocks
+# (thinking and text), while .text joins just the text
 response = llm.invoke("What is Apache Kafka?")
-print(response.content)
+print(response.text)
 
 # With system message
 messages = [
@@ -124,7 +124,7 @@ messages = [
     HumanMessage(content="What is Apache Kafka?"),
 ]
 response = llm.invoke(messages)
-print(response.content)
+print(response.text)
 ```
 
 ### Prompt templates
@@ -139,7 +139,7 @@ prompt = ChatPromptTemplate.from_messages([
 
 chain = prompt | llm
 response = chain.invoke({"domain": "data engineering", "question": "What is a DAG?"})
-print(response.content)
+print(response.text)
 ```
 
 ### Output parsers
@@ -179,7 +179,9 @@ print(result)  # PipelineInfo(name=..., schedule=..., ...)
 ## LangChain RAG Pipeline
 
 ```python
-from langchain_community.document_loaders import DirectoryLoader, TextLoader
+from pathlib import Path
+
+from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
@@ -188,8 +190,9 @@ from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 
 # ── 1. Load documents ─────────────────────────────────────────────────────────
-loader = DirectoryLoader("./docs/", glob="**/*.md", loader_cls=TextLoader)
-docs   = loader.load()
+# A few lines of pathlib replace the langchain-community loaders, a package that is being sunset
+docs = [Document(page_content=path.read_text(encoding="utf-8"), metadata={"source": str(path)})
+        for path in sorted(Path("./docs").rglob("*.md"))]
 print(f"Loaded {len(docs)} documents")
 
 # ── 2. Split into chunks ──────────────────────────────────────────────────────
@@ -216,7 +219,7 @@ retriever = vectorstore.as_retriever(
 )
 
 # ── 5. Build RAG chain ────────────────────────────────────────────────────────
-llm = ChatOpenAI(model="gpt-6-luna", temperature=0)
+llm = ChatOpenAI(model="gpt-6-luna")
 
 prompt = ChatPromptTemplate.from_template("""
 Answer based only on the context below.
@@ -295,7 +298,7 @@ tools = [run_sql, get_table_schema, check_pipeline_status]
 # ── Build agent ────────────────────────────────────────────────────────────────
 # LangChain 1.0 replaced AgentExecutor / create_tool_calling_agent (now in the
 # langchain-classic package) with create_agent, which runs on LangGraph.
-llm = ChatAnthropic(model="claude-sonnet-5")
+llm = ChatAnthropic(model="claude-sonnet-5-5")
 
 agent = create_agent(
     model=llm,
@@ -326,11 +329,13 @@ from llama_index.embeddings.openai import OpenAIEmbedding
 from llama_index.core import Settings
 
 # Global settings
-Settings.llm       = Anthropic(model="claude-sonnet-5")
+Settings.llm       = Anthropic(model="claude-sonnet-5")   # see the note below on model names
 Settings.embed_model = OpenAIEmbedding(model="text-embedding-3-small")
 Settings.chunk_size    = 512
 Settings.chunk_overlap = 50
 ```
+
+The LlamaIndex Anthropic integration checks the model name against a list built into the package, so a model released after your installed version is rejected with `ValueError: Unknown model`. `claude-sonnet-5-5` was rejected this way on the day it was released. Upgrade `llama-index-llms-anthropic`, or use a model the installed version knows.
 
 ---
 
@@ -394,7 +399,9 @@ response = query_engine.query("Explain window functions")
 ### Sub-question query engine (multi-document)
 
 ```python
+from llama_index.core import Settings
 from llama_index.core.query_engine import SubQuestionQueryEngine
+from llama_index.core.question_gen import LLMQuestionGenerator
 from llama_index.core.tools import QueryEngineTool
 
 # Build separate indexes per document
@@ -408,7 +415,12 @@ tools = [
                                    description="Airflow documentation"),
 ]
 
-sub_question_engine = SubQuestionQueryEngine.from_defaults(query_engine_tools=tools)
+# Pass the question generator explicitly. The default one needs the llama-index-question-gen-openai package,
+# which pins an older llama-index-core and breaks the Anthropic integration when installed next to it
+sub_question_engine = SubQuestionQueryEngine.from_defaults(
+    query_engine_tools=tools,
+    question_gen=LLMQuestionGenerator.from_defaults(llm=Settings.llm),
+)
 response = sub_question_engine.query(
     "Compare Spark Structured Streaming with Airflow scheduling for batch workloads"
 )
@@ -435,7 +447,7 @@ parallel_chain = RunnableParallel({
 result = parallel_chain.invoke({"text": long_document})
 
 # ── With fallback ──────────────────────────────────────────────────────────────
-primary  = ChatAnthropic(model="claude-sonnet-5")
+primary  = ChatAnthropic(model="claude-sonnet-5-5")
 fallback = ChatOpenAI(model="gpt-6-luna")
 
 chain_with_fallback = (prompt | primary | StrOutputParser()).with_fallbacks(
@@ -499,14 +511,14 @@ class HybridRetriever(BaseRetriever):
 LangSmith traces every LLM call — inputs, outputs, latency, cost — for debugging and evaluation.
 
 ```bash
-pip install langsmith
+pip install langsmith openevals
 ```
 
 ```python
 import os
-os.environ["LANGCHAIN_TRACING_V2"] = "true"
-os.environ["LANGCHAIN_API_KEY"]    = "ls__..."
-os.environ["LANGCHAIN_PROJECT"]    = "de-handbook-rag"
+os.environ["LANGSMITH_TRACING"] = "true"
+os.environ["LANGSMITH_API_KEY"] = "lsv2_..."          # from the LangSmith settings page
+os.environ["LANGSMITH_PROJECT"] = "de-handbook-rag"   # the older LANGCHAIN_* names are still read
 
 # All LangChain calls are now automatically traced
 result = rag_chain.invoke("What is Kafka?")
@@ -515,33 +527,41 @@ result = rag_chain.invoke("What is Kafka?")
 
 ```python
 # Run evaluations
-from langsmith import Client
-from langsmith.evaluation import evaluate, LangChainStringEvaluator
+from langsmith import Client, evaluate
+from openevals.llm import create_llm_as_judge
+from openevals.prompts import CORRECTNESS_PROMPT
 
 client = Client()
 
-# Create a dataset
-dataset = client.create_dataset("de-rag-eval")
+# Create a dataset of questions and reference answers
+dataset = client.create_dataset(dataset_name="de-rag-eval")
 client.create_examples(
-    inputs=[
-        {"question": "What is the medallion architecture?"},
-        {"question": "How does Kafka guarantee delivery?"},
+    dataset_id=dataset.id,
+    examples=[
+        {"inputs":  {"question": "What is the medallion architecture?"},
+         "outputs": {"answer": "Bronze/Silver/Gold layers"}},
+        {"inputs":  {"question": "How does Kafka guarantee delivery?"},
+         "outputs": {"answer": "At-least-once by default, exactly-once with transactions"}},
     ],
-    outputs=[
-        {"answer": "Bronze/Silver/Gold layers"},
-        {"answer": "At-least-once by default, exactly-once with transactions"},
-    ],
-    dataset_id=dataset.id
 )
 
-# Evaluate
+# An LLM-as-judge evaluator. The model string is "provider:model-name"
+judge = create_llm_as_judge(prompt=CORRECTNESS_PROMPT, feedback_key="correctness",
+                            model="anthropic:claude-sonnet-5-5")
+
+def correctness(inputs: dict, outputs: dict, reference_outputs: dict):
+    return judge(inputs=inputs, outputs=outputs, reference_outputs=reference_outputs)
+
+# Evaluate: run the chain on every example and score each answer
 results = evaluate(
-    lambda inputs: {"output": rag_chain.invoke(inputs["question"])},
+    lambda inputs: {"answer": rag_chain.invoke(inputs["question"])},
     data=dataset.name,
-    evaluators=[LangChainStringEvaluator("cot_qa")],
-    experiment_prefix="rag-v1"
+    evaluators=[correctness],
+    experiment_prefix="rag-v1",
 )
 ```
+
+An evaluator can also be a plain function that returns a score, for example a check that the answer cites a source. `LangChainStringEvaluator`, which older versions of this guide used, is no longer part of `langsmith`.
 
 ---
 
@@ -637,8 +657,8 @@ A: Tracing first: LangSmith, Langfuse, or an OpenTelemetry-based tool shows ever
 
 - [LangChain documentation](https://docs.langchain.com/) and [LangGraph](https://langchain-ai.github.io/langgraph/)
 - [LangChain v1 migration guide](https://docs.langchain.com/oss/python/migrate/langchain-v1)
-- [LlamaIndex documentation](https://docs.llamaindex.ai/)
-- [LangSmith](https://docs.smith.langchain.com/) — tracing and evaluation
+- [LlamaIndex documentation](https://developers.llamaindex.ai/python/framework/)
+- [LangSmith](https://docs.langchain.com/langsmith/observability) — tracing and evaluation
 - [Anthropic: Building effective agents](https://www.anthropic.com/engineering/building-effective-agents) — when frameworks help and when they hide too much
 
 ---
