@@ -1,6 +1,5 @@
 ---
-verified: 2026-09-27
-review_status: baseline
+verified: 2026-09-28
 ---
 
 # RAG (Retrieval-Augmented Generation)
@@ -336,7 +335,8 @@ results = index.search(query_vec, k=5, filters={"type": "data_dictionary"})
 # Too many: dilute context, increase cost, confuse the LLM
 # Start with k=3-5, increase if answers are incomplete
 
-# Score threshold — don't include irrelevant chunks
+# Score threshold — don't include irrelevant chunks. The score scale depends on the embedding model,
+# so 0.7 is only a placeholder: pick the threshold from labelled queries of your own
 def retrieve_with_threshold(query: str, k: int = 5, min_score: float = 0.7) -> list[dict]:
     results = retrieve(query, k=k)
     return [r for r in results if r["score"] >= min_score]
@@ -366,7 +366,7 @@ def compress_chunk(query: str, chunk: str) -> str:
 
 ```python
 def generate_answer(question: str, context_chunks: list[dict],
-                    model: str = "claude-sonnet-5") -> dict:
+                    model: str = "claude-sonnet-5-5") -> dict:
     if not context_chunks:
         return {"answer": "I don't have relevant information to answer this question.", "sources": []}
 
@@ -449,7 +449,7 @@ After retrieval, use a cross-encoder to re-score and re-order chunks. More expen
 # pip install sentence-transformers
 from sentence_transformers import CrossEncoder
 
-reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L6-v2")
 
 def rerank(query: str, chunks: list[dict], top_n: int = 3) -> list[dict]:
     """Re-rank retrieved chunks using a cross-encoder."""
@@ -543,7 +543,7 @@ CONTEXT:
 {context_text}"""
 
     response = claude_client.messages.create(
-        model="claude-sonnet-5",
+        model="claude-sonnet-5-5",
         max_tokens=1024,
         system=system,
         messages=messages
@@ -563,7 +563,7 @@ def eval_faithfulness(question: str, answer: str, context: str) -> float:
     response = claude_client.messages.create(
         model="claude-haiku-4-5-20251001",
         max_tokens=64,
-        temperature=0,
+        extra_body={"temperature": 0},   # Haiku 4.5 accepts it; the Python SDK has no temperature parameter
         messages=[{
             "role": "user",
             "content": f"""On a scale of 0.0 to 1.0, how faithful is this answer to the context?
@@ -586,7 +586,7 @@ def eval_relevance(question: str, answer: str) -> float:
     response = claude_client.messages.create(
         model="claude-haiku-4-5-20251001",
         max_tokens=64,
-        temperature=0,
+        extra_body={"temperature": 0},   # Haiku 4.5 accepts it; the Python SDK has no temperature parameter
         messages=[{
             "role": "user",
             "content": f"Does this answer address the question? Score 0.0-1.0.\n\nQuestion: {question}\nAnswer: {answer}\n\nScore:"
@@ -604,7 +604,7 @@ def eval_retrieval(question: str, chunks: list[str]) -> float:
         resp = claude_client.messages.create(
             model="claude-haiku-4-5-20251001",
             max_tokens=8,
-            temperature=0,
+            extra_body={"temperature": 0},
             messages=[{"role": "user", "content": f"Is this chunk relevant to '{question}'? Answer YES or NO.\n\n{chunk}"}]
         )
         if "YES" in next(b.text for b in resp.content if b.type == "text").upper():
@@ -701,9 +701,9 @@ A: Four metrics: (1) Faithfulness — does the answer only use information from 
 
 ## Further Reading
 
-- [Anthropic: Contextual Retrieval](https://www.anthropic.com/news/contextual-retrieval) — adding context to chunks before embedding, with benchmark results
+- [Anthropic: Contextual Retrieval](https://www.anthropic.com/engineering/contextual-retrieval) — adding context to chunks before embedding, with benchmark results
 - [RAGAS documentation](https://docs.ragas.io/) — RAG evaluation metrics
-- [LlamaIndex](https://docs.llamaindex.ai/) and [LangChain retrieval docs](https://python.langchain.com/docs/concepts/retrieval/)
+- [LlamaIndex](https://developers.llamaindex.ai/python/framework/) and [LangChain retrieval docs](https://docs.langchain.com/oss/python/langchain/retrieval)
 - *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks* — Lewis et al., 2020 (the original RAG paper)
 - [Embeddings](embeddings.md) · [Vector Databases](vector-databases.md) · [Eval & Evals](eval-and-evals.md)
 

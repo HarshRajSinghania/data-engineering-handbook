@@ -1,6 +1,5 @@
 ---
-verified: 2026-09-27
-review_status: baseline
+verified: 2026-09-28
 ---
 
 # AI Evaluation & Evals
@@ -20,8 +19,8 @@ review_status: baseline
 
 ```
 eval set (inputs + expectations)  ──→  your LLM app (version A / B)  ──→  graders  ──→  scores
-  150 real questions, edge cases           prompt v7, claude-sonnet-5         code checks      A: 86%
-  known failures from production           prompt v8, claude-sonnet-5         LLM judge        B: 91%  (ship)
+  150 real questions, edge cases           prompt v7, claude-sonnet-5-5       code checks      A: 86%
+  known failures from production           prompt v8, claude-sonnet-5-5       LLM judge        B: 91%  (ship)
 ```
 
 **Relevance to data engineering:** evals apply data quality practices to model outputs — versioned test data, automated checks, thresholds, and a CI gate.
@@ -113,7 +112,7 @@ def ask(question: str, system: str = "") -> str:
     resp = client.messages.create(
         model="claude-haiku-4-5-20251001",
         max_tokens=256,
-        temperature=0,          # deterministic
+        extra_body={"temperature": 0},   # the Python SDK has no temperature argument; see LLM APIs
         system=system,
         messages=[{"role": "user", "content": question}]
     )
@@ -177,9 +176,9 @@ import anthropic
 from dataclasses import dataclass
 
 client = anthropic.Anthropic()
-JUDGE_MODEL = "claude-sonnet-5"  # use a capable model as judge
-# Note: Sonnet 5 / Opus 5 reject temperature/top_p (400). For consistent judging, rely on a
-# fixed rubric + structured JSON output; sampling params still work on claude-haiku-4-5.
+JUDGE_MODEL = "claude-sonnet-5-5"  # use a capable model as judge
+# Note: the newest models (Opus 5.5, Sonnet 5.5) reject non-default temperature/top_p with a 400.
+# For consistent judging, rely on a fixed rubric + structured JSON output instead.
 
 @dataclass
 class EvalResult:
@@ -270,6 +269,8 @@ print(judge_relevance(question, answer))
 print(judge_completeness(question, answer, ["order_id", "amount", "status", "created_at"]))
 ```
 
+> **Parsing judge output:** the judges call `json.loads` on the raw reply, which raises if the model wraps the JSON in a Markdown code fence or adds a sentence around it. In production, use structured outputs or a tool call to force a schema, or strip fences before parsing, and count unparseable replies as judge failures instead of dropping them.
+
 ---
 
 ## RAG Evaluation Metrics
@@ -304,7 +305,7 @@ def evaluate_rag_response(question: str, answer: str,
     for chunk in retrieved_chunks:
         prompt = f"Is this chunk useful for answering '{question}'?\n\n{chunk}\n\nAnswer YES or NO."
         resp = client.messages.create(model="claude-haiku-4-5-20251001", max_tokens=8,
-                                      temperature=0, messages=[{"role": "user", "content": prompt}])
+                                      extra_body={"temperature": 0}, messages=[{"role": "user", "content": prompt}])
         if "YES" in next(b.text for b in resp.content if b.type == "text").upper():
             useful += 1
     results["context_precision"] = useful / len(retrieved_chunks) if retrieved_chunks else 0
@@ -361,7 +362,7 @@ def mine_questions_from_logs(log_path: str, min_count: int = 3) -> list[str]:
 def generate_eval_cases(documents: list[str], n: int = 20) -> list[dict]:
     context = "\n\n".join(documents[:5])
     response = client.messages.create(
-        model="claude-sonnet-5",
+        model="claude-sonnet-5-5",
         max_tokens=2048,
         messages=[{"role": "user", "content": f"""
 Generate {n} diverse question-answer pairs for evaluating a RAG system over these documents.
@@ -381,10 +382,12 @@ Documents:
 
 ## RAGAS Framework
 
-> **Version note:** this example uses the original RAGAS column names (`question`, `answer`, `contexts`, `ground_truth`). RAGAS 0.2+ introduced `EvaluationDataset` with renamed fields (`user_input`, `response`, `retrieved_contexts`, `reference`) — check the [RAGAS docs](https://docs.ragas.io/) for the version you install, and pin it. RAGAS uses an LLM as the judge (OpenAI by default); pass your own LLM wrapper to use Claude.
+> **Version note:** RAGAS 0.2+ renamed the dataset fields to `user_input`, `response`, `retrieved_contexts` and `reference`, and this example uses them. The original names (`question`, `answer`, `contexts`, `ground_truth`) are still converted by `evaluate()` in 0.4, but building an `EvaluationDataset` directly from them silently produces empty records. RAGAS uses an LLM as the judge (OpenAI by default); pass your own LLM wrapper to use another provider. Check the [RAGAS docs](https://docs.ragas.io/) for the version you install, and pin it.
 
 ```bash
-pip install ragas
+# ragas 0.4.3 imports langchain_community.chat_models.vertexai, which langchain-community 0.4 removed,
+# so an unpinned install fails on `import ragas`. Pin langchain-community below 0.4 until ragas fixes this.
+pip install ragas "langchain-community<0.4"
 ```
 
 ```python
@@ -394,19 +397,19 @@ from datasets import Dataset
 
 # Build eval dataset in RAGAS format
 data = {
-    "question": [
+    "user_input": [
         "What columns does the orders table have?",
         "When does the gold layer update?",
     ],
-    "answer": [
+    "response": [
         "The orders table has order_id, customer_id, amount, status, and created_at.",
         "The gold layer updates daily, with data available by 6am UTC.",
     ],
-    "contexts": [
+    "retrieved_contexts": [
         ["orders table: order_id (VARCHAR), customer_id (INT), amount (DECIMAL), status (VARCHAR), created_at (TIMESTAMP)"],
         ["Gold layer tables are updated daily. SLA: data available by 6am UTC."],
     ],
-    "ground_truth": [
+    "reference": [
         "order_id, customer_id, amount, status, created_at",
         "Daily, available by 6am UTC",
     ]
@@ -434,7 +437,7 @@ Run evals on every code/prompt change — like CI/CD for LLM quality.
 ```python
 import json
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 
 def run_eval_suite(rag_fn, eval_cases: list[dict], threshold: float = 0.7) -> dict:
     """Run all eval cases and return a summary."""
@@ -454,7 +457,7 @@ def run_eval_suite(rag_fn, eval_cases: list[dict], threshold: float = 0.7) -> di
     fail_count = len(results) - pass_count
 
     summary = {
-        "timestamp":  datetime.utcnow().isoformat(),
+        "timestamp":  datetime.now(timezone.utc).isoformat(),
         "total":      len(results),
         "passed":      pass_count,
         "failed":     fail_count,

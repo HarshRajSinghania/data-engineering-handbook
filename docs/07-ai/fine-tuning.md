@@ -1,6 +1,5 @@
 ---
-verified: 2026-09-27
-review_status: baseline
+verified: 2026-09-28
 ---
 
 # Fine-Tuning LLMs
@@ -89,8 +88,8 @@ flowchart TB
 
 | Concept | Description |
 |---------|--------------|
-| **Full fine-tuning** | Update all model weights — most powerful, most expensive, requires A100/H100 GPUs |
-| **LoRA** | Update only a tiny fraction of weights via low-rank matrices — 10-100x cheaper, nearly as good |
+| **Full fine-tuning** | Update all model weights — most powerful, most expensive, needs multiple large GPUs for a 7B+ model |
+| **LoRA** | Update only a tiny fraction of weights via low-rank matrices — far cheaper, often close to full fine-tuning quality |
 | **PEFT** | Parameter-Efficient Fine-Tuning — umbrella term for LoRA and similar techniques |
 | **Training data** | (prompt, completion) pairs showing the model what good output looks like |
 | **Epochs** | How many times the model trains over your entire dataset |
@@ -110,7 +109,7 @@ GOOD_CANDIDATES = [
     "Classification: 40+ custom categories not in base model's vocabulary",
     "Extraction: model misses domain-specific entities (internal product names)",
     "Latency: need a smaller, faster model for high-volume inference",
-    "Cost: serving a fine-tuned 7B model << serving GPT-4 at volume",
+    "Cost: a small fine-tuned model can cost less per token than a frontier API model at high volume",
 ]
 
 # Signs fine-tuning won't help:
@@ -170,13 +169,15 @@ LIMIT 10;"""
     # ... add 50-200 more examples
 ]
 
-# Write training file
+# Split first, so no validation example also appears in the training file
+# (shuffle before splitting if the examples are ordered)
+split = int(len(examples) * 0.8)
+
 with open("training_data.jsonl", "w") as f:
-    for ex in examples:
+    for ex in examples[:split]:
         f.write(json.dumps(ex) + "\n")
 
-# Write validation file (10-20% of training set)
-split = int(len(examples) * 0.8)
+# Validation file (10-20% of the data)
 with open("validation_data.jsonl", "w") as f:
     for ex in examples[split:]:
         f.write(json.dumps(ex) + "\n")
@@ -252,10 +253,15 @@ job = client.fine_tuning.jobs.create(
     training_file   = training_file.id,
     validation_file = validation_file.id,
     model           = "gpt-4.1-mini-2025-04-14",   # base model to fine-tune
-    hyperparameters = {
-        "n_epochs":        3,     # 3-5 is typical; more = higher overfitting risk
-        "batch_size":      "auto",
-        "learning_rate_multiplier": "auto"
+    method = {                       # replaces the deprecated top-level `hyperparameters`
+        "type": "supervised",
+        "supervised": {
+            "hyperparameters": {
+                "n_epochs":        3,     # 3-5 is typical; more = higher overfitting risk
+                "batch_size":      "auto",
+                "learning_rate_multiplier": "auto",
+            },
+        },
     },
     suffix = "sql-generator"   # appears in the model name: ft:gpt-4.1-mini-...:my-org:sql-generator:<id>
 )
@@ -303,7 +309,7 @@ from peft import LoraConfig, get_peft_model
 from trl import SFTConfig, SFTTrainer
 import torch
 
-MODEL_NAME = "meta-llama/Meta-Llama-3-8B-Instruct"
+MODEL_NAME = "meta-llama/Meta-Llama-3-8B-Instruct"   # gated: accept the licence on Hugging Face first; any causal LM works
 
 # ── 1. Load model in 4-bit quantization (saves memory) ────────────────────────
 from transformers import BitsAndBytesConfig
@@ -336,36 +342,44 @@ lora_config = LoraConfig(
 
 model = get_peft_model(model, lora_config)
 model.print_trainable_parameters()
-# trainable params: 6,815,744 || all params: 8,036,564,992 || trainable%: 0.0848
+# Llama 3 8B, r=16, q/k/v/o_proj: trainable params: 13,631,488 (about 0.17% of the model).
+# The 'all params' figure differs when the base model is loaded in 4-bit.
 
 # ── 3. Prepare dataset ─────────────────────────────────────────────────────────
-def format_prompt(example):
-    return {
-        "text": f"<|system|>You are a SQL expert.\n<|user|>{example['question']}\n<|assistant|>{example['sql']}"
-    }
+# Use the chat "messages" format: SFTTrainer then applies the model's own chat template, so
+# training matches the prompt format used at inference. Hand-written special tokens
+# (such as <|user|>) that the tokenizer does not define teach the model a format it never sees.
+SYSTEM = "You are a SQL expert. Generate ANSI SQL only."
+
+def to_messages(example):
+    return {"messages": [
+        {"role": "system",    "content": SYSTEM},
+        {"role": "user",      "content": example["question"]},
+        {"role": "assistant", "content": example["sql"]},
+    ]}
 
 raw_data = [
     {"question": "Count orders by status", "sql": "SELECT status, COUNT(*) FROM orders GROUP BY status;"},
     # ... more examples
 ]
-dataset = Dataset.from_list(raw_data).map(format_prompt)
+dataset = Dataset.from_list(raw_data).map(to_messages, remove_columns=["question", "sql"])
 splits  = dataset.train_test_split(test_size=0.1, seed=42)   # hold out data for eval
 
 # ── 4. Train ───────────────────────────────────────────────────────────────────
-# SFTConfig extends TrainingArguments with SFT-specific options (TRL 0.12+)
+# SFTConfig extends TrainingArguments with SFT-specific options.
+# Tested with transformers 5.17, TRL 1.14 and PEFT 0.21; argument names change between major versions.
 training_args = SFTConfig(
     output_dir          = "./fine-tuned-model",
     num_train_epochs    = 3,
     per_device_train_batch_size = 4,
     gradient_accumulation_steps = 4,
-    warmup_ratio        = 0.05,
+    warmup_steps        = 0.05,      # a float below 1 is a ratio of total steps (transformers 4.x: warmup_ratio)
     learning_rate       = 2e-4,
-    fp16                = True,
+    bf16                = True,      # matches bnb_4bit_compute_dtype; use fp16=True on GPUs without bfloat16
     logging_steps       = 10,
     save_steps          = 100,
     eval_strategy       = "steps",   # was evaluation_strategy in older transformers
     eval_steps          = 100,
-    dataset_text_field  = "text",
     max_length          = 2048,      # was max_seq_length in older TRL releases
 )
 
@@ -383,7 +397,7 @@ trainer.save_model("./fine-tuned-model")
 # ── 5. Merge LoRA weights into base model for deployment ──────────────────────
 from peft import PeftModel
 
-base_model = AutoModelForCausalLM.from_pretrained(MODEL_NAME, torch_dtype=torch.float16)
+base_model = AutoModelForCausalLM.from_pretrained(MODEL_NAME, dtype=torch.float16)   # torch_dtype in transformers 4.x
 merged = PeftModel.from_pretrained(base_model, "./fine-tuned-model")
 merged = merged.merge_and_unload()
 merged.save_pretrained("./merged-model")
@@ -394,20 +408,20 @@ tokenizer.save_pretrained("./merged-model")
 
 ## LoRA / PEFT (Parameter-Efficient Fine-Tuning)
 
-**Why LoRA?** Full fine-tuning a 7B parameter model requires ~56GB GPU memory and takes days. LoRA adds tiny trainable matrices to the existing weights, updating only ~0.1% of parameters — same quality, 10-100x cheaper.
+**Why LoRA?** Full fine-tuning keeps weights, gradients and optimizer state for every parameter: roughly 16 bytes per parameter with Adam in mixed precision, or about 110GB for a 7B model before activations. LoRA freezes the base weights and trains tiny added matrices, updating well under 1% of parameters, with quality that is comparable for many tasks at a fraction of the cost.
 
 ```
 Full fine-tuning:
   Original weights W (7B params) → updated W' (7B params)
-  GPU memory: ~56GB for fp32
+  GPU memory: ~16 bytes/param with Adam (~110GB for 7B)
   Training time: days
 
 LoRA:
   Original weights W (frozen)
   Two small matrices A (r×d) and B (d×r) where r << d
   Update = W + A×B  (only A and B are trained)
-  r=16 adds ~0.1% trainable parameters
-  GPU memory: ~8GB with 4-bit quantization
+  r=16 on the attention projections adds ~0.2% trainable parameters
+  GPU memory: roughly 8-16GB for a 7-8B model with 4-bit quantization (QLoRA)
   Training time: hours
 ```
 
@@ -480,7 +494,7 @@ def generate_training_examples(task_description: str, n: int = 100) -> list[dict
     """Use Claude to generate (input, output) pairs for fine-tuning."""
     client = anthropic.Anthropic()
     response = client.messages.create(
-        model="claude-sonnet-5",
+        model="claude-sonnet-5-5",
         max_tokens=4096,
         messages=[{"role": "user", "content": f"""
 Generate {n} diverse training examples for this fine-tuning task:
@@ -620,7 +634,7 @@ response = local_client.chat.completions.create(
 A: Prompt engineering changes the input without modifying the model — fast, cheap, reversible. Fine-tuning changes the model's weights by training on examples — more powerful for consistent behavior and style, but requires data, compute, and eval infrastructure. Start with prompts; only fine-tune when prompts can't achieve the goal consistently.
 
 **Q: What is LoRA and why is it preferred over full fine-tuning?**
-A: LoRA (Low-Rank Adaptation) freezes the pre-trained model weights and trains two small low-rank matrices that are added to the original weights. It updates ~0.1% of parameters instead of 100%, reducing GPU memory from 56GB to ~8GB and training time from days to hours, while achieving comparable quality to full fine-tuning.
+A: LoRA (Low-Rank Adaptation) freezes the pre-trained model weights and trains two small low-rank matrices that are added to the original weights. It updates well under 1% of parameters instead of 100%, cutting GPU memory from roughly 110GB to about 8-16GB for a 7-8B model when combined with 4-bit quantization (QLoRA), and training time from days to hours, with comparable quality on many tasks.
 
 **Q: When would you choose fine-tuning over RAG?**
 A: RAG is better for knowledge (facts that change, need citations). Fine-tuning is better for behavior (consistent format, style, custom classifications, domain-specific extraction). Often the right answer is both: fine-tune the model for behavior, add RAG for knowledge grounding.
