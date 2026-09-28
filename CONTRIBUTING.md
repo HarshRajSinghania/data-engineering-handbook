@@ -50,7 +50,7 @@ Open an [issue](https://github.com/sarangambekar1997/data-engineering-handbook/i
 
 ## Labs
 
-Each lab runs on a laptop and has a `README.md`, exercises and solutions. See [`labs/README.md`](labs/README.md) for the conventions. CI runs Labs 01–03 end to end and validates the Docker Compose files of Labs 04–05.
+Each lab runs on a laptop and has a `README.md`, exercises and solutions. See [`labs/README.md`](labs/README.md) for the conventions. CI runs every lab end to end. Labs 04 and 05 start Kafka and Airflow with Docker Compose and run `ci_smoke.py`, which replays the README exercises and checks the results the README describes. You can run the same script locally, or open the repository in a [dev container](.devcontainer/devcontainer.json) that has Python, Java and Docker ready.
 
 ## Recognition
 
