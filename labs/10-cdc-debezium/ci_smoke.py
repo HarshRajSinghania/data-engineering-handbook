@@ -90,6 +90,9 @@ def main() -> int:
     script(str(LAB.parent / "data" / "generate.py"), "--out", os.environ["LAB_DATA_DIR"])
     check(script("load_source.py").returncode == 0, "the source database is loaded")
     check(script("register_connector.py", "register").returncode == 0, "the connector is registered and running")
+    if failures:                                     # nothing below can work without the stack
+        print(f"{len(failures)} check(s) failed")
+        return 1
 
     print("\n== 1. The initial snapshot ==")
     wait_for("the snapshot", lambda: summarise("orders").get("r") == 6000 and summarise("order_items").get("r") == 14769)

@@ -22,17 +22,25 @@ import urllib.request
 from common import CONNECT_URL, CONNECTOR, LAB
 
 
+def parse(raw: bytes) -> dict | None:
+    """Kafka Connect answers with JSON, but while it is starting a proxy or the server can answer with plain text."""
+    if not raw:
+        return None
+    try:
+        return json.loads(raw)
+    except ValueError:
+        return {"message": raw.decode(errors="replace")[:300]}
+
+
 def call(method: str, path: str, body: dict | None = None) -> tuple[int, dict | None]:
     request = urllib.request.Request(
         CONNECT_URL + path, method=method, data=json.dumps(body).encode() if body is not None else None,
         headers={"Content-Type": "application/json"})
     try:
         with urllib.request.urlopen(request, timeout=30) as response:
-            raw = response.read()
-            return response.status, json.loads(raw) if raw else None
+            return response.status, parse(response.read())
     except urllib.error.HTTPError as e:
-        raw = e.read()
-        return e.code, json.loads(raw) if raw else None
+        return e.code, parse(e.read())
 
 
 def state(name: str) -> tuple[str | None, list[str]]:
@@ -62,7 +70,7 @@ def wait_for_connect(timeout: int = 180) -> None:
             if call("GET", "/")[0] == 200:
                 return
         except (urllib.error.URLError, ConnectionError, OSError):
-            pass
+            pass                                            # not listening yet
         time.sleep(3)
     raise SystemExit(f"Kafka Connect did not answer at {CONNECT_URL} within {timeout} seconds")
 
@@ -75,8 +83,18 @@ def register(name: str, slot: str | None) -> None:
     config["database.port"] = os.environ.get("SOURCE_DB_PORT", config["database.port"])
     if slot:
         config["slot.name"] = slot
-    code, body = call("PUT", f"/connectors/{name}/config", config)      # PUT creates or updates: safe to repeat
-    if code not in (200, 201):
+    deadline = time.time() + 120
+    while True:
+        try:
+            code, body = call("PUT", f"/connectors/{name}/config", config)      # PUT creates or updates: safe to repeat
+        except (urllib.error.URLError, ConnectionError, OSError) as e:
+            code, body = 503, {"message": str(e)}
+        if code in (200, 201):
+            break
+        # A 5xx, or a 409 while the worker rebalances, means Connect is not ready yet: try again
+        if (code >= 500 or code == 409) and time.time() < deadline:
+            time.sleep(3)
+            continue
         raise SystemExit(f"register failed ({code}): {body}")
     wait_running(name)
     print(f"{name}: RUNNING (slot {config['slot.name']})")
