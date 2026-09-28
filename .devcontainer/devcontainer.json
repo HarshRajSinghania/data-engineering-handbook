@@ -1,0 +1,28 @@
+{
+  "name": "Data Engineering Handbook",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12-bookworm",
+  "features": {
+    // Docker for Labs 04 and 05 (Kafka, Airflow). The container gets its own Docker daemon.
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    // Java 17 for Lab 03 (Spark)
+    "ghcr.io/devcontainers/features/java:1": { "version": "17", "installMaven": "false" }
+  },
+  // Labs 04 and 05 start Kafka and Airflow with Docker Compose; give the container room for them
+  "hostRequirements": { "cpus": 4, "memory": "8gb" },
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "forwardPorts": [8000, 8080, 4040],
+  "portsAttributes": {
+    "8000": { "label": "Handbook site (mkdocs serve)" },
+    "8080": { "label": "Airflow (Lab 05)" },
+    "4040": { "label": "Spark UI (Lab 03)" }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "redhat.vscode-yaml",
+        "bierner.markdown-mermaid"
+      ]
+    }
+  }
+}
