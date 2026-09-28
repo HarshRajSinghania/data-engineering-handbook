@@ -65,7 +65,7 @@ New guides follow the same template as the existing ones: Basic to Advanced, pit
 | Run Labs 04 and 05 (Kafka, Airflow) in CI, not only validate their Compose files | Done |
 | A dev container so every lab starts in one click | Done |
 | Data quality lab with Great Expectations or Soda | Done ([Lab 08](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/08-data-quality)) |
-| Apache Iceberg lab | Planned |
+| Apache Iceberg lab | Done ([Lab 09](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/09-iceberg-lakehouse)) |
 | Change data capture lab with Debezium | Planned |
 
 ## Site

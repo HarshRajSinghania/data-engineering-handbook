@@ -20,6 +20,7 @@ Contributors are credited by GitHub handle on the entry for their change.
 - Labs 04 and 05 now run end to end in CI: `ci_smoke.py` in each lab replays the README exercises against a live Kafka broker and a live Airflow, and asserts the results the README describes. Both also run weekly.
 - Lab 05: the README now creates `warehouse/` before `docker compose up`. Docker otherwise creates it owned by root on Linux and Airflow fails with `Permission denied` (found by the new CI job).
 - Lab 08, data quality gates with Great Expectations: suites, thresholds and severity, and a gate that blocks bad, stale and schema-changed data. The Data Quality guide gains a section on thresholds and severity and a lab-tested version.
+- Lab 09, the Lab 03 pipeline on Apache Iceberg: snapshots, `MERGE`, schema and partition evolution, maintenance and branches. The Iceberg guide now shows the tested Spark 4.1 and Iceberg 1.11 setup, replaces the `snapshot-id` and `as-of-timestamp` reader options that no longer work with `versionAsOf` and `timestampAsOf`, and has a lab-tested version.
 - A [dev container](.devcontainer/devcontainer.json) with Python 3.12, Java 17 and Docker, and a Codespaces link in the README.
 - Thirty-three glossary terms introduced by the new guides.
 - Community files: `CODEOWNERS`, `CITATION.cff`, this changelog, release-note categories and a public [roadmap](docs/roadmap.md).
