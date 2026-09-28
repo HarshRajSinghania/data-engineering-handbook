@@ -120,6 +120,23 @@ jobs:
           python-version: "3.12"
       - run: python evaluate.py --min-hit-at-5 0.85
 
+  lab-08:
+    name: Lab 08 (Data quality, Great Expectations)
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: labs/08-data-quality
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: labs/08-data-quality/requirements.txt
+      - run: pip install -r requirements.txt
+      # the reference suites must block bad, stale and schema-changed data and publish clean data
+      - run: python ci_smoke.py
+
   lab-04:
     name: Lab 04 (Kafka streaming)
     runs-on: ubuntu-24.04

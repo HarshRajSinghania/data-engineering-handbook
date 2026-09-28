@@ -19,6 +19,7 @@ Contributors are credited by GitHub handle on the entry for their change.
 - Coverage round C, four new guides, bringing the total to 61: [MCP and Text-to-SQL](docs/07-ai/mcp-text-to-sql.md), [Data Catalogs in Practice](docs/05-quality-governance/data-catalogs.md) (DataHub, OpenMetadata), [DataOps](docs/05-quality-governance/dataops-operations.md) (on-call and incident response) and [Choosing a Stack](docs/08-architecture/choosing-a-stack.md).
 - Labs 04 and 05 now run end to end in CI: `ci_smoke.py` in each lab replays the README exercises against a live Kafka broker and a live Airflow, and asserts the results the README describes. Both also run weekly.
 - Lab 05: the README now creates `warehouse/` before `docker compose up`. Docker otherwise creates it owned by root on Linux and Airflow fails with `Permission denied` (found by the new CI job).
+- Lab 08, data quality gates with Great Expectations: suites, thresholds and severity, and a gate that blocks bad, stale and schema-changed data. The Data Quality guide gains a section on thresholds and severity and a lab-tested version.
 - A [dev container](.devcontainer/devcontainer.json) with Python 3.12, Java 17 and Docker, and a Codespaces link in the README.
 - Thirty-three glossary terms introduced by the new guides.
 - Community files: `CODEOWNERS`, `CITATION.cff`, this changelog, release-note categories and a public [roadmap](docs/roadmap.md).

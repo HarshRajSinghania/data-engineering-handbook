@@ -1,6 +1,6 @@
 # Hands-on Labs
 
-Five labs and two capstone projects that turn the guides into practice. They all use one realistic e-commerce dataset, which has the problems real pipelines face: duplicate records, missing keys, invalid values, late and duplicate events, and data that changes after it is loaded.
+Six labs and two capstone projects that turn the guides into practice. They all use one realistic e-commerce dataset, which has the problems real pipelines face: duplicate records, missing keys, invalid values, late and duplicate events, and data that changes after it is loaded.
 
 Every lab runs on a laptop, with no cloud account. Each has exercises you run as-is and then complete, and reference solutions that were run end to end against the generated data.
 
@@ -13,6 +13,7 @@ Every lab runs on a laptop, with no cloud account. Each has exercises you run as
 | [05 — Airflow Orchestration](05-airflow-orchestration/README.md) | A daily DAG with backfills, an idempotent load, a quality gate, pools and asset-driven scheduling | Docker | 90–120 min | [Airflow](../docs/03-orchestration/airflow-reference.md), [Data Quality](../docs/05-quality-governance/data-quality.md) |
 | [06 — Capstone: Dagster pipeline](06-capstone-ecommerce/README.md) | An end-to-end pipeline: raw → staging → marts, blocking quality checks, quarantine tables and a dashboard | Python + Dagster + DuckDB | 90–120 min | [Dagster](../docs/03-orchestration/dagster-reference.md), [Data Quality](../docs/05-quality-governance/data-quality.md) |
 | [07 — Capstone: Docs RAG](07-docs-rag/README.md) | Chunking, a BM25 index and a retrieval eval (hit@k, MRR) over the handbook's own guides | Python only | 60–90 min | [RAG](../docs/07-ai/rag.md), [Evals](../docs/07-ai/eval-and-evals.md) |
+| [08 — Data Quality Gates](08-data-quality/README.md) | Great Expectations suites for the dataset, thresholds and severity, and a gate that blocks bad, stale and schema-changed data | Python + Great Expectations | 60–90 min | [Data Quality](../docs/05-quality-governance/data-quality.md), [Pipeline Observability](../docs/05-quality-governance/pipeline-observability.md) |
 
 The labs can be done in any order. Lab 01 is the best introduction to the dataset, and Labs 02 and 03 build the same daily revenue numbers with two different engines, so you can compare them.
 
@@ -47,5 +48,5 @@ python data/generate.py --days 365 --orders-per-day 5000   # a larger dataset fo
 
 - `exercises.*` or the provided DAG or processor always runs before you change anything, and the TODOs mark what to write.
 - Solutions are in `solutions.*` or `solutions/`. Compare after each attempt, not before.
-- Every lab is checked in CI. Labs 04 and 05 include a `ci_smoke.py` that runs the exercises against the live broker or Airflow and asserts the outcomes the README describes, so the instructions cannot drift from what the tools do.
+- Every lab is checked in CI. Labs 04, 05 and 08 include a `ci_smoke.py` that runs the lab against the live broker or Airflow (Lab 08: the reference suites against several datasets) and asserts the outcomes the README describes, so the instructions cannot drift from what the tools do.
 - Generated data, databases and build output are ignored by Git (see [`.gitignore`](.gitignore)), so you can reset a lab by deleting them and regenerating.
