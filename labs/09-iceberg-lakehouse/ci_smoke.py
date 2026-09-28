@@ -98,7 +98,7 @@ def main() -> int:
     check({t: snapshots(spark, f"silver.{t}") for t in silver_snaps} == silver_snaps, "no new silver snapshots")
 
     print("\n== A day of changes ==")
-    script(str(DATA_TOOLS / "simulate_changes.py"), "--out", str(DATA))
+    check(script(str(DATA_TOOLS / "simulate_changes.py"), "--out", str(DATA)).returncode == 0, "simulate_changes.py applies the changes")
     check(script("pipeline.py").returncode == 0, "pipeline.py processes the changes")
     check(row_counts(spark) == {"silver.orders": 6200, "silver.order_items": 15266, "silver.order_items_quarantine": 154,
                                 "silver.events": 31000, "gold.daily_revenue": 31}, "the row counts include the new day")
