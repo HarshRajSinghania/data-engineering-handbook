@@ -7,7 +7,7 @@ verified: 2026-09-27
 
 **Prerequisites:** [DE Concepts](../00-foundations/de-concepts.md) · [Python for DE](../00-foundations/python-reference.md) · [SQL](../00-foundations/sql-reference.md)
 
-**Related:** [Kafka](../04-streaming/kafka-reference.md) · [Cloud Storage](../01-storage/cloud-storage.md) · [Data Quality](../05-quality-governance/data-quality.md) · [Airflow](../03-orchestration/airflow-reference.md) · [Glossary](../99-reference/glossary.md)
+**Related:** [Kafka](../04-streaming/kafka-reference.md) · [Cloud Storage](../01-storage/cloud-storage.md) · [Data Quality](../05-quality-governance/data-quality.md) · [Airflow](../03-orchestration/airflow-reference.md) · [NoSQL and Operational Stores](../01-storage/nosql-operational-stores.md) · [Streaming SQL](../04-streaming/streaming-sql.md) · [Glossary](../99-reference/glossary.md)
 
 ---
 
@@ -404,4 +404,4 @@ A: For common SaaS sources and standard databases, managed or open-source connec
 
 ---
 
-**Previous:** [Apache Flink](../04-streaming/flink-reference.md) · **Next:** [Data Engineering System Design](../08-architecture/system-design.md) · **Back to:** [Index](../README.md)
+**Previous:** [Streaming SQL](../04-streaming/streaming-sql.md) · **Next:** [Data Engineering System Design](../08-architecture/system-design.md) · **Back to:** [Index](../README.md)

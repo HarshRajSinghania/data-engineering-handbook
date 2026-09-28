@@ -16,12 +16,12 @@ Every guide goes **Basic → Intermediate → Advanced** with working code examp
 | Folder | Covers |
 |--------|--------|
 | [`docs/00-foundations`](docs/00-foundations) | DE concepts, SQL, Python, Linux & Bash, Git |
-| [`docs/01-storage`](docs/01-storage) | Cloud storage, data modeling, Snowflake, BigQuery, Redshift, Delta Lake, Hudi, Apache Iceberg |
-| [`docs/02-processing`](docs/02-processing) | Data ingestion & CDC, DuckDB & Polars, PySpark, Databricks, dbt, semantic layer |
+| [`docs/01-storage`](docs/01-storage) | Cloud storage, data modeling, Snowflake, BigQuery, Redshift, Azure & Fabric, NoSQL and operational stores, Delta Lake, Hudi, Apache Iceberg, real-time analytics databases (ClickHouse, Druid, Pinot) |
+| [`docs/02-processing`](docs/02-processing) | Data ingestion & CDC, DuckDB & Polars, PySpark, Databricks, Trino, dbt, semantic layer, BI tools (Superset, Metabase) |
 | [`docs/03-orchestration`](docs/03-orchestration) | Apache Airflow, Dagster, Prefect |
-| [`docs/04-streaming`](docs/04-streaming) | Apache Kafka, Apache Flink |
+| [`docs/04-streaming`](docs/04-streaming) | Apache Kafka, Apache Flink, Apache Beam and Dataflow, streaming SQL (RisingWave, Materialize) |
 | [`docs/05-quality-governance`](docs/05-quality-governance) | Data quality, governance, lineage, contracts, security & privacy, pipeline observability |
-| [`docs/06-infrastructure`](docs/06-infrastructure) | Docker, Terraform |
+| [`docs/06-infrastructure`](docs/06-infrastructure) | Docker, Kubernetes, Terraform, testing and CI/CD for data pipelines |
 | [`docs/07-ai`](docs/07-ai) | Prompting, LLM APIs, embeddings, RAG, vector DBs, agents, evals, MLflow, fine-tuning |
 | [`docs/08-architecture`](docs/08-architecture) | System design, cost optimization |
 | [`docs/09-interviews`](docs/09-interviews) | Interview roadmap, SQL patterns, system design case studies |

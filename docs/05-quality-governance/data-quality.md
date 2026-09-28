@@ -7,7 +7,7 @@ verified: 2026-09-27
 
 **Prerequisites:** [SQL](../00-foundations/sql-reference.md)
 
-**Related:** [dbt](../02-processing/dbt-reference.md) · [Airflow](../03-orchestration/airflow-reference.md) · [Evals](../07-ai/eval-and-evals.md) · [Data Governance & Lineage](governance-lineage.md) · [Glossary](../99-reference/glossary.md)
+**Related:** [dbt](../02-processing/dbt-reference.md) · [Airflow](../03-orchestration/airflow-reference.md) · [Evals](../07-ai/eval-and-evals.md) · [Data Governance & Lineage](governance-lineage.md) · [Testing and CI/CD](../06-infrastructure/testing-cicd.md) · [Glossary](../99-reference/glossary.md)
 
 **Practice:** [Lab 01 — SQL Analytics](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/01-sql-analytics) · [Lab 02 — dbt Transformations](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/02-dbt-transformations) · [Lab 05 — Airflow Orchestration](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/05-airflow-orchestration)
 
@@ -840,4 +840,4 @@ A: If transformations live in dbt, start with dbt tests: they sit next to the mo
 
 ---
 
-**Previous:** [dbt](../02-processing/dbt-reference.md) · **Next:** [Data Governance & Lineage](governance-lineage.md) · **Back to:** [Index](../README.md)
+**Previous:** [BI Tools](../02-processing/bi-tools.md) · **Next:** [Data Governance & Lineage](governance-lineage.md) · **Back to:** [Index](../README.md)

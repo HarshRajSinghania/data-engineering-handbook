@@ -7,7 +7,7 @@ verified: 2026-09-27
 
 **Prerequisites:** [Cloud Storage](cloud-storage.md) · [PySpark](../02-processing/pyspark-reference.md)
 
-**Related:** [Databricks](../02-processing/databricks-reference.md) · [Snowflake](snowflake-reference.md) · [DE Concepts](../00-foundations/de-concepts.md) · [Glossary](../99-reference/glossary.md)
+**Related:** [Databricks](../02-processing/databricks-reference.md) · [Snowflake](snowflake-reference.md) · [Trino](../02-processing/trino-federation.md) · [Azure and Fabric](azure-fabric.md) · [DE Concepts](../00-foundations/de-concepts.md) · [Glossary](../99-reference/glossary.md)
 
 ---
 
@@ -520,4 +520,4 @@ A: When several engines need to read and write the same tables (Spark, Trino, Fl
 
 ---
 
-**Previous:** [Databricks](../02-processing/databricks-reference.md) · **Next:** [Kafka](../04-streaming/kafka-reference.md) · **Back to:** [Index](../README.md)
+**Previous:** [Databricks](../02-processing/databricks-reference.md) · **Next:** [Trino](../02-processing/trino-federation.md) · **Back to:** [Index](../README.md)

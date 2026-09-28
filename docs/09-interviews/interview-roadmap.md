@@ -59,7 +59,7 @@ Loops differ by company: some skip a round, add a take-home or a live debugging 
 | **SQL** | Fluency and pattern recognition | Window functions, joins, dedup, cohorts, sessionisation | [SQL Interview Patterns](sql-interview-patterns.md), [Lab 01](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/01-sql-analytics) |
 | **Python / coding** | Data wrangling and clean code | Parse and aggregate records, dictionaries and sets, generators, sometimes a small algorithm | [Python for DE](../00-foundations/python-reference.md) |
 | **Data modelling** | Turning a business into tables | Star schema, slowly changing dimensions, grain, keys | [Data Modeling](../01-storage/data-modeling.md) |
-| **Pipeline design** | Reliable ETL | Idempotency, incremental loads, backfills, late data, quality checks | [DE Concepts](../00-foundations/de-concepts.md), [Ingestion & CDC](../02-processing/ingestion-cdc.md), [Airflow](../03-orchestration/airflow-reference.md) |
+| **Pipeline design** | Reliable ETL | Idempotency, incremental loads, backfills, late data, quality checks | [DE Concepts](../00-foundations/de-concepts.md), [Ingestion & CDC](../02-processing/ingestion-cdc.md), [Airflow](../03-orchestration/airflow-reference.md), [Testing and CI/CD](../06-infrastructure/testing-cicd.md) |
 | **System design** | Architecture and trade-offs | Batch vs streaming, storage choices, scale, cost | [System Design](../08-architecture/system-design.md), [Case Studies](system-design-case-studies.md) |
 | **Tool depth** | Real experience with the stack on your CV | Spark tuning, dbt, Kafka semantics, warehouse internals | The guide for each tool |
 | **Behavioural** | Ownership and judgement | An incident you handled, a disagreement, a mistake | [Behavioural Round](#behavioural-round) |
@@ -82,7 +82,14 @@ Where the questions come from, ordered by how often they appear in practice.
 | | Data quality and observability | [Data Quality](../05-quality-governance/data-quality.md), [Pipeline Observability](../05-quality-governance/pipeline-observability.md) |
 | **Often** | Kafka and streaming semantics | [Kafka](../04-streaming/kafka-reference.md), [Flink](../04-streaming/flink-reference.md) |
 | | dbt | [dbt](../02-processing/dbt-reference.md) |
+| | Testing and CI/CD for pipelines | [Testing and CI/CD](../06-infrastructure/testing-cicd.md) |
 | | Cost and performance | [Cost Optimization](../08-architecture/cost-optimization.md) |
+| | Serving fast analytics, query federation | [Real-Time Analytics Databases](../01-storage/realtime-olap.md), [Trino](../02-processing/trino-federation.md) |
+| | Running data workloads on Kubernetes | [Kubernetes](../06-infrastructure/kubernetes-for-de.md) |
+| | Event time, windows and late data | [Beam and Dataflow](../04-streaming/beam-dataflow.md), [Streaming SQL](../04-streaming/streaming-sql.md) |
+| | NoSQL modelling and CDC from operational stores | [NoSQL and Operational Stores](../01-storage/nosql-operational-stores.md) |
+| | Serving data to the business | [BI Tools](../02-processing/bi-tools.md) |
+| | Cloud platform specifics (Microsoft) | [Azure and Fabric](../01-storage/azure-fabric.md) |
 | | Security and privacy | [Data Security & Privacy](../05-quality-governance/data-security-privacy.md) |
 | **Growing** | LLMs, RAG, evals | [LLM APIs](../07-ai/llm-apis.md), [RAG](../07-ai/rag.md), [Evals](../07-ai/eval-and-evals.md) |
 | **Situational** | Terraform, Docker, CDC, lineage | [Terraform](../06-infrastructure/terraform-for-de.md), [Docker](../06-infrastructure/docker-reference.md), [Governance](../05-quality-governance/governance-lineage.md) |

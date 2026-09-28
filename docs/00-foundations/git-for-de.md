@@ -7,7 +7,7 @@ verified: 2026-09-27
 
 **Prerequisites:** [Linux & Bash](linux-bash.md)
 
-**Related:** [dbt](../02-processing/dbt-reference.md) · [Terraform](../06-infrastructure/terraform-for-de.md) · [Claude Code](../07-ai/claude-code.md) · [Glossary](../99-reference/glossary.md)
+**Related:** [dbt](../02-processing/dbt-reference.md) · [Terraform](../06-infrastructure/terraform-for-de.md) · [Testing and CI/CD](../06-infrastructure/testing-cicd.md) · [Claude Code](../07-ai/claude-code.md) · [Glossary](../99-reference/glossary.md)
 
 ---
 

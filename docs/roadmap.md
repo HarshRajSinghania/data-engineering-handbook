@@ -10,8 +10,8 @@ This page states intent, not commitments. Items move as priorities change, and a
 
 ```mermaid
 flowchart LR
-    N["Now<br/>Contributor onboarding<br/>and review of existing guides"] --> A["Next<br/>Coverage round A"]
-    A --> B["Then<br/>Rounds B and C,<br/>new labs, lab CI"]
+    N["Now<br/>Coverage round C<br/>and review of existing guides"] --> A["Next<br/>New labs,<br/>lab CI"]
+    A --> B["Then<br/>Site features<br/>and launch"]
     B --> V["1.0<br/>Complete coverage,<br/>all labs in CI,<br/>all guides reviewed"]
 ```
 
@@ -21,30 +21,32 @@ flowchart LR
 |------|--------|
 | Review dates and lab-tested versions on every guide | Done ([how it works](maintenance.md)) |
 | Contributor path: first-contribution guide, code owners, changelog, citation file | Done |
+| Coverage round A: five new guides (see below) | Done |
+| Coverage round B: four new guides (see below) | Done |
 | Review each existing guide against current vendor documentation, so the review dates reflect real checks | Open, *help wanted* |
 
 ## Coverage
 
 New guides follow the same template as the existing ones: Basic to Advanced, pitfalls, cheat sheet, interview questions and a Mermaid diagram.
 
-### Round A
+### Round A (published)
 
 | Guide | Scope |
 |-------|-------|
-| Testing and CI/CD for data pipelines | Unit and data tests, contract checks, environments, deployment pipelines |
-| Trino and query federation | Distributed SQL over lakes and databases, connectors, performance |
-| Real-time analytics databases | ClickHouse, Apache Druid and Apache Pinot: when to use each, ingestion and modelling |
-| Kubernetes for data workloads | Running Spark, Airflow and streaming jobs on Kubernetes, resources and scheduling |
-| Azure and Microsoft Fabric | The Azure data services and Fabric's lakehouse, warehouse and pipelines |
+| [Testing and CI/CD for Data Pipelines](06-infrastructure/testing-cicd.md) | Unit and property tests, idempotency and backfills, CI design, data diff, write-audit-publish, promotion |
+| [Trino and Query Federation](02-processing/trino-federation.md) | Distributed SQL over lakes and databases, connectors, pushdown, Iceberg, fault-tolerant execution |
+| [Real-Time Analytics Databases](01-storage/realtime-olap.md) | ClickHouse, Apache Druid and Apache Pinot: when to use each, ingestion and modelling |
+| [Kubernetes for Data Workloads](06-infrastructure/kubernetes-for-de.md) | Jobs, resources, node pools and spot capacity, Spark, Airflow and Flink on Kubernetes |
+| [Azure and Microsoft Fabric](01-storage/azure-fabric.md) | OneLake, capacity, lakehouse and warehouse, shortcuts and mirroring, Event Hubs, CI/CD |
 
-### Round B
+### Round B (published)
 
 | Guide | Scope |
 |-------|-------|
-| Apache Beam and Dataflow | The unified batch and streaming model, runners, windowing |
-| Streaming SQL | Materialize and RisingWave: incremental views over streams |
-| Business intelligence tools | Apache Superset and Metabase: modelling, caching, embedding |
-| NoSQL and operational stores | Document, wide-column and key-value stores in a data platform |
+| [Apache Beam and Dataflow](04-streaming/beam-dataflow.md) | The unified batch and streaming model, windows and triggers, testing, runners, Dataflow |
+| [Streaming SQL](04-streaming/streaming-sql.md) | Materialize and RisingWave: incremental views over streams |
+| [BI Tools](02-processing/bi-tools.md) | Apache Superset and Metabase: modelling, performance, row-level security, embedding, operations |
+| [NoSQL and Operational Stores](01-storage/nosql-operational-stores.md) | DynamoDB, MongoDB, Valkey and Redis, and Cassandra: modelling, CDC and exports, serving data back |
 
 ### Round C
 

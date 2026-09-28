@@ -7,7 +7,7 @@ verified: 2026-09-27
 
 **Prerequisites:** [SQL](../00-foundations/sql-reference.md) · [Cloud Storage](cloud-storage.md)
 
-**Related:** [Snowflake](snowflake-reference.md) · [BigQuery](bigquery-reference.md) · [Data Modeling](data-modeling.md) · [Terraform](../06-infrastructure/terraform-for-de.md) · [Glossary](../99-reference/glossary.md)
+**Related:** [Snowflake](snowflake-reference.md) · [BigQuery](bigquery-reference.md) · [Azure and Fabric](azure-fabric.md) · [Data Modeling](data-modeling.md) · [Terraform](../06-infrastructure/terraform-for-de.md) · [Glossary](../99-reference/glossary.md)
 
 ---
 
@@ -364,4 +364,4 @@ A: All are columnar, separate storage from compute (Redshift via RA3/managed sto
 
 ---
 
-**Previous:** [BigQuery](bigquery-reference.md) · **Next:** [Delta Lake](delta-lake.md) · **Back to:** [Index](../README.md)
+**Previous:** [BigQuery](bigquery-reference.md) · **Next:** [Azure and Fabric](azure-fabric.md) · **Back to:** [Index](../README.md)
