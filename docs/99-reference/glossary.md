@@ -31,9 +31,13 @@ verified: 2026-09-27
 
 **Backfill** — Re-running a pipeline for past time periods, typically to populate historical data or fix incorrect past runs.
 
+**Bloom filter** — A compact probabilistic structure that can say a value is definitely not present, or maybe present, with a tunable false-positive rate and no false negatives. Lake table formats use Bloom filters (and similar indexes) to skip files that cannot contain a lookup key. See [Apache Hudi](../01-storage/apache-hudi.md).
+
 **Bronze Layer** — The first layer in medallion architecture. Stores raw, unmodified data exactly as it arrived from source systems.
 
 **BM25** — A keyword-based document ranking algorithm used in search engines. The "B" in hybrid search (B = BM25, V = vector). More accurate than TF-IDF for sparse keyword queries.
+
+**Broadcast join** — A join strategy that copies a small table to every worker so the large table can be joined locally without a full shuffle. Used in Spark and other engines when one side fits in memory. See [PySpark](../02-processing/pyspark-reference.md).
 
 ## C
 
@@ -81,6 +85,8 @@ verified: 2026-09-27
 
 **Data Mesh** — An organizational approach in which domain teams own and publish their data as products — with contracts, SLAs, and documentation — on a shared self-service platform. See [System Design](../08-architecture/system-design.md).
 
+**Data product** — A dataset (and its contract, quality checks, and documentation) that a domain team publishes for other teams to consume as a product rather than as an informal extract. The unit of ownership in a data mesh. See [System Design](../08-architecture/system-design.md).
+
 **Data Steward** — The person responsible for maintaining a dataset's definitions, classifications, and documentation on behalf of its owner.
 
 **Data Vault** — A modeling methodology for enterprise data warehouses using Hubs (business keys), Links (relationships), and Satellites (attributes + history).
@@ -119,6 +125,8 @@ verified: 2026-09-27
 
 **Error Budget** — The amount of failure an SLO allows over a period (e.g., about 3 late days a year at a 99% SLO). See [Pipeline Observability](../05-quality-governance/pipeline-observability.md).
 
+**Exactly-once semantics** — A delivery guarantee that each record is processed as if it happened once, even if the pipeline retries. In practice this is *effectively* once: offsets or state are committed with the output so retries do not double-apply. See [Kafka](../04-streaming/kafka-reference.md).
+
 **ETL (Extract, Transform, Load)** — A traditional data integration pattern: data is extracted, transformed before loading, then loaded into the destination. Contrast with ELT.
 
 **Executor (Spark)** — A JVM process on a worker node that runs tasks. Each executor has a number of cores and a memory allocation.
@@ -150,6 +158,8 @@ verified: 2026-09-27
 **HNSW (Hierarchical Navigable Small World)** — The most common ANN index algorithm used in vector databases. Builds a multi-layer graph structure for fast approximate search.
 
 **Hudi (Apache Hudi)** — An open table format built for record-level upserts and incremental queries, with Copy-on-Write and Merge-on-Read table types. See [Apache Hudi](../01-storage/apache-hudi.md).
+
+**Hallucination** — An LLM output that is fluent but unsupported by retrieved context or ground truth — fabricated facts, citations, or numbers. Evaluations and grounded generation (RAG with citations) are the usual mitigations. See [Eval and Evals](../07-ai/eval-and-evals.md).
 
 **HyDE (Hypothetical Document Embeddings)** — A RAG retrieval technique: generate a hypothetical answer to the question, embed it, and use that vector to search. Improves recall when queries are vague.
 
@@ -199,6 +209,8 @@ verified: 2026-09-27
 
 **Medallion Architecture** — A three-layer data architecture: Bronze (raw) → Silver (cleaned) → Gold (business-ready). Each layer adds quality and structure.
 
+**Materialized view** — A query whose result is stored and refreshed on a schedule or on change, so consumers read precomputed rows instead of recomputing the query. Common in warehouses for expensive aggregations. See [Snowflake](../01-storage/snowflake-reference.md).
+
 **MERGE (Upsert)** — A single SQL statement that inserts, updates and deletes rows in a target table based on a match with a source. The core operation for applying CDC and making loads idempotent. See [Delta Lake](../01-storage/delta-lake.md).
 
 **Merge-on-Read (MoR)** — A table-format update strategy that appends changes to log files and merges them with base files at read time (or during compaction). Writes are cheap and fresh, and reads cost more until compaction. See [Apache Hudi](../01-storage/apache-hudi.md).
@@ -237,6 +249,8 @@ verified: 2026-09-27
 
 **Partition (Kafka)** — A log within a Kafka topic. Messages within a partition are ordered. Partitions enable parallelism — more partitions = more consumer parallelism.
 
+**Partition pruning** — Skipping whole partitions (or files) whose partition values cannot match a query filter, so the engine never reads them. Requires the filter to use the partition columns. See [PySpark](../02-processing/pyspark-reference.md).
+
 **Polars** — A multi-threaded DataFrame library with a lazy query optimizer and a streaming engine for larger-than-memory data.
 
 **Predicate Pushdown** — Pushing filter conditions down to the storage layer so only matching data is read. Supported by Parquet, Delta Lake, and columnar databases.
@@ -252,6 +266,8 @@ verified: 2026-09-27
 **RAG (Retrieval-Augmented Generation)** — An LLM architecture that retrieves relevant documents from a knowledge base and includes them in the prompt before generating an answer.
 
 **Re-ranking** — A post-retrieval step that uses a more expensive cross-encoder model to re-score and reorder retrieved chunks. Improves RAG precision.
+
+**Reranking** — Same as Re-ranking: a second-pass ranking step over retrieved documents, typically with a cross-encoder. See [RAG](../07-ai/rag.md).
 
 **Referential Integrity** — A database constraint ensuring that foreign key values always point to an existing primary key.
 
@@ -285,6 +301,8 @@ verified: 2026-09-27
 
 **Silver Layer** — The second layer in medallion architecture. Data is cleaned, typed, deduplicated, and lightly joined. Conformed to business rules.
 
+**Small files problem** — Too many tiny files in object storage, which inflates listing, planning, and open costs and slows Spark or warehouse scans. Compaction, target file sizes, and fewer partitions are the usual fixes. See [Delta Lake](../01-storage/delta-lake.md).
+
 **Skew** — Uneven distribution of data across partitions or tasks. One partition has far more data than others, causing bottlenecks.
 
 **SLA (Service Level Agreement)** — A commitment about data availability, freshness, or quality. E.g., "data available within 2 hours of source update."
@@ -308,6 +326,8 @@ verified: 2026-09-27
 ## T
 
 **Time Travel** — The ability to query historical versions of a table. Supported natively by Delta Lake, Snowflake (up to 90 days), and Apache Iceberg.
+
+**Tombstone** — A delete marker written in place of a record (a Kafka null value, or a deletion vector / log entry in a lake table) so consumers or readers treat the key as deleted without rewriting the whole dataset. See [Kafka](../04-streaming/kafka-reference.md).
 
 **Tool Use** — An LLM feature where the model can call functions defined by the developer — search, run SQL, call APIs — and use their results to answer questions.
 
