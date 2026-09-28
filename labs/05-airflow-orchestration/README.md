@@ -13,6 +13,7 @@ Schedule a daily batch pipeline with Apache Airflow 3: run it, backfill a week o
 ```bash
 cd labs/05-airflow-orchestration
 echo "AIRFLOW_UID=$(id -u)" > .env      # Linux/WSL: files written by Airflow stay owned by you
+mkdir -p warehouse                      # create it yourself: Docker would create it owned by root, and Airflow could not write to it
 docker compose up -d --build --wait     # first build takes a few minutes
 ```
 
