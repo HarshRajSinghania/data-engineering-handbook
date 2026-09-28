@@ -101,9 +101,9 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 
     ---
 
-    Five guided sequences, from complete beginner to AI engineering.
+    Three role-based paths and five topic paths, from complete beginner to AI engineering.
 
-    [:octicons-arrow-right-24: 5 paths](#learning-paths)
+    [:octicons-arrow-right-24: 8 paths](#learning-paths)
 
 </div>
 
@@ -247,6 +247,8 @@ Practise with [eight labs and two capstone projects](https://github.com/sarangam
 ---
 
 ## Learning Paths
+
+By role: the [analytics engineer](paths/analytics-engineer.md), [data platform engineer](paths/platform-engineer.md) and [AI data engineer](paths/ai-data-engineer.md) paths pair each stage with a lab and a checkpoint. The five topic paths below start from a subject instead.
 
 ### Path 1: Complete beginner → job-ready
 

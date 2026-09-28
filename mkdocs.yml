@@ -21,6 +21,7 @@ validation:
 # Renders each guide's "Last reviewed" line from its front matter (hooks/freshness.py)
 hooks:
   - hooks/freshness.py
+  - hooks/seo.py
 
 theme:
   name: material
@@ -121,6 +122,11 @@ markdown_extensions:
 
 nav:
   - Home: README.md
+  - Learning Paths:
+      - By Role: paths/index.md
+      - Analytics Engineer: paths/analytics-engineer.md
+      - Data Platform Engineer: paths/platform-engineer.md
+      - AI Data Engineer: paths/ai-data-engineer.md
   - Foundations:
       - DE Concepts: 00-foundations/de-concepts.md
       - SQL: 00-foundations/sql-reference.md

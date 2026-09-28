@@ -3,7 +3,7 @@
 {% block extrahead %}
   {% set title = config.site_name if page.is_homepage else page.title ~ " · " ~ config.site_name %}
   {% set description = page.meta.description if page.meta and page.meta.description else config.site_description %}
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="{{ 'website' if page.is_homepage else 'article' }}">
   <meta property="og:site_name" content="{{ config.site_name }}">
   <meta property="og:title" content="{{ title }}">
   <meta property="og:description" content="{{ description }}">
@@ -15,4 +15,30 @@
   <meta name="twitter:title" content="{{ title }}">
   <meta name="twitter:description" content="{{ description }}">
   <meta name="twitter:image" content="{{ config.site_url }}assets/social-card.png">
+  {#- Structured data: lets search engines show the page as a technical article with its breadcrumbs -#}
+  {% if page and not page.is_homepage %}
+  {% set crumbs = [
+    {"@type": "ListItem", "position": 1, "name": config.site_name, "item": config.site_url},
+    {"@type": "ListItem", "position": 2, "name": page.title, "item": page.canonical_url}
+  ] %}
+  <script type="application/ld+json">
+  {{ {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TechArticle",
+        "headline": page.title,
+        "description": description,
+        "url": page.canonical_url,
+        "inLanguage": "en",
+        "dateModified": page.meta.verified.isoformat() if page.meta.verified and page.meta.verified.isoformat else none,
+        "author": {"@type": "Person", "name": "Sarang Ambekar", "url": "https://github.com/sarangambekar1997"},
+        "isPartOf": {"@type": "WebSite", "name": config.site_name, "url": config.site_url},
+        "license": "https://opensource.org/licenses/MIT"
+      },
+      {"@type": "BreadcrumbList", "itemListElement": crumbs}
+    ]
+  } | tojson }}
+  </script>
+  {% endif %}
 {% endblock %}

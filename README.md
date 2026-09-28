@@ -45,7 +45,7 @@ where they sit in a pipeline, and a new top-level area gets the next free number
 | Preparing for design interviews | [System Design](docs/08-architecture/system-design.md) → [Ingestion & CDC](docs/02-processing/ingestion-cdc.md) → [Data Modeling](docs/01-storage/data-modeling.md) |
 | Looking up a term | [Glossary](docs/99-reference/glossary.md) |
 
-The full learning paths, the "when should I use what" tables, and the cheat sheets are in the [index](docs/README.md).
+The full learning paths, the "when should I use what" tables, and the cheat sheets are in the [index](docs/README.md). By role: [analytics engineer](docs/paths/analytics-engineer.md), [data platform engineer](docs/paths/platform-engineer.md) and [AI data engineer](docs/paths/ai-data-engineer.md).
 
 ## Hands-on labs
 
