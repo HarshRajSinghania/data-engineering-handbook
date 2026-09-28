@@ -21,6 +21,7 @@ The labs can be done in any order. Lab 01 is the best introduction to the datase
 - Python 3.10 or later. Each lab has its own `requirements.txt`, so use a separate virtual environment per lab.
 - Labs 04 and 05: Docker with Compose v2, and about 1.5 GB of free memory.
 - Lab 03: Java 17 or 21.
+- Or skip the setup: open the repository in a [dev container or GitHub Codespace](../.devcontainer/devcontainer.json), which has Python 3.12, Java 17 and Docker ready. Give it at least 4 CPUs and 8 GB of memory for Labs 04 and 05.
 - Windows: use WSL2. Spark and the shell commands in the lab instructions assume Linux or macOS.
 
 ## The dataset
@@ -46,4 +47,5 @@ python data/generate.py --days 365 --orders-per-day 5000   # a larger dataset fo
 
 - `exercises.*` or the provided DAG or processor always runs before you change anything, and the TODOs mark what to write.
 - Solutions are in `solutions.*` or `solutions/`. Compare after each attempt, not before.
+- Every lab is checked in CI. Labs 04 and 05 include a `ci_smoke.py` that runs the exercises against the live broker or Airflow and asserts the outcomes the README describes, so the instructions cannot drift from what the tools do.
 - Generated data, databases and build output are ignored by Git (see [`.gitignore`](.gitignore)), so you can reset a lab by deleting them and regenerating.

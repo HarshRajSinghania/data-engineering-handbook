@@ -120,17 +120,51 @@ jobs:
           python-version: "3.12"
       - run: python evaluate.py --min-hit-at-5 0.85
 
-  lab-04-05:
-    name: Labs 04-05 (Compose files and code)
+  lab-04:
+    name: Lab 04 (Kafka streaming)
     runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: labs/04-kafka-streaming
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
-      - name: Compose files are valid
-        run: |
-          docker compose -f labs/04-kafka-streaming/docker-compose.yml config -q
-          docker compose -f labs/05-airflow-orchestration/docker-compose.yml config -q
-      - name: Python compiles
-        run: python -m compileall -q labs/04-kafka-streaming labs/05-airflow-orchestration labs/data
+          cache: pip
+          cache-dependency-path: labs/04-kafka-streaming/requirements.txt
+      - run: pip install -r requirements.txt
+      - run: docker compose up -d --wait
+      - run: python ../data/generate.py
+      # replays the README exercises against the broker and asserts what the README claims
+      - run: python ci_smoke.py
+      - name: Broker logs
+        if: failure()
+        run: docker compose logs --no-color --tail 200
+      - name: Stop
+        if: always()
+        run: docker compose down -v
+
+  lab-05:
+    name: Lab 05 (Airflow orchestration)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    defaults:
+      run:
+        working-directory: labs/05-airflow-orchestration
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - run: echo "AIRFLOW_UID=$(id -u)" > .env
+      - run: docker compose up -d --build --wait
+      # triggers runs, a backfill and a clear through the Airflow CLI, and asserts the README's claims
+      - run: python ci_smoke.py
+      - name: Airflow logs
+        if: failure()
+        run: docker compose logs --no-color --tail 300
+      - name: Stop
+        if: always()
+        run: docker compose down -v

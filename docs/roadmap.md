@@ -62,8 +62,8 @@ New guides follow the same template as the existing ones: Basic to Advanced, pit
 
 | Item | Status |
 |------|--------|
-| Run Labs 04 and 05 (Kafka, Airflow) in CI, not only validate their Compose files | Planned, *help wanted* |
-| A dev container so every lab starts in one click | Planned, *help wanted* |
+| Run Labs 04 and 05 (Kafka, Airflow) in CI, not only validate their Compose files | Done |
+| A dev container so every lab starts in one click | Done |
 | Data quality lab with Great Expectations or Soda | Planned |
 | Apache Iceberg lab | Planned |
 | Change data capture lab with Debezium | Planned |

@@ -46,6 +46,8 @@ flowchart LR
 
 The warehouse is `warehouse/shop.duckdb`, and the landing files and reports are also under `warehouse/` on your machine.
 
+[`ci_smoke.py`](ci_smoke.py) runs the exercises below through the Airflow CLI and checks the results they describe. CI uses it, and it needs a fresh stack (`docker compose down -v` first). It swaps in the reference DAG for exercise 3 and restores your `dags/shop_daily.py` afterwards.
+
 ## Exercises
 
 ### 1. Run one day

@@ -9,6 +9,8 @@ Every guide goes **Basic → Intermediate → Advanced** with working code examp
 
 **→ Or start here on GitHub: [Full index & learning paths](docs/README.md)**
 
+**→ Run the labs without local setup:** [open in a GitHub Codespace](https://codespaces.new/sarangambekar1997/data-engineering-handbook) (Python, Java and Docker included)
+
 ---
 
 ## Layout
