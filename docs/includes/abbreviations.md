@@ -20,4 +20,7 @@
 *[MFA]: Multi-Factor Authentication
 *[IAM]: Identity and Access Management
 *[OLAP]: Online Analytical Processing — systems optimised for analytical queries over large datasets
+*[RLS]: Row-Level Security — restricting which rows a user or role can see
+*[GSI]: Global Secondary Index — a second, differently keyed copy of a DynamoDB table's data
+*[IVM]: Incremental View Maintenance — updating a materialized view from each change instead of recomputing it
 *[QoS]: Quality of Service — the Kubernetes class (Guaranteed, Burstable, BestEffort) that sets eviction order

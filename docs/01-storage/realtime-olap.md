@@ -473,4 +473,4 @@ A: Decide up front, because these systems are append-first. In Druid, replace th
 
 ---
 
-**Previous:** [Apache Flink](../04-streaming/flink-reference.md) · **Next:** [Ingestion & CDC](../02-processing/ingestion-cdc.md) · **Back to:** [Index](../README.md)
+**Previous:** [Beam and Dataflow](../04-streaming/beam-dataflow.md) · **Next:** [Streaming SQL](../04-streaming/streaming-sql.md) · **Back to:** [Index](../README.md)

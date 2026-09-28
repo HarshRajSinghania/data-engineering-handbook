@@ -9,7 +9,7 @@ lab_source: labs/02-dbt-transformations/requirements.txt
 
 **Prerequisites:** [SQL](../00-foundations/sql-reference.md) · [Data Modeling](../01-storage/data-modeling.md)
 
-**Related:** [Snowflake](../01-storage/snowflake-reference.md) · [Data Quality](../05-quality-governance/data-quality.md) · [Git for DE](../00-foundations/git-for-de.md) · [Airflow](../03-orchestration/airflow-reference.md) · [Glossary](../99-reference/glossary.md)
+**Related:** [Snowflake](../01-storage/snowflake-reference.md) · [Data Quality](../05-quality-governance/data-quality.md) · [Git for DE](../00-foundations/git-for-de.md) · [Airflow](../03-orchestration/airflow-reference.md) · [BI Tools](bi-tools.md) · [Glossary](../99-reference/glossary.md)
 
 **Practice:** [Lab 02 — dbt Transformations](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/02-dbt-transformations)
 

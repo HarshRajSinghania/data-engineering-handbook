@@ -527,4 +527,4 @@ A: Event Hubs exposes a Kafka endpoint on the standard, premium and dedicated ti
 
 ---
 
-**Previous:** [Amazon Redshift](redshift-reference.md) · **Next:** [Delta Lake](delta-lake.md) · **Back to:** [Index](../README.md)
+**Previous:** [Amazon Redshift](redshift-reference.md) · **Next:** [NoSQL and Operational Stores](nosql-operational-stores.md) · **Back to:** [Index](../README.md)

@@ -134,6 +134,7 @@ nav:
       - BigQuery: 01-storage/bigquery-reference.md
       - Amazon Redshift: 01-storage/redshift-reference.md
       - Azure & Microsoft Fabric: 01-storage/azure-fabric.md
+      - NoSQL & Operational Stores: 01-storage/nosql-operational-stores.md
       - Delta Lake: 01-storage/delta-lake.md
       - Apache Hudi: 01-storage/apache-hudi.md
       - Apache Iceberg: 01-storage/apache-iceberg.md
@@ -146,12 +147,15 @@ nav:
       - Trino & Query Federation: 02-processing/trino-federation.md
       - dbt: 02-processing/dbt-reference.md
       - Semantic Layer & Metrics: 02-processing/semantic-layer-metrics.md
+      - BI Tools (Superset & Metabase): 02-processing/bi-tools.md
   - Orchestration & Streaming:
       - Apache Airflow: 03-orchestration/airflow-reference.md
       - Dagster: 03-orchestration/dagster-reference.md
       - Prefect: 03-orchestration/prefect-reference.md
       - Apache Kafka: 04-streaming/kafka-reference.md
       - Apache Flink: 04-streaming/flink-reference.md
+      - Apache Beam & Dataflow: 04-streaming/beam-dataflow.md
+      - Streaming SQL (Materialize & RisingWave): 04-streaming/streaming-sql.md
   - Quality & Infrastructure:
       - Data Quality: 05-quality-governance/data-quality.md
       - Governance & Lineage: 05-quality-governance/governance-lineage.md

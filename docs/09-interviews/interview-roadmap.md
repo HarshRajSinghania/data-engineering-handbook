@@ -86,6 +86,9 @@ Where the questions come from, ordered by how often they appear in practice.
 | | Cost and performance | [Cost Optimization](../08-architecture/cost-optimization.md) |
 | | Serving fast analytics, query federation | [Real-Time Analytics Databases](../01-storage/realtime-olap.md), [Trino](../02-processing/trino-federation.md) |
 | | Running data workloads on Kubernetes | [Kubernetes](../06-infrastructure/kubernetes-for-de.md) |
+| | Event time, windows and late data | [Beam and Dataflow](../04-streaming/beam-dataflow.md), [Streaming SQL](../04-streaming/streaming-sql.md) |
+| | NoSQL modelling and CDC from operational stores | [NoSQL and Operational Stores](../01-storage/nosql-operational-stores.md) |
+| | Serving data to the business | [BI Tools](../02-processing/bi-tools.md) |
 | | Cloud platform specifics (Microsoft) | [Azure and Fabric](../01-storage/azure-fabric.md) |
 | | Security and privacy | [Data Security & Privacy](../05-quality-governance/data-security-privacy.md) |
 | **Growing** | LLMs, RAG, evals | [LLM APIs](../07-ai/llm-apis.md), [RAG](../07-ai/rag.md), [Evals](../07-ai/eval-and-evals.md) |

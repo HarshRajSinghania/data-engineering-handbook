@@ -840,4 +840,4 @@ A: If transformations live in dbt, start with dbt tests: they sit next to the mo
 
 ---
 
-**Previous:** [dbt](../02-processing/dbt-reference.md) · **Next:** [Data Governance & Lineage](governance-lineage.md) · **Back to:** [Index](../README.md)
+**Previous:** [BI Tools](../02-processing/bi-tools.md) · **Next:** [Data Governance & Lineage](governance-lineage.md) · **Back to:** [Index](../README.md)

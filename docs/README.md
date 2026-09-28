@@ -29,17 +29,17 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 
     ---
 
-    Airflow, Dagster, Prefect, Kafka, Flink, CDC.
+    Airflow, Dagster, Prefect, Kafka, Flink, Beam, streaming SQL, CDC.
 
-    [:octicons-arrow-right-24: 6 guides](#orchestration--streaming)
+    [:octicons-arrow-right-24: 8 guides](#orchestration--streaming)
 
 -   :material-database-outline:{ .lg .middle } **Storage & Transformation**
 
     ---
 
-    Snowflake, BigQuery, Redshift, Azure & Fabric, Delta Lake, Hudi, Iceberg, real-time OLAP, dbt.
+    Snowflake, BigQuery, Redshift, Azure & Fabric, NoSQL, Delta Lake, Hudi, Iceberg, real-time OLAP, dbt, BI tools.
 
-    [:octicons-arrow-right-24: 10 guides](#storage--transformation)
+    [:octicons-arrow-right-24: 12 guides](#storage--transformation)
 
 -   :material-shield-check-outline:{ .lg .middle } **Quality & Observability**
 
@@ -140,6 +140,8 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 | [Prefect](03-orchestration/prefect-reference.md) | Flows and tasks, retries, deployments, work pools, automations, event-driven runs |
 | [Apache Kafka](04-streaming/kafka-reference.md) | Topics, producers, consumers, Schema Registry, Kafka Connect, Kafka Streams, DLQ patterns |
 | [Apache Flink](04-streaming/flink-reference.md) | Stateful stream processing, event time and watermarks, windows, stream joins, checkpoints, Flink SQL |
+| [Apache Beam & Dataflow](04-streaming/beam-dataflow.md) | The Beam model, windows, triggers and late data, testing with TestStream, runners, Dataflow |
+| [Streaming SQL](04-streaming/streaming-sql.md) | Incremental view maintenance, RisingWave and Materialize, windows and watermarks, temporal filters, sinks |
 | [Data Ingestion & CDC](02-processing/ingestion-cdc.md) | API, file, and database ingestion; incremental loads; CDC with Debezium; applying changes with MERGE; build vs buy |
 
 ### Storage & Transformation
@@ -149,9 +151,11 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 | [Snowflake Reference](01-storage/snowflake-reference.md) | Architecture, virtual warehouses, semi-structured data, streams & tasks, RBAC |
 | [dbt Reference](02-processing/dbt-reference.md) | Models, materializations, tests, macros, incremental models, snapshots, CI/CD |
 | [Semantic Layer & Metrics](02-processing/semantic-layer-metrics.md) | Defining metrics once: entities, measures, MetricFlow, ratio and cumulative metrics, semantic layers for AI |
+| [BI Tools (Superset & Metabase)](02-processing/bi-tools.md) | Application database, models and datasets, where metrics live, performance, row-level security, embedding, operations |
 | [BigQuery](01-storage/bigquery-reference.md) | Serverless architecture, loading, partitioning and clustering, nested data, pricing and cost control, security |
 | [Amazon Redshift](01-storage/redshift-reference.md) | Provisioned vs serverless, distribution and sort keys, COPY/UNLOAD, Spectrum, SUPER, workload management |
 | [Azure & Microsoft Fabric](01-storage/azure-fabric.md) | OneLake, capacity, lakehouse vs warehouse, shortcuts and mirroring, Event Hubs, security, Fabric CI/CD |
+| [NoSQL & Operational Stores](01-storage/nosql-operational-stores.md) | DynamoDB, MongoDB, Valkey/Redis and Cassandra: access-pattern modelling, idempotent writes, CDC and exports, serving data back |
 | [Delta Lake](01-storage/delta-lake.md) | Transaction log, `MERGE`, time travel, schema enforcement, Change Data Feed, `OPTIMIZE`/`VACUUM`, delta-rs |
 | [Apache Hudi](01-storage/apache-hudi.md) | Record-level upserts, Copy-on-Write vs Merge-on-Read, incremental queries, compaction, indexing |
 | [Apache Iceberg](01-storage/apache-iceberg.md) | Open table format, hidden partitioning, schema evolution, time travel, ACID, AWS Glue/Athena |
@@ -261,7 +265,8 @@ Practise with [five labs and two capstone projects](https://github.com/sarangamb
 5. [Data Governance & Lineage](05-quality-governance/governance-lineage.md)
 6. [Git for DE](00-foundations/git-for-de.md) — CI/CD section
 7. [Testing and CI/CD for Data Pipelines](06-infrastructure/testing-cicd.md) — prove changes are safe before they ship
-8. [Cost Optimization](08-architecture/cost-optimization.md)
+8. [BI Tools](02-processing/bi-tools.md) — serve the models to the business
+9. [Cost Optimization](08-architecture/cost-optimization.md)
 
 ### Path 3: Spark & big data focus
 
@@ -284,6 +289,8 @@ Practise with [five labs and two capstone projects](https://github.com/sarangamb
 6. [Databricks](02-processing/databricks-reference.md) — Auto Loader and DLT sections
 7. [Data Quality](05-quality-governance/data-quality.md) — DQ in streaming pipelines
 8. [Real-Time Analytics Databases](01-storage/realtime-olap.md) — serve fresh data with sub-second queries
+9. [Apache Beam & Dataflow](04-streaming/beam-dataflow.md) — one model for batch and streaming
+10. [Streaming SQL](04-streaming/streaming-sql.md) — always-fresh views without writing a streaming job
 
 ### Path 5: AI & LLM engineering
 
@@ -330,6 +337,10 @@ Practise with [five labs and two capstone projects](https://github.com/sarangamb
 | Shared, elastic infrastructure for batch and streaming jobs | Kubernetes |
 | Microsoft-centred analytics platform | Azure and Microsoft Fabric |
 | Prove a pipeline change is safe before shipping | Unit tests, data diff, write-audit-publish |
+| One model for batch and streaming, on Google Cloud | Apache Beam on Dataflow |
+| Always-fresh SQL views over streams, without a streaming job | A streaming database (RisingWave, Materialize) |
+| Low-latency lookups and key-based serving for applications | DynamoDB, MongoDB or Valkey/Redis |
+| Dashboards for the business | Superset or Metabase over curated marts |
 
 ### File format cheat sheet
 

@@ -45,6 +45,8 @@ verified: 2026-09-27
 
 **Change Data Feed (CDF)** — A Delta Lake feature that records row-level changes (insert, update pre/post image, delete) so downstream jobs can process only what changed. See [Delta Lake](../01-storage/delta-lake.md).
 
+**Change Stream (MongoDB)** — A feed of change events (insert, update, delete and others) from a MongoDB replica set or sharded cluster, each carrying a resume token so a consumer can continue after a restart. It is MongoDB's change-data-capture mechanism. See [NoSQL and Operational Stores](../01-storage/nosql-operational-stores.md).
+
 **Checkpoint** — In Spark Structured Streaming, a directory where Spark saves offsets and state so it can resume from the exact position after a restart.
 
 **Chunk** — A piece of a larger document, split to fit within an LLM's context window for embedding or retrieval. Typical size: 256–512 tokens.
@@ -125,6 +127,8 @@ verified: 2026-09-27
 
 **ETL (Extract, Transform, Load)** — A traditional data integration pattern: data is extracted, transformed before loading, then loaded into the destination. Contrast with ELT.
 
+**Event Time** — The time an event actually happened, as opposed to processing time, when the pipeline sees it. Windows defined on event time give results that reflect when things occurred, even when data arrives late or out of order. See [Beam and Dataflow](../04-streaming/beam-dataflow.md).
+
 **Executor (Spark)** — A JVM process on a worker node that runs tasks. Each executor has a number of cores and a memory allocation.
 
 ## F
@@ -145,6 +149,8 @@ verified: 2026-09-27
 
 ## G
 
+**Global Secondary Index (GSI)** — In DynamoDB, a second copy of a table's data keyed by different attributes, so another access pattern can be served by a key lookup. It costs extra writes and storage, and it is updated asynchronously. See [NoSQL and Operational Stores](../01-storage/nosql-operational-stores.md).
+
 **Gold Layer** — The final layer in medallion architecture. Contains business-ready, aggregated tables consumed by BI tools, APIs, and ML models.
 
 **Grain** — The level of detail in a fact table — what one row represents. E.g., "one row per order" or "one row per order line item per day". Must be defined explicitly.
@@ -157,6 +163,8 @@ verified: 2026-09-27
 
 **HNSW (Hierarchical Navigable Small World)** — The most common ANN index algorithm used in vector databases. Builds a multi-layer graph structure for fast approximate search.
 
+**Hot Partition** — A partition that receives a disproportionate share of traffic, so it reaches its throughput limit while the rest of the table is idle. Caused by low-cardinality or skewed keys. In DynamoDB each partition is designed for at most 3,000 read units and 1,000 write units per second. See [NoSQL and Operational Stores](../01-storage/nosql-operational-stores.md).
+
 **Hudi (Apache Hudi)** — An open table format built for record-level upserts and incremental queries, with Copy-on-Write and Merge-on-Read table types. See [Apache Hudi](../01-storage/apache-hudi.md).
 
 **HyDE (Hypothetical Document Embeddings)** — A RAG retrieval technique: generate a hypothetical answer to the question, embed it, and use that vector to search. Improves recall when queries are vague.
@@ -164,6 +172,8 @@ verified: 2026-09-27
 **Idempotent** — An operation that produces the same result whether run once or many times. Critical for reliable pipeline design — re-running an idempotent pipeline doesn't create duplicates.
 
 **Incremental Load** — A pipeline pattern that processes only new or changed data since the last run, rather than reprocessing everything.
+
+**Incremental View Maintenance (IVM)** — Keeping a materialized view current by applying each change as a signed delta (a retraction and an insertion for an update), instead of recomputing the whole query. Streaming databases such as RisingWave and Materialize work this way. See [Streaming SQL](../04-streaming/streaming-sql.md).
 
 ## I
 
@@ -249,6 +259,10 @@ verified: 2026-09-27
 
 **Partition (Kafka)** — A log within a Kafka topic. Messages within a partition are ordered. Partitions enable parallelism — more partitions = more consumer parallelism.
 
+**Partition Key and Sort Key** — In DynamoDB and similar stores, the partition key decides which partition stores an item, and the optional sort key orders items within it, so a range query inside one partition is efficient. Cassandra's equivalent is the partition key and the clustering columns. See [NoSQL and Operational Stores](../01-storage/nosql-operational-stores.md).
+
+**PCollection (Beam)** — A distributed, immutable dataset in an Apache Beam pipeline. It is bounded if it comes from a fixed source such as a file, and unbounded if it comes from a continuous source such as a stream. See [Beam and Dataflow](../04-streaming/beam-dataflow.md).
+
 **Pod (Kubernetes)** — The smallest unit Kubernetes schedules: one or more containers that run together on a node. A Spark executor and a batch job run are each a pod. See [Kubernetes](../06-infrastructure/kubernetes-for-de.md).
 
 **Polars** — A multi-threaded DataFrame library with a lazy query optimizer and a streaming engine for larger-than-memory data.
@@ -282,6 +296,8 @@ verified: 2026-09-27
 **Role-Playing Dimension** — When the same dimension table is used multiple times in a fact table with different semantic roles (e.g., dim_date used as order_date and ship_date).
 
 **Rollup (Druid)** — Ingestion-time summarisation that combines rows with identical dimension values and the same timestamp, after truncation to the query granularity, into a single row. It shrinks storage at the cost of being able to query individual events. See [Real-Time Analytics Databases](../01-storage/realtime-olap.md).
+
+**Row-Level Security (RLS)** — Restricting which rows a user or role can see, by attaching a filter to a table or dataset. It can be enforced in the warehouse, in a BI tool, or through signed tokens for embedded analytics. Rules enforced only in a BI tool can be bypassed by direct database access. See [BI Tools](../02-processing/bi-tools.md).
 
 **RPU (Redshift Processing Unit)** — The unit of compute capacity in Amazon Redshift Serverless, billed per second while queries run.
 
@@ -329,11 +345,15 @@ verified: 2026-09-27
 
 **Streaming** — Processing data continuously as it arrives, rather than in batches. Examples: Kafka, Spark Structured Streaming, Flink.
 
+**Streaming Database** — A database that keeps the results of SQL views continuously up to date as data arrives from sources such as Kafka and CDC, using incremental view maintenance, and serves them over a standard SQL interface. Examples: RisingWave and Materialize. See [Streaming SQL](../04-streaming/streaming-sql.md).
+
 **Surrogate Key** — A warehouse-generated integer key used to join fact and dimension tables. Stable, independent of the source system's natural key.
 
 ## T
 
 **Taint and Toleration (Kubernetes)** — A taint on a node repels pods, and a toleration on a pod allows it to be scheduled there. They reserve node pools, for example spot capacity for batch work. See [Kubernetes](../06-infrastructure/kubernetes-for-de.md).
+
+**Temporal Filter (Materialize)** — A `WHERE` condition on `mz_now()`, Materialize's current virtual timestamp, such as `mz_now() <= event_ts + INTERVAL '1 hour'`. As time advances, rows that no longer satisfy it are retracted from the result, giving a sliding window that expires old data and bounds state. See [Streaming SQL](../04-streaming/streaming-sql.md).
 
 **Time Travel** — The ability to query historical versions of a table. Supported natively by Delta Lake, Snowflake (up to 90 days), and Apache Iceberg.
 
