@@ -89,7 +89,7 @@ python pipeline.py
 
 - Add a `vacuum()` step with a retention period. Can you still time travel to version 0 afterwards?
 - Enable [Change Data Feed](https://docs.delta.io/latest/delta-change-data-feed.html) on `silver.orders` (`delta.enableChangeDataFeed = true`) and rebuild gold from the changed rows only.
-- Rewrite the silver layer with Apache Iceberg (`iceberg-spark-runtime`) and compare `MERGE INTO` syntax.
+- Compare the silver layer with the same pipeline on Apache Iceberg in [Lab 09](../09-iceberg-lakehouse/README.md).
 - Generate a larger dataset (`--days 365 --orders-per-day 5000`) and watch the Spark UI at http://localhost:4040 while the pipeline runs. Remove `spark.ui.showConsoleProgress=false` to see the progress bars.
 
 ## Clean up

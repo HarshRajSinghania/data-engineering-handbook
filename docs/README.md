@@ -85,9 +85,9 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 
     ---
 
-    Six labs and two capstone projects on one shared dataset.
+    Seven labs and two capstone projects on one shared dataset.
 
-    [:octicons-arrow-right-24: 8 projects](#hands-on-labs)
+    [:octicons-arrow-right-24: 9 projects](#hands-on-labs)
 
 -   :material-forum-outline:{ .lg .middle } **Interview Prep**
 
@@ -229,7 +229,7 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 
 ## Hands-on Labs
 
-Practise with [six labs and two capstone projects](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs) that run locally. The labs and the first capstone use one realistic e-commerce dataset:
+Practise with [seven labs and two capstone projects](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs) that run locally. The labs and the first capstone use one realistic e-commerce dataset:
 
 | Lab | Practise |
 |-----|----------|
@@ -241,6 +241,7 @@ Practise with [six labs and two capstone projects](https://github.com/sarangambe
 | [06 — Capstone: Dagster pipeline](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/06-capstone-ecommerce) | An end-to-end pipeline with quality gates, quarantine tables and a dashboard (see [Projects](projects/index.md)) |
 | [07 — Capstone: Docs RAG](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/07-docs-rag) | Chunking, BM25 retrieval and a retrieval eval over these guides |
 | [08 — Data Quality Gates](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/08-data-quality) | Great Expectations suites, thresholds and severity, and a gate that blocks bad, stale and schema-changed data |
+| [09 — Iceberg Lakehouse](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/09-iceberg-lakehouse) | The Lab 03 pipeline on Apache Iceberg: snapshots, `MERGE`, schema and partition evolution, maintenance, branches |
 
 ---
 

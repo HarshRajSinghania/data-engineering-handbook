@@ -1,0 +1,3 @@
+# Spark 4.1 is the newest Spark that Iceberg publishes a runtime for (iceberg-spark-runtime-4.1_2.13).
+# Lab 03 uses Spark 4.2 because Delta Lake supports it; keep the two labs in separate virtual environments.
+pyspark==4.1.3
