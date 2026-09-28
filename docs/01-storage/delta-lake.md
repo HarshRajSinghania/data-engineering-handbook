@@ -1,5 +1,6 @@
 ---
 verified: 2026-09-27
+review_status: baseline
 lab_tested: "Delta Lake 4.4.0"
 lab_source: labs/03-spark-lakehouse/requirements.txt
 ---

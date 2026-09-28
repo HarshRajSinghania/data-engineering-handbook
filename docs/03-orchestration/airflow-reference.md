@@ -1,5 +1,6 @@
 ---
 verified: 2026-09-27
+review_status: baseline
 lab_tested: "Apache Airflow 3.3.2"
 lab_source: labs/05-airflow-orchestration/Dockerfile
 ---

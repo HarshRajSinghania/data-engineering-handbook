@@ -16,6 +16,10 @@ from pathlib import Path
 
 import yaml
 
+# The review date given to every guide on 2026-09-27, before any of them was checked one by one. A guide that
+# still carries it is marked `review_status: baseline`, and says so on the page.
+BASELINE_DATE = datetime.date(2026, 9, 27)
+
 GUIDE_GLOBS = ("docs/0*/*.md", "docs/99-reference/*.md")
 
 
@@ -29,6 +33,19 @@ def front_matter(path: Path) -> dict:
         return {}
     data = yaml.safe_load(text[4:end + 1])
     return data if isinstance(data, dict) else {}
+
+
+def review_status_error(meta: dict, verified: datetime.date) -> str | None:
+    """A problem with `review_status`, or None. `baseline` means the date is the shared starting date, not a review."""
+    status = meta.get("review_status")
+    if status is None:
+        return None
+    if status != "baseline":
+        return f"review_status must be `baseline` or absent, not {status!r}"
+    if verified != BASELINE_DATE:
+        return ("`review_status: baseline` goes with the baseline date "
+                f"{BASELINE_DATE}: remove it when you set a real review date")
+    return None
 
 
 def main() -> int:
@@ -56,6 +73,10 @@ def main() -> int:
                 continue
             if verified > today:
                 errors.append(f"{path}: verified date {verified} is in the future")
+
+            problem = review_status_error(meta, verified)
+            if problem:
+                errors.append(f"{path}: {problem}")
 
             tested, source = meta.get("lab_tested"), meta.get("lab_source")
             if bool(tested) != bool(source):

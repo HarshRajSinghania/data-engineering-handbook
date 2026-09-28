@@ -1,5 +1,6 @@
 ---
 verified: 2026-09-27
+review_status: baseline
 lab_tested: "Apache Iceberg 1.11.0"
 lab_source: labs/09-iceberg-lakehouse/lake.py
 ---

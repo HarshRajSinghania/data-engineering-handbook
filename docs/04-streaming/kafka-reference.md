@@ -1,5 +1,6 @@
 ---
 verified: 2026-09-27
+review_status: baseline
 lab_tested: "Apache Kafka 4.3.1"
 lab_source: labs/04-kafka-streaming/docker-compose.yml
 ---

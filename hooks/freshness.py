@@ -18,7 +18,12 @@ def on_page_markdown(markdown, page, config, files):
 
     age = (datetime.date.today() - verified).days
     stale = age > STALE_AFTER_DAYS
-    parts = [f'Last reviewed <time datetime="{verified.isoformat()}">{verified:%-d %b %Y}</time>']
+    if page.meta.get("review_status") == "baseline":
+        # The date is a shared starting date, not a review of this guide: say so instead of claiming a review
+        how = f'<a href="{"../" * page.url.count("/")}maintenance/#reviewing-a-guide">Help review it</a>'
+        parts = [f'Not yet individually reviewed (baseline date <time datetime="{verified.isoformat()}">{verified:%-d %b %Y}</time>)', how]
+    else:
+        parts = [f'Last reviewed <time datetime="{verified.isoformat()}">{verified:%-d %b %Y}</time>']
     if page.meta.get("lab_tested"):
         parts.append(f'Lab-tested with {html.escape(str(page.meta["lab_tested"]))}')
     if page.file.src_uri and config.get("extra", {}).get("pdf_downloads"):

@@ -21,24 +21,22 @@
     {"@type": "ListItem", "position": 1, "name": config.site_name, "item": config.site_url},
     {"@type": "ListItem", "position": 2, "name": page.title, "item": page.canonical_url}
   ] %}
+  {% set article = {
+    "@type": "TechArticle",
+    "headline": page.title,
+    "description": description,
+    "url": page.canonical_url,
+    "inLanguage": "en",
+    "author": {"@type": "Person", "name": "Sarang Ambekar", "url": "https://github.com/sarangambekar1997"},
+    "isPartOf": {"@type": "WebSite", "name": config.site_name, "url": config.site_url},
+    "license": "https://opensource.org/licenses/MIT"
+  } %}
+  {#- Only a guide that was individually reviewed claims a date: a baseline date is not a review -#}
+  {% if page.meta.verified and page.meta.verified.isoformat and page.meta.review_status != "baseline" %}
+    {% set _ = article.update({"dateModified": page.meta.verified.isoformat()}) %}
+  {% endif %}
   <script type="application/ld+json">
-  {{ {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "TechArticle",
-        "headline": page.title,
-        "description": description,
-        "url": page.canonical_url,
-        "inLanguage": "en",
-        "dateModified": page.meta.verified.isoformat() if page.meta.verified and page.meta.verified.isoformat else none,
-        "author": {"@type": "Person", "name": "Sarang Ambekar", "url": "https://github.com/sarangambekar1997"},
-        "isPartOf": {"@type": "WebSite", "name": config.site_name, "url": config.site_url},
-        "license": "https://opensource.org/licenses/MIT"
-      },
-      {"@type": "BreadcrumbList", "itemListElement": crumbs}
-    ]
-  } | tojson }}
+  {{ {"@context": "https://schema.org", "@graph": [article, {"@type": "BreadcrumbList", "itemListElement": crumbs}]} | tojson }}
   </script>
   {% endif %}
 {% endblock %}

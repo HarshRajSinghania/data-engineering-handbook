@@ -1,5 +1,6 @@
 ---
 verified: 2026-09-27
+review_status: baseline
 lab_tested: "DuckDB 1.5.5"
 lab_source: labs/01-sql-analytics/requirements.txt
 ---
