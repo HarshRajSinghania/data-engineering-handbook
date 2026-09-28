@@ -28,6 +28,9 @@ def get_spark(app_name: str = "lab09") -> SparkSession:
         .config(f"spark.sql.catalog.{CATALOG}", "org.apache.iceberg.spark.SparkCatalog")
         .config(f"spark.sql.catalog.{CATALOG}.type", "hadoop")
         .config(f"spark.sql.catalog.{CATALOG}.warehouse", str(WAREHOUSE))
+        # By default a catalog keeps each table's metadata in memory for 30 seconds, so a session can miss a commit that
+        # another process made in that time. The lab runs the pipeline in one process and reads in another: turn it off.
+        .config(f"spark.sql.catalog.{CATALOG}.cache-enabled", "false")
         .config("spark.driver.memory", "1g")
         .config("spark.sql.shuffle.partitions", "4")      # the default of 200 is sized for clusters
         .config("spark.sql.session.timeZone", "UTC")
