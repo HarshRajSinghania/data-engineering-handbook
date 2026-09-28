@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this handbook in your work or teaching, please cite it as below."
+type: software
+title: "Sarang's Data Engineering Handbook"
+abstract: >-
+  A reference for data engineering and AI/LLM engineering: guides on storage,
+  processing, orchestration, streaming, quality, infrastructure and architecture,
+  with hands-on labs, capstone projects and interview preparation.
+authors:
+  - family-names: Ambekar
+    given-names: Sarang
+repository-code: "https://github.com/sarangambekar1997/data-engineering-handbook"
+url: "https://sarangambekar1997.github.io/data-engineering-handbook/"
+license: MIT
+keywords:
+  - data engineering
+  - SQL
+  - Apache Spark
+  - Apache Kafka
+  - Apache Airflow
+  - dbt
+  - lakehouse
+  - RAG
+  - interview preparation

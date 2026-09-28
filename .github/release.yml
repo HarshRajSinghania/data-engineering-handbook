@@ -1,0 +1,22 @@
+# Groups the automatically generated notes of a GitHub release by pull request label.
+changelog:
+  exclude:
+    labels:
+      - ignore-for-release
+  categories:
+    - title: New guides and labs
+      labels:
+        - new-guide
+        - labs
+    - title: Corrections and reviews
+      labels:
+        - correction
+        - verify-guide
+        - bug
+    - title: Site and tooling
+      labels:
+        - site
+        - maintenance
+    - title: Other changes
+      labels:
+        - "*"

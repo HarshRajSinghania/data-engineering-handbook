@@ -87,6 +87,18 @@ python tools/check_freshness.py     # review dates and lab versions are valid
 
 Pull requests that touch `docs/` are built in strict mode by CI and every code block is parsed; merges to `main` deploy the site to GitHub Pages. Pull requests that touch `labs/` run Labs 01–03 end to end. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
+## Community
+
+Corrections, new topics and reviews are welcome, and there are small [good first issues](https://github.com/sarangambekar1997/data-engineering-handbook/issues?q=is%3Aopen+label%3A%22good+first+issue%22) for a first contribution.
+
+- [Contributing](CONTRIBUTING.md): the first-contribution path and the writing rules
+- [Roadmap](docs/roadmap.md): what is planned and where help is wanted
+- [How it is maintained](docs/maintenance.md): what the review dates mean
+- [Discussions](https://github.com/sarangambekar1997/data-engineering-handbook/discussions): questions and ideas
+- [Changelog](CHANGELOG.md): what changed in each release
+
+To cite the handbook, use the **Cite this repository** button on GitHub, which reads [`CITATION.cff`](CITATION.cff).
+
 ## License
 
 [MIT](LICENSE) © Sarang Ambekar
