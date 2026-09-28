@@ -7,8 +7,8 @@ Runs on the first of each month (.github/workflows/monthly.yml). It
   * creates "Monthly maintenance YYYY-MM" with a checklist and the month's numbers, unless it already exists, and
   * makes sure at least --target-reviews "Review the ... guide" issues are open, choosing the guides to review next.
 
-Guides are chosen in this order: not covered by a lab first (a lab already exercises the others), then the oldest
-review date. A guide reviewed in the last 30 days, or that already has an open review issue, is skipped.
+Guides are chosen in this order: those never individually reviewed (`review_status: baseline`) first, then those not
+covered by a lab (a lab already exercises the others), then the oldest review date. A guide individually reviewed in the last 30 days, or that already has an open review issue, is skipped.
 """
 from __future__ import annotations
 
@@ -41,7 +41,7 @@ def load_guides(root: Path) -> list[dict]:
             h1 = re.search(r"^# (.+)$", path.read_text(encoding="utf-8"), re.M)
             rel = path.relative_to(root)
             guides.append({"title": h1.group(1).strip() if h1 else path.stem, "path": rel.as_posix(), "verified": verified,
-                           "lab_tested": bool(meta.get("lab_tested")),
+                           "lab_tested": bool(meta.get("lab_tested")), "baseline": meta.get("review_status") == "baseline",
                            "url": SITE + rel.with_suffix("").relative_to("docs").as_posix() + "/"})
     return guides
 
@@ -53,21 +53,31 @@ def review_title(guide: dict) -> str:
 def pick_guides(guides: list[dict], open_titles: set[str], today: datetime.date, count: int) -> list[dict]:
     """The next `count` guides to ask contributors to review."""
     eligible = [g for g in guides
-                if review_title(g) not in open_titles and (today - g["verified"]).days > RECENT_DAYS]
-    eligible.sort(key=lambda g: (g["lab_tested"], g["verified"], g["path"]))
+                if review_title(g) not in open_titles
+                and (g["baseline"] or (today - g["verified"]).days > RECENT_DAYS)]   # a baseline date is not a review
+    eligible.sort(key=lambda g: (not g["baseline"], g["lab_tested"], g["verified"], g["path"]))   # unreviewed guides first
     return eligible[:count]
 
 
 def review_body(guide: dict) -> str:
+    if guide.get("baseline"):
+        intro = (f"The review date on this guide, {guide['verified']:%-d %B %Y}, is a shared starting date and not the result of "
+                 "checking this guide, so the page says *Not yet individually reviewed*. This issue is to check the guide against "
+                 "current vendor documentation and make the date true.")
+        last = ("4. Set `verified:` in the guide's front matter to the date you checked, **remove the line `review_status: baseline`**, "
+                "and list what you checked in the pull request description.\n\n")
+    else:
+        intro = (f"The review date on this guide is {guide['verified']:%-d %B %Y}. This issue is to check the guide against "
+                 "current vendor documentation and refresh the date.")
+        last = "4. Set `verified:` in the guide's front matter to the date you checked, and list what you checked in the pull request description.\n\n"
     return (
         f"**Guide:** [{guide['title']}]({guide['url']}) (`{guide['path']}`)\n\n"
-        f"The review date on this guide is {guide['verified']:%-d %B %Y}. This issue is to check the guide against "
-        "current vendor documentation and make the date true.\n\n"
+        f"{intro}\n\n"
         "**Task**\n\n"
         "1. Run the guide's commands and code samples against the current release, or confirm them against the vendor documentation.\n"
         "2. Check the versions, defaults and configuration keys named in the text, and open the *Further Reading* links.\n"
         "3. Fix what is wrong in a pull request.\n"
-        "4. Set `verified:` in the guide's front matter to the date you checked, and list what you checked in the pull request description.\n\n"
+        + last +
         f"See [Reviewing a guide]({REPO_URL}blob/main/docs/maintenance.md#reviewing-a-guide) and "
         f"[Contributing]({REPO_URL}blob/main/CONTRIBUTING.md). Comment here to claim it. Expected effort: 30 to 60 minutes.\n")
 
@@ -110,7 +120,7 @@ def monthly_body(month: str, stats: dict, traffic: list[str], picked: list[dict]
 
 ## The numbers
 
-- Guides: {stats['guides']}; overdue for review (over {STALE_AFTER_DAYS} days): {stats['overdue']}
+- Guides: {stats['guides']}; individually reviewed: {stats['reviewed']}; overdue for review (over {STALE_AFTER_DAYS} days): {stats['overdue']}
 - Open issues: {stats['issues']}; open pull requests: {stats['prs']} (Dependabot: {stats['dependabot']})
 - Open guide-review issues: {stats['review_issues']}
 {chr(10).join('- ' + line for line in traffic)}
@@ -157,7 +167,7 @@ def main() -> int:
     contributors = sorted({p["author"]["login"] for p in merged if not p["author"].get("is_bot") and p["author"]["login"] != owner})
 
     picked = pick_guides(guides, open_titles, today, max(0, args.target_reviews - len(open_reviews)))
-    stats = {"guides": len(guides), "overdue": sum((today - g["verified"]).days > STALE_AFTER_DAYS for g in guides),
+    stats = {"guides": len(guides), "reviewed": sum(not g["baseline"] for g in guides), "overdue": sum((today - g["verified"]).days > STALE_AFTER_DAYS for g in guides),
              "issues": sum(i["state"] == "OPEN" for i in issues), "prs": len(prs),
              "dependabot": sum(p["author"]["login"].endswith("dependabot") or p["author"]["login"] == "app/dependabot" for p in prs),
              "review_issues": len(open_reviews)}

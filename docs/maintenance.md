@@ -24,7 +24,10 @@ Every guide shows a line under its summary.
 |-------|---------|
 | **Last reviewed** | The date a maintainer last checked the guide's commands, versions, defaults and links against the vendor documentation. It is not the date of the last edit; a typo fix does not refresh it. |
 | **Lab-tested with** | A hands-on lab exercises this tool at exactly that version, and the lab runs in CI. The version comes from the lab's pinned dependency or container image. |
+| **Not yet individually reviewed** | The guide's date, 27 September 2026, is a shared starting date that every guide received when the review system was introduced, before anyone had checked the guides one by one. The guide's commands and claims may still be right, but nobody has confirmed them against current vendor documentation. The front matter says `review_status: baseline` |
 | **Review overdue** | The guide was last reviewed more than six months ago. It is probably still mostly right, but verify anything version-sensitive. |
+
+Reviewing a guide, and setting a real date, replaces *Not yet individually reviewed* with *Last reviewed*: see [Reviewing a guide](#reviewing-a-guide). The monthly workflow opens review issues for the unreviewed guides first, so the label goes away as guides are checked. Guides written after that date and checked when they were written, such as those added in the coverage rounds, carry a real date.
 
 The site footer also shows a separate *last updated* date, taken from the Git history. That date changes on any edit.
 

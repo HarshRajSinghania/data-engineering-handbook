@@ -1,5 +1,6 @@
 ---
 verified: 2026-09-27
+review_status: baseline
 lab_tested: "Debezium 3.6.3.Final"
 lab_source: labs/10-cdc-debezium/docker-compose.yml
 ---

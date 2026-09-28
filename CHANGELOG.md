@@ -26,6 +26,7 @@ Contributors are credited by GitHub handle on the entry for their change.
 - Per-page search and sharing metadata: every page has its own description (from its summary line) and structured data, and a CI check (`tools/check_seo.py`) keeps it that way.
 - Print stylesheet and a *Print this cheat sheet* button on every guide, and PDF export: one PDF per guide and one bookmarked PDF of the whole handbook, built in CI (closes #32).
 - Sustaining the project: a monthly maintenance issue and a supply of guide-review issues (`tools/monthly_report.py`), weekly archiving of repository traffic to a `metrics` branch (`tools/archive_traffic.py`), grouped monthly Dependabot updates for the site and the labs, and a [governance](GOVERNANCE.md) page describing roles and how to become a reviewer or maintainer.
+- Honest review labels: guides whose date is only the shared starting date now say *Not yet individually reviewed* (`review_status: baseline`) instead of *Last reviewed*, and structured data omits their date. Setting a real review date must remove the flag, and CI checks it.
 - A [dev container](.devcontainer/devcontainer.json) with Python 3.12, Java 17 and Docker, and a Codespaces link in the README.
 - Thirty-three glossary terms introduced by the new guides.
 - Community files: `CODEOWNERS`, `CITATION.cff`, this changelog, release-note categories and a public [roadmap](docs/roadmap.md).

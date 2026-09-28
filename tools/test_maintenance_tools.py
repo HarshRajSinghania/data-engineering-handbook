@@ -12,8 +12,8 @@ import monthly_report as mr  # noqa: E402
 TODAY = datetime.date(2026, 10, 1)
 
 
-def guide(title, verified, lab_tested=False, path=None):
-    return {"title": title, "verified": datetime.date.fromisoformat(verified), "lab_tested": lab_tested,
+def guide(title, verified, lab_tested=False, path=None, baseline=False):
+    return {"title": title, "verified": datetime.date.fromisoformat(verified), "lab_tested": lab_tested, "baseline": baseline,
             "path": path or f"docs/01-storage/{title.lower()}.md", "url": f"https://example.org/{title.lower()}/"}
 
 
@@ -50,9 +50,24 @@ class PickGuides(unittest.TestCase):
         self.assertEqual(len(mr.pick_guides(guides, open_titles, TODAY, 1)), 1)
         self.assertEqual(mr.pick_guides(guides, open_titles, TODAY, 0), [])
 
+    def test_guides_never_reviewed_come_first(self):
+        guides = [guide("Reviewed", "2026-01-01"), guide("Baseline", "2026-09-27", baseline=True)]
+        picked = mr.pick_guides(guides, set(), TODAY, 2)
+        self.assertEqual([g["title"] for g in picked], ["Baseline", "Reviewed"])
+
     def test_ties_are_broken_by_path(self):
         a, b = guide("B", "2026-03-01", path="docs/a.md"), guide("A", "2026-03-01", path="docs/b.md")
         self.assertEqual([g["path"] for g in mr.pick_guides([b, a], set(), TODAY, 2)], ["docs/a.md", "docs/b.md"])
+
+
+class ReviewStatus(unittest.TestCase):
+    def test_baseline_goes_with_the_baseline_date_only(self):
+        import check_freshness as cf
+        baseline = cf.BASELINE_DATE
+        self.assertIsNone(cf.review_status_error({}, datetime.date(2026, 10, 5)))
+        self.assertIsNone(cf.review_status_error({"review_status": "baseline"}, baseline))
+        self.assertIn("remove it", cf.review_status_error({"review_status": "baseline"}, datetime.date(2026, 10, 5)))
+        self.assertIn("must be", cf.review_status_error({"review_status": "reviewed"}, baseline))
 
 
 class Reports(unittest.TestCase):
@@ -62,10 +77,16 @@ class Reports(unittest.TestCase):
         self.assertIn("27 September 2026", body)
         self.assertIn("Set `verified:`", body)
 
+    def test_review_issue_for_a_baseline_guide_says_to_remove_the_flag(self):
+        body = mr.review_body(guide("Kafka", "2026-09-27", baseline=True))
+        self.assertIn("Not yet individually reviewed", body)
+        self.assertIn("remove the line `review_status: baseline`", body)
+        self.assertNotIn("remove the line", mr.review_body(guide("Kafka", "2026-03-01")))
+
     def test_monthly_body_lists_numbers_contributors_and_guides(self):
-        stats = {"guides": 62, "overdue": 1, "issues": 9, "prs": 3, "dependabot": 2, "review_issues": 4}
+        stats = {"guides": 62, "reviewed": 13, "overdue": 1, "issues": 9, "prs": 3, "dependabot": 2, "review_issues": 4}
         body = mr.monthly_body("2026-10", stats, ["Clones: 5"], [guide("Iceberg", "2026-03-01")], ["harsh"])
-        for expected in ("2026-10", "Guides: 62", "overdue for review (over 180 days): 1", "Dependabot: 2", "- Clones: 5",
+        for expected in ("2026-10", "Guides: 62; individually reviewed: 13", "overdue for review (over 180 days): 1", "Dependabot: 2", "- Clones: 5",
                          "@harsh", "Iceberg: https://example.org/iceberg/"):
             self.assertIn(expected, body)
 
