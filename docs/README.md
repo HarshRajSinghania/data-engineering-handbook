@@ -85,9 +85,9 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 
     ---
 
-    Five labs and two capstone projects on one shared dataset.
+    Six labs and two capstone projects on one shared dataset.
 
-    [:octicons-arrow-right-24: 7 projects](#hands-on-labs)
+    [:octicons-arrow-right-24: 8 projects](#hands-on-labs)
 
 -   :material-forum-outline:{ .lg .middle } **Interview Prep**
 
@@ -229,7 +229,7 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 
 ## Hands-on Labs
 
-Practise with [five labs and two capstone projects](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs) that run locally. The labs and the first capstone use one realistic e-commerce dataset:
+Practise with [six labs and two capstone projects](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs) that run locally. The labs and the first capstone use one realistic e-commerce dataset:
 
 | Lab | Practise |
 |-----|----------|
@@ -240,6 +240,7 @@ Practise with [five labs and two capstone projects](https://github.com/sarangamb
 | [05 — Airflow Orchestration](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/05-airflow-orchestration) | Backfills, idempotent loads, quality gates, pools, asset scheduling |
 | [06 — Capstone: Dagster pipeline](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/06-capstone-ecommerce) | An end-to-end pipeline with quality gates, quarantine tables and a dashboard (see [Projects](projects/index.md)) |
 | [07 — Capstone: Docs RAG](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/07-docs-rag) | Chunking, BM25 retrieval and a retrieval eval over these guides |
+| [08 — Data Quality Gates](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/08-data-quality) | Great Expectations suites, thresholds and severity, and a gate that blocks bad, stale and schema-changed data |
 
 ---
 

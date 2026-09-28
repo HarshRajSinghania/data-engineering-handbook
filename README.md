@@ -28,7 +28,7 @@ Every guide goes **Basic → Intermediate → Advanced** with working code examp
 | [`docs/08-architecture`](docs/08-architecture) | System design, choosing a stack, cost optimization |
 | [`docs/09-interviews`](docs/09-interviews) | Interview roadmap, SQL patterns, system design case studies |
 | [`docs/99-reference`](docs/99-reference) | Glossary |
-| [`labs`](labs) | Hands-on labs (SQL, dbt, Spark & Delta Lake, Kafka, Airflow) and two capstone projects |
+| [`labs`](labs) | Hands-on labs (SQL, dbt, Spark & Delta Lake, Kafka, Airflow, data quality) and two capstone projects |
 | [`docs/projects`](docs/projects/index.md) | Capstone projects: an end-to-end pipeline and a RAG system with evals |
 
 Folders are numbered roughly in learning order. New topics go in the folder that matches
@@ -49,7 +49,7 @@ The full learning paths, the "when should I use what" tables, and the cheat shee
 
 ## Hands-on labs
 
-[Five labs and two capstone projects](labs/README.md) turn the guides into practice on one realistic e-commerce dataset, with its duplicates, missing keys, late events and changing records. Each runs locally without a cloud account, and each has runnable exercises and reference solutions that were run end to end.
+[Six labs and two capstone projects](labs/README.md) turn the guides into practice on one realistic e-commerce dataset, with its duplicates, missing keys, late events and changing records. Each runs locally without a cloud account, and each has runnable exercises and reference solutions that were run end to end.
 
 | Lab | Runs on |
 |-----|---------|
@@ -87,7 +87,7 @@ python tools/check_model_ids.py     # no retired model IDs
 python tools/check_freshness.py     # review dates and lab versions are valid
 ```
 
-Pull requests that touch `docs/` are built in strict mode by CI and every code block is parsed; merges to `main` deploy the site to GitHub Pages. Pull requests that touch `labs/` run Labs 01–03 end to end. See [CONTRIBUTING.md](CONTRIBUTING.md).
+Pull requests that touch `docs/` are built in strict mode by CI and every code block is parsed; merges to `main` deploy the site to GitHub Pages. Pull requests that touch `labs/` run every lab end to end. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Community
 
