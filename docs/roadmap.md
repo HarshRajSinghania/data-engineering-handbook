@@ -66,7 +66,7 @@ New guides follow the same template as the existing ones: Basic to Advanced, pit
 | A dev container so every lab starts in one click | Done |
 | Data quality lab with Great Expectations or Soda | Done ([Lab 08](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/08-data-quality)) |
 | Apache Iceberg lab | Done ([Lab 09](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/09-iceberg-lakehouse)) |
-| Change data capture lab with Debezium | Planned |
+| Change data capture lab with Debezium | Done ([Lab 10](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/10-cdc-debezium)) |
 
 ## Site
 

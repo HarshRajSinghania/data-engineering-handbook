@@ -1,0 +1,4 @@
+confluent-kafka==2.15.1
+psycopg[binary]==3.3.6
+duckdb==1.5.5
+pytz==2026.4

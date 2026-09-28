@@ -26,3 +26,5 @@
 *[GSI]: Global Secondary Index — a second, differently keyed copy of a DynamoDB table's data
 *[IVM]: Incremental View Maintenance — updating a materialized view from each change instead of recomputing it
 *[QoS]: Quality of Service — the Kubernetes class (Guaranteed, Burstable, BestEffort) that sets eviction order
+*[WAL]: Write-Ahead Log — a database's log of changes, which log-based CDC reads
+*[LSN]: Log Sequence Number — a position in a database's transaction log

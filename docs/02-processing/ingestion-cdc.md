@@ -1,5 +1,7 @@
 ---
 verified: 2026-09-27
+lab_tested: "Debezium 3.6.3.Final"
+lab_source: labs/10-cdc-debezium/docker-compose.yml
 ---
 
 # Data Ingestion & Change Data Capture
@@ -7,7 +9,7 @@ verified: 2026-09-27
 
 **Prerequisites:** [DE Concepts](../00-foundations/de-concepts.md) · [Python for DE](../00-foundations/python-reference.md) · [SQL](../00-foundations/sql-reference.md)
 
-**Related:** [Kafka](../04-streaming/kafka-reference.md) · [Cloud Storage](../01-storage/cloud-storage.md) · [Data Quality](../05-quality-governance/data-quality.md) · [Airflow](../03-orchestration/airflow-reference.md) · [NoSQL and Operational Stores](../01-storage/nosql-operational-stores.md) · [Streaming SQL](../04-streaming/streaming-sql.md) · [Glossary](../99-reference/glossary.md)
+**Related:** [Lab 10](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/10-cdc-debezium) · [Kafka](../04-streaming/kafka-reference.md) · [Cloud Storage](../01-storage/cloud-storage.md) · [Data Quality](../05-quality-governance/data-quality.md) · [Airflow](../03-orchestration/airflow-reference.md) · [NoSQL and Operational Stores](../01-storage/nosql-operational-stores.md) · [Streaming SQL](../04-streaming/streaming-sql.md) · [Glossary](../99-reference/glossary.md)
 
 ---
 
@@ -267,8 +269,10 @@ Debezium is an open-source CDC platform that runs as Kafka Connect source connec
 |------|---------|----------|---------|
 | `r` | Snapshot read (initial load) | null | row |
 | `c` | Insert | null | row |
-| `u` | Update | old row | new row |
-| `d` | Delete | old row | null |
+| `u` | Update | old row (Postgres: `null` unless the table has `REPLICA IDENTITY FULL`) | new row |
+| `d` | Delete | old row (Postgres by default: only the key, with placeholder values in the other columns) | null |
+
+**Deletes and tombstones:** each delete event is followed by a *tombstone*, a message with the same key and no value, so Kafka can compact the key away (`tombstones.on.delete=false` turns it off). A consumer must skip it. On Postgres, do not read non-key columns from a delete's `before` unless the table has `REPLICA IDENTITY FULL`.
 
 **Snapshot then stream:** on first start the connector takes a consistent snapshot of existing rows (`op = r`), then continues from the exact log position where the snapshot ended — no gap and no overlap.
 
@@ -304,7 +308,7 @@ WHEN NOT MATCHED AND s.op <> 'd' THEN
 **Why each piece matters**
 - *Deduplicate by log position:* one batch may contain several changes to the same row; only the last one counts
 - *Compare `source_lsn`:* replays and out-of-order batches can't overwrite newer data — this makes the apply idempotent
-- *Handle deletes explicitly:* or choose soft deletes (`is_deleted = true`) when downstream needs history
+- *Handle deletes explicitly:* or choose soft deletes (`is_deleted = true`) when downstream needs history. A hard delete forgets the log position, so a replayed older insert can bring the row back; a marked row keeps the position that protects it
 - *Keep the change log too:* an append-only history table of all events supports audits and SCD Type 2
 
 ---

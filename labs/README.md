@@ -1,6 +1,6 @@
 # Hands-on Labs
 
-Seven labs and two capstone projects that turn the guides into practice. They all use one realistic e-commerce dataset, which has the problems real pipelines face: duplicate records, missing keys, invalid values, late and duplicate events, and data that changes after it is loaded.
+Eight labs and two capstone projects that turn the guides into practice. They all use one realistic e-commerce dataset, which has the problems real pipelines face: duplicate records, missing keys, invalid values, late and duplicate events, and data that changes after it is loaded.
 
 Every lab runs on a laptop, with no cloud account. Each has exercises you run as-is and then complete, and reference solutions that were run end to end against the generated data.
 
@@ -15,13 +15,14 @@ Every lab runs on a laptop, with no cloud account. Each has exercises you run as
 | [07 — Capstone: Docs RAG](07-docs-rag/README.md) | Chunking, a BM25 index and a retrieval eval (hit@k, MRR) over the handbook's own guides | Python only | 60–90 min | [RAG](../docs/07-ai/rag.md), [Evals](../docs/07-ai/eval-and-evals.md) |
 | [08 — Data Quality Gates](08-data-quality/README.md) | Great Expectations suites for the dataset, thresholds and severity, and a gate that blocks bad, stale and schema-changed data | Python + Great Expectations | 60–90 min | [Data Quality](../docs/05-quality-governance/data-quality.md), [Pipeline Observability](../docs/05-quality-governance/pipeline-observability.md) |
 | [09 — Iceberg Lakehouse](09-iceberg-lakehouse/README.md) | The Lab 03 pipeline on Apache Iceberg: snapshots and time travel, `MERGE`, schema and partition evolution, maintenance, and branches for write-audit-publish | Python + PySpark 4.1 + Java 17 | 90–120 min | [Apache Iceberg](../docs/01-storage/apache-iceberg.md), [Delta Lake](../docs/01-storage/delta-lake.md) |
+| [10 — CDC with Debezium](10-cdc-debezium/README.md) | Capture changes from Postgres into Kafka, and apply inserts, updates and deletes to a target idempotently, through duplicates, reordering, restarts, a new snapshot and a schema change | Docker + Python | 90–120 min | [Ingestion & CDC](../docs/02-processing/ingestion-cdc.md), [Kafka](../docs/04-streaming/kafka-reference.md) |
 
 The labs can be done in any order. Lab 01 is the best introduction to the dataset, and Labs 02 and 03 build the same daily revenue numbers with two different engines, so you can compare them.
 
 ## Requirements
 
 - Python 3.10 or later. Each lab has its own `requirements.txt`, so use a separate virtual environment per lab.
-- Labs 04 and 05: Docker with Compose v2, and about 1.5 GB of free memory.
+- Labs 04, 05 and 10: Docker with Compose v2, and about 1.5 GB of free memory (2 GB for Lab 10).
 - Labs 03 and 09: Java 17 or 21. Lab 09 needs PySpark 4.1 and Lab 03 needs 4.2, so use a separate virtual environment for each.
 - Or skip the setup: open the repository in a [dev container or GitHub Codespace](../.devcontainer/devcontainer.json), which has Python 3.12, Java 17 and Docker ready. Give it at least 4 CPUs and 8 GB of memory for Labs 04 and 05.
 - Windows: use WSL2. Spark and the shell commands in the lab instructions assume Linux or macOS.
@@ -49,5 +50,5 @@ python data/generate.py --days 365 --orders-per-day 5000   # a larger dataset fo
 
 - `exercises.*` or the provided DAG or processor always runs before you change anything, and the TODOs mark what to write.
 - Solutions are in `solutions.*` or `solutions/`. Compare after each attempt, not before.
-- Every lab is checked in CI. Labs 04, 05, 08 and 09 include a `ci_smoke.py` that runs the lab against the live broker or Airflow (Labs 08 and 09: the reference solutions against several datasets) and asserts the outcomes the README describes, so the instructions cannot drift from what the tools do.
+- Every lab is checked in CI. Labs 04, 05, 08, 09 and 10 include a `ci_smoke.py` that runs the lab against the live broker, Airflow or the CDC stack (Labs 08 and 09: the reference solutions against several datasets) and asserts the outcomes the README describes, so the instructions cannot drift from what the tools do.
 - Generated data, databases and build output are ignored by Git (see [`.gitignore`](.gitignore)), so you can reset a lab by deleting them and regenerating.
