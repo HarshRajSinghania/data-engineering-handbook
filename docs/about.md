@@ -34,6 +34,8 @@ Tools change faster than books. Three things keep this one honest:
 
 [How it is maintained](maintenance.md) explains what each label means and how you can help. If you find something out of date, please [tell me](https://github.com/sarangambekar1997/data-engineering-handbook/issues).
 
+The [roadmap](roadmap.md) lists what is planned next and where help is wanted.
+
 ## License
 
 Content and code are released under the [MIT License](https://github.com/sarangambekar1997/data-engineering-handbook/blob/main/LICENSE). See [Contributing](https://github.com/sarangambekar1997/data-engineering-handbook/blob/main/CONTRIBUTING.md) to help.

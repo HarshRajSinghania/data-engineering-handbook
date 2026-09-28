@@ -2,6 +2,23 @@
 
 Corrections and improvements are welcome: a wrong command, an outdated model ID or price, a broken link, or a missing topic.
 
+## Your first contribution
+
+Most useful contributions are small, and you do not need to install anything for the first two.
+
+| Task | Effort | How |
+|------|--------|-----|
+| Fix a typo, wrong command or dead link | 5 minutes | Click the pencil icon (**Edit this page**) on any page of the site. GitHub forks the repo and opens the pull request for you. |
+| Review a guide against the vendor documentation | 30-60 minutes | Take a guide from the [good first issue](https://github.com/sarangambekar1997/data-engineering-handbook/issues?q=is%3Aopen+label%3A%22good+first+issue%22) list, run its commands, correct what changed and update `verified:`. See [Reviewing a guide](docs/maintenance.md#reviewing-a-guide). |
+| Add an interview question or a glossary term | 15-30 minutes | Follow the format of the existing entries in the guide or in the [glossary](docs/99-reference/glossary.md). |
+| Write a new guide or lab | Several hours | Pick an item marked *help wanted* on the [roadmap](docs/roadmap.md), and comment on its issue first so the work is not duplicated. |
+
+The steps are the same for all of them:
+
+1. Find or open an issue, and comment that you are working on it.
+2. Fork the repo, create a branch and make the change.
+3. Open a pull request. CI runs the checks and reports what to fix, so you can open one without any local tooling. The PR template lists what reviewers look for.
+
 ## Reporting a problem
 
 Open an [issue](https://github.com/sarangambekar1997/data-engineering-handbook/issues) with the guide name, the section, and what is wrong. A link to the vendor documentation that shows the correct behaviour helps a lot.
@@ -34,6 +51,10 @@ Open an [issue](https://github.com/sarangambekar1997/data-engineering-handbook/i
 ## Labs
 
 Each lab runs on a laptop and has a `README.md`, exercises and solutions. See [`labs/README.md`](labs/README.md) for the conventions. CI runs Labs 01–03 end to end and validates the Docker Compose files of Labs 04–05.
+
+## Recognition
+
+Contributors are listed on the repository's [contributors page](https://github.com/sarangambekar1997/data-engineering-handbook/graphs/contributors), and each entry in the [changelog](CHANGELOG.md) credits the GitHub handle of the person whose change it records. A contributor who reviews or maintains an area over time can be added to [`.github/CODEOWNERS`](.github/CODEOWNERS) for it.
 
 ## License
 
