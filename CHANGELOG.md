@@ -4,13 +4,17 @@ All notable changes to the handbook are recorded here. The format follows [Keep 
 
 Versions describe the handbook as a whole:
 
-- **Minor** (`0.x.0`): new guides, labs or site features.
-- **Patch** (`0.x.y`): corrections, review-date refreshes and fixes to existing content.
-- **1.0.0** is planned for when the [roadmap](docs/roadmap.md) coverage rounds are complete, every lab runs in CI and every guide has been reviewed within the last six months.
+- **Minor** (`x.Y.0`): new guides, labs or site features.
+- **Patch** (`x.y.Z`): corrections, review-date refreshes and fixes to existing content.
+- **1.0.0** marked the [roadmap](docs/roadmap.md) coverage rounds complete, every lab running in CI, and every guide reviewed within the last six months. Versions after it follow the same minor/patch pattern.
 
 Contributors are credited by GitHub handle on the entry for their change.
 
 ## [Unreleased]
+
+## [1.0.0] - 2026-09-29
+
+The handbook now meets the bar this changelog set for 1.0: coverage rounds A-C are complete, every lab runs in CI, and every guide has been reviewed within the last six months (all 62 show a real `verified` date, not the shared baseline).
 
 ### Added
 
