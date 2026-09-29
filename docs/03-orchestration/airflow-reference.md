@@ -1,6 +1,5 @@
 ---
-verified: 2026-09-27
-review_status: baseline
+verified: 2026-09-29
 lab_tested: "Apache Airflow 3.3.2"
 lab_source: labs/05-airflow-orchestration/Dockerfile
 ---
@@ -177,7 +176,7 @@ default_args = {
     "retries":          2,
     "retry_delay":      timedelta(minutes=5),
     "email_on_failure": True,
-    "email":            ["data-alerts@example.com"],
+    "email":            ["de-alerts@example.com"],
 }
 
 # DAG definition
