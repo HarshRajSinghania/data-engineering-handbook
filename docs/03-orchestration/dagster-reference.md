@@ -1,6 +1,5 @@
 ---
-verified: 2026-09-27
-review_status: baseline
+verified: 2026-09-29
 lab_tested: "Dagster 1.13.24"
 lab_source: labs/06-capstone-ecommerce/requirements.txt
 ---
