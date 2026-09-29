@@ -1,6 +1,5 @@
 ---
-verified: 2026-09-27
-review_status: baseline
+verified: 2026-09-29
 lab_tested: "PySpark 4.2.0"
 lab_source: labs/03-spark-lakehouse/requirements.txt
 ---
