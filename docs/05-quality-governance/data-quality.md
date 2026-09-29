@@ -1,6 +1,5 @@
 ---
-verified: 2026-09-27
-review_status: baseline
+verified: 2026-09-29
 lab_tested: "Great Expectations 1.23.2"
 lab_source: labs/08-data-quality/requirements.txt
 ---
@@ -532,7 +531,7 @@ A data contract is a formal agreement between a data producer and consumer defin
 name: orders
 version: "1.2.0"
 description: "Transactional orders from the e-commerce platform"
-owner: "data-engineering@company.com"
+owner: "orders-data@example.com"
 updated_at: "2024-03-15"
 
 schema:
@@ -573,7 +572,7 @@ quality:
 sla:
   availability: "99.9%"
   freshness: "data available by 06:00 UTC"
-  support_contact: "data-team@example.com"
+  support_contact: "data-support@example.com"
 ```
 
 ---
