@@ -1,6 +1,5 @@
 ---
-verified: 2026-09-27
-review_status: baseline
+verified: 2026-09-29
 lab_tested: "dbt-core 1.12.5"
 lab_source: labs/02-dbt-transformations/requirements.txt
 ---
