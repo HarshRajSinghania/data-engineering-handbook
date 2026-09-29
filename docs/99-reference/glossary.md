@@ -1,6 +1,5 @@
 ---
-verified: 2026-09-27
-review_status: baseline
+verified: 2026-09-29
 ---
 
 # Data Engineering Glossary
@@ -224,7 +223,7 @@ review_status: baseline
 
 **Liquid Clustering** — A Delta Lake layout feature (`CLUSTER BY`) that replaces partitioning and Z-ordering, and lets clustering keys change without rewriting the whole table. See [Delta Lake](../01-storage/delta-lake.md).
 
-**LLM (Large Language Model)** — A neural network trained on large amounts of text, capable of understanding and generating human language. Examples: Claude, GPT-4.
+**LLM (Large Language Model)** — A neural network trained on large amounts of text, capable of understanding and generating human language. Examples: Claude models, GPT series, Gemini.
 
 **LSN (Log Sequence Number)** — A position in a database's transaction log (for example the Postgres WAL). CDC tools use it to order changes and resume from an exact point.
 
