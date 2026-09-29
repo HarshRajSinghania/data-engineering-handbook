@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block extrahead %}
+  <meta name="google-site-verification" content="-llLstx76HaRasyV2pTEUzijR9igxt5aoh1AQ_3vMeY">
   {% set title = config.site_name if page.is_homepage else page.title ~ " · " ~ config.site_name %}
   {% set description = page.meta.description if page.meta and page.meta.description else config.site_description %}
   <meta property="og:type" content="{{ 'website' if page.is_homepage else 'article' }}">
