@@ -1,6 +1,5 @@
 ---
-verified: 2026-09-27
-review_status: baseline
+verified: 2026-09-29
 ---
 
 # Docker Reference
@@ -165,7 +164,7 @@ docker system df              # show disk usage
 FROM python:3.11-slim
 
 # Metadata
-LABEL maintainer="data-engineering@mycompany.com"
+LABEL maintainer="maintainer@example.com"
 LABEL version="1.0"
 
 # Set working directory inside the container
