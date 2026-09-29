@@ -24,7 +24,7 @@ flowchart LR
 | Coverage round A: five new guides (see below) | Done |
 | Coverage round B: four new guides (see below) | Done |
 | Coverage round C: four new guides (see below) | Done |
-| Review each existing guide against current vendor documentation, so the review dates reflect real checks | Open, *help wanted* |
+| Review each existing guide against current vendor documentation, so the review dates reflect real checks | Done |
 
 ## Coverage
 
