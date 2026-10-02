@@ -10,8 +10,8 @@ This page states intent, not commitments. Items move as priorities change, and a
 
 ```mermaid
 flowchart LR
-    N["Now<br/>Contributor onboarding<br/>and review of existing guides"] --> A["Next<br/>Coverage round A"]
-    A --> B["Then<br/>Rounds B and C,<br/>new labs, lab CI"]
+    N["Now<br/>New labs, lab CI<br/>and review of existing guides"] --> A["Next<br/>Site features"]
+    A --> B["Then<br/>Launch"]
     B --> V["1.0<br/>Complete coverage,<br/>all labs in CI,<br/>all guides reviewed"]
 ```
 
@@ -21,57 +21,61 @@ flowchart LR
 |------|--------|
 | Review dates and lab-tested versions on every guide | Done ([how it works](maintenance.md)) |
 | Contributor path: first-contribution guide, code owners, changelog, citation file | Done |
-| Review each existing guide against current vendor documentation, so the review dates reflect real checks | Open, *help wanted* |
+| Coverage round A: five new guides (see below) | Done |
+| Coverage round B: four new guides (see below) | Done |
+| Coverage round C: four new guides (see below) | Done |
+| Review each existing guide against current vendor documentation, so the review dates reflect real checks | Done |
 
 ## Coverage
 
 New guides follow the same template as the existing ones: Basic to Advanced, pitfalls, cheat sheet, interview questions and a Mermaid diagram.
 
-### Round A
+### Round A (published)
 
 | Guide | Scope |
 |-------|-------|
-| Testing and CI/CD for data pipelines | Unit and data tests, contract checks, environments, deployment pipelines |
-| Trino and query federation | Distributed SQL over lakes and databases, connectors, performance |
-| Real-time analytics databases | ClickHouse, Apache Druid and Apache Pinot: when to use each, ingestion and modelling |
-| Kubernetes for data workloads | Running Spark, Airflow and streaming jobs on Kubernetes, resources and scheduling |
-| Azure and Microsoft Fabric | The Azure data services and Fabric's lakehouse, warehouse and pipelines |
+| [Testing and CI/CD for Data Pipelines](06-infrastructure/testing-cicd.md) | Unit and property tests, idempotency and backfills, CI design, data diff, write-audit-publish, promotion |
+| [Trino and Query Federation](02-processing/trino-federation.md) | Distributed SQL over lakes and databases, connectors, pushdown, Iceberg, fault-tolerant execution |
+| [Real-Time Analytics Databases](01-storage/realtime-olap.md) | ClickHouse, Apache Druid and Apache Pinot: when to use each, ingestion and modelling |
+| [Kubernetes for Data Workloads](06-infrastructure/kubernetes-for-de.md) | Jobs, resources, node pools and spot capacity, Spark, Airflow and Flink on Kubernetes |
+| [Azure and Microsoft Fabric](01-storage/azure-fabric.md) | OneLake, capacity, lakehouse and warehouse, shortcuts and mirroring, Event Hubs, CI/CD |
 
-### Round B
-
-| Guide | Scope |
-|-------|-------|
-| Apache Beam and Dataflow | The unified batch and streaming model, runners, windowing |
-| Streaming SQL | Materialize and RisingWave: incremental views over streams |
-| Business intelligence tools | Apache Superset and Metabase: modelling, caching, embedding |
-| NoSQL and operational stores | Document, wide-column and key-value stores in a data platform |
-
-### Round C
+### Round B (published)
 
 | Guide | Scope |
 |-------|-------|
-| DataOps and incident response | SLAs and SLOs, on-call, runbooks, post-incident reviews |
-| MCP and text-to-SQL | Exposing data to LLM agents safely, evaluation of generated SQL |
-| Data catalogs | DataHub and OpenMetadata: metadata ingestion, lineage, ownership |
-| Choosing a stack | A decision guide across the tools in the handbook |
+| [Apache Beam and Dataflow](04-streaming/beam-dataflow.md) | The unified batch and streaming model, windows and triggers, testing, runners, Dataflow |
+| [Streaming SQL](04-streaming/streaming-sql.md) | Materialize and RisingWave: incremental views over streams |
+| [BI Tools](02-processing/bi-tools.md) | Apache Superset and Metabase: modelling, performance, row-level security, embedding, operations |
+| [NoSQL and Operational Stores](01-storage/nosql-operational-stores.md) | DynamoDB, MongoDB, Valkey and Redis, and Cassandra: modelling, CDC and exports, serving data back |
+
+### Round C (published)
+
+| Guide | Scope |
+|-------|-------|
+| [DataOps](05-quality-governance/dataops-operations.md) | Severity levels, on-call, runbooks, incident response, blameless postmortems, operating metrics |
+| [MCP and Text-to-SQL](07-ai/mcp-text-to-sql.md) | A tested read-only SQL server for assistants, SQL validation, evaluation of generated SQL |
+| [Data Catalogs in Practice](05-quality-governance/data-catalogs.md) | DataHub and OpenMetadata: ingestion, metadata model, catalog as code |
+| [Choosing a Stack](08-architecture/choosing-a-stack.md) | Requirements first, reference architectures, stack review checks, decision records |
 
 ## Labs
 
 | Item | Status |
 |------|--------|
-| Run Labs 04 and 05 (Kafka, Airflow) in CI, not only validate their Compose files | Planned, *help wanted* |
-| A dev container so every lab starts in one click | Planned, *help wanted* |
-| Data quality lab with Great Expectations or Soda | Planned |
-| Apache Iceberg lab | Planned |
-| Change data capture lab with Debezium | Planned |
+| Run Labs 04 and 05 (Kafka, Airflow) in CI, not only validate their Compose files | Done |
+| A dev container so every lab starts in one click | Done |
+| Data quality lab with Great Expectations or Soda | Done ([Lab 08](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/08-data-quality)) |
+| Apache Iceberg lab | Done ([Lab 09](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/09-iceberg-lakehouse)) |
+| Change data capture lab with Debezium | Done ([Lab 10](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/10-cdc-debezium)) |
 
 ## Site
 
 | Item | Status |
 |------|--------|
-| PDF and EPUB export | Planned |
-| Print-friendly cheat sheets | Planned, *help wanted* |
-| Role-based learning paths (analytics engineer, platform engineer, AI engineer) | Planned |
+| PDF export: one PDF per guide and one for the whole handbook | Done ([how it works](maintenance.md#pdfs-and-printing)) |
+| EPUB export | Not planned: the guides are code and diagram heavy, which suits fixed-layout PDF better. Open a [topic request](https://github.com/sarangambekar1997/data-engineering-handbook/issues/new?template=topic-request.yml) if you need it. |
+| Print-friendly guides and cheat sheets | Done |
+| Role-based learning paths (analytics engineer, platform engineer, AI engineer) | Done ([paths](paths/index.md)) |
 
 ## How to influence the roadmap
 

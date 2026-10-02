@@ -21,6 +21,7 @@ validation:
 # Renders each guide's "Last reviewed" line from its front matter (hooks/freshness.py)
 hooks:
   - hooks/freshness.py
+  - hooks/seo.py
 
 theme:
   name: material
@@ -67,6 +68,9 @@ theme:
 extra_css:
   - stylesheets/extra.css
 
+extra_javascript:
+  - javascripts/print-cheatsheet.js
+
 plugins:
   - search
   - git-revision-date-localized:
@@ -75,6 +79,8 @@ plugins:
       fallback_to_build_date: true
 
 extra:
+  # Links each guide to its PDF. The PDFs are built after the site by tools/build_pdfs.py (see docs/maintenance.md)
+  pdf_downloads: true
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/sarangambekar1997
@@ -121,6 +127,11 @@ markdown_extensions:
 
 nav:
   - Home: README.md
+  - Learning Paths:
+      - By Role: paths/index.md
+      - Analytics Engineer: paths/analytics-engineer.md
+      - Data Platform Engineer: paths/platform-engineer.md
+      - AI Data Engineer: paths/ai-data-engineer.md
   - Foundations:
       - DE Concepts: 00-foundations/de-concepts.md
       - SQL: 00-foundations/sql-reference.md
@@ -133,29 +144,40 @@ nav:
       - Snowflake: 01-storage/snowflake-reference.md
       - BigQuery: 01-storage/bigquery-reference.md
       - Amazon Redshift: 01-storage/redshift-reference.md
+      - Azure & Microsoft Fabric: 01-storage/azure-fabric.md
+      - NoSQL & Operational Stores: 01-storage/nosql-operational-stores.md
       - Delta Lake: 01-storage/delta-lake.md
       - Apache Hudi: 01-storage/apache-hudi.md
       - Apache Iceberg: 01-storage/apache-iceberg.md
+      - Real-Time Analytics Databases: 01-storage/realtime-olap.md
   - Ingestion & Processing:
       - Ingestion & CDC: 02-processing/ingestion-cdc.md
       - DuckDB & Polars: 02-processing/duckdb-polars.md
       - PySpark: 02-processing/pyspark-reference.md
       - Databricks: 02-processing/databricks-reference.md
+      - Trino & Query Federation: 02-processing/trino-federation.md
       - dbt: 02-processing/dbt-reference.md
       - Semantic Layer & Metrics: 02-processing/semantic-layer-metrics.md
+      - BI Tools (Superset & Metabase): 02-processing/bi-tools.md
   - Orchestration & Streaming:
       - Apache Airflow: 03-orchestration/airflow-reference.md
       - Dagster: 03-orchestration/dagster-reference.md
       - Prefect: 03-orchestration/prefect-reference.md
       - Apache Kafka: 04-streaming/kafka-reference.md
       - Apache Flink: 04-streaming/flink-reference.md
+      - Apache Beam & Dataflow: 04-streaming/beam-dataflow.md
+      - Streaming SQL (Materialize & RisingWave): 04-streaming/streaming-sql.md
   - Quality & Infrastructure:
       - Data Quality: 05-quality-governance/data-quality.md
       - Governance & Lineage: 05-quality-governance/governance-lineage.md
+      - Data Catalogs (DataHub & OpenMetadata): 05-quality-governance/data-catalogs.md
       - Data Security & Privacy: 05-quality-governance/data-security-privacy.md
       - Pipeline Observability: 05-quality-governance/pipeline-observability.md
+      - DataOps (On-Call & Incidents): 05-quality-governance/dataops-operations.md
       - Docker: 06-infrastructure/docker-reference.md
+      - Kubernetes: 06-infrastructure/kubernetes-for-de.md
       - Terraform: 06-infrastructure/terraform-for-de.md
+      - Testing & CI/CD: 06-infrastructure/testing-cicd.md
   - AI & ML:
       - Prompt Engineering: 07-ai/prompt-engineering.md
       - LLM APIs: 07-ai/llm-apis.md
@@ -163,6 +185,7 @@ nav:
       - RAG: 07-ai/rag.md
       - Vector Databases: 07-ai/vector-databases.md
       - AI Agents: 07-ai/ai-agents.md
+      - MCP & Text-to-SQL: 07-ai/mcp-text-to-sql.md
       - LangChain & LlamaIndex: 07-ai/langchain-llamaindex.md
       - Evals: 07-ai/eval-and-evals.md
       - MLflow: 07-ai/mlflow.md
@@ -172,6 +195,7 @@ nav:
       - Local LLMs: 07-ai/local-llms.md
   - Architecture:
       - System Design: 08-architecture/system-design.md
+      - Choosing a Stack: 08-architecture/choosing-a-stack.md
       - Cost Optimization: 08-architecture/cost-optimization.md
   - Projects:
       - Capstone Projects: projects/index.md

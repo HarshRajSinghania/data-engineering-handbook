@@ -1,5 +1,5 @@
 ---
-verified: 2026-09-27
+verified: 2026-09-29
 ---
 
 # Apache Flink Reference
@@ -7,7 +7,7 @@ verified: 2026-09-27
 
 **Prerequisites:** [Kafka](kafka-reference.md) · [SQL](../00-foundations/sql-reference.md) · [DE Concepts](../00-foundations/de-concepts.md)
 
-**Related:** [PySpark](../02-processing/pyspark-reference.md) · [Data Ingestion & CDC](../02-processing/ingestion-cdc.md) · [Apache Iceberg](../01-storage/apache-iceberg.md) · [System Design](../08-architecture/system-design.md) · [Glossary](../99-reference/glossary.md)
+**Related:** [PySpark](../02-processing/pyspark-reference.md) · [Data Ingestion & CDC](../02-processing/ingestion-cdc.md) · [Apache Iceberg](../01-storage/apache-iceberg.md) · [Beam and Dataflow](beam-dataflow.md) · [Streaming SQL](streaming-sql.md) · [System Design](../08-architecture/system-design.md) · [Glossary](../99-reference/glossary.md)
 
 **Practice:** [Lab 04 — Kafka Streaming](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/04-kafka-streaming)
 
@@ -374,4 +374,4 @@ A: A replayable source whose position is stored in the checkpoint, and a sink th
 
 ---
 
-**Previous:** [Kafka](kafka-reference.md) · **Next:** [Data Ingestion & CDC](../02-processing/ingestion-cdc.md) · **Back to:** [Index](../README.md)
+**Previous:** [Kafka](kafka-reference.md) · **Next:** [Beam and Dataflow](beam-dataflow.md) · **Back to:** [Index](../README.md)

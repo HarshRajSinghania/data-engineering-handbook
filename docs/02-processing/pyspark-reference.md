@@ -1,5 +1,5 @@
 ---
-verified: 2026-09-27
+verified: 2026-09-29
 lab_tested: "PySpark 4.2.0"
 lab_source: labs/03-spark-lakehouse/requirements.txt
 ---

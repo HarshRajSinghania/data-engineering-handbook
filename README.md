@@ -9,6 +9,10 @@ Every guide goes **Basic → Intermediate → Advanced** with working code examp
 
 **→ Or start here on GitHub: [Full index & learning paths](docs/README.md)**
 
+**→ Offline: [download the whole handbook as a PDF](https://sarangambekar1997.github.io/data-engineering-handbook/sarangs-data-engineering-handbook.pdf)** (about 24 MB, with bookmarks)
+
+**→ Run the labs without local setup:** [open in a GitHub Codespace](https://codespaces.new/sarangambekar1997/data-engineering-handbook) (Python, Java and Docker included)
+
 ---
 
 ## Layout
@@ -16,17 +20,17 @@ Every guide goes **Basic → Intermediate → Advanced** with working code examp
 | Folder | Covers |
 |--------|--------|
 | [`docs/00-foundations`](docs/00-foundations) | DE concepts, SQL, Python, Linux & Bash, Git |
-| [`docs/01-storage`](docs/01-storage) | Cloud storage, data modeling, Snowflake, BigQuery, Redshift, Delta Lake, Hudi, Apache Iceberg |
-| [`docs/02-processing`](docs/02-processing) | Data ingestion & CDC, DuckDB & Polars, PySpark, Databricks, dbt, semantic layer |
+| [`docs/01-storage`](docs/01-storage) | Cloud storage, data modeling, Snowflake, BigQuery, Redshift, Azure & Fabric, NoSQL and operational stores, Delta Lake, Hudi, Apache Iceberg, real-time analytics databases (ClickHouse, Druid, Pinot) |
+| [`docs/02-processing`](docs/02-processing) | Data ingestion & CDC, DuckDB & Polars, PySpark, Databricks, Trino, dbt, semantic layer, BI tools (Superset, Metabase) |
 | [`docs/03-orchestration`](docs/03-orchestration) | Apache Airflow, Dagster, Prefect |
-| [`docs/04-streaming`](docs/04-streaming) | Apache Kafka, Apache Flink |
-| [`docs/05-quality-governance`](docs/05-quality-governance) | Data quality, governance, lineage, contracts, security & privacy, pipeline observability |
-| [`docs/06-infrastructure`](docs/06-infrastructure) | Docker, Terraform |
-| [`docs/07-ai`](docs/07-ai) | Prompting, LLM APIs, embeddings, RAG, vector DBs, agents, evals, MLflow, fine-tuning |
-| [`docs/08-architecture`](docs/08-architecture) | System design, cost optimization |
+| [`docs/04-streaming`](docs/04-streaming) | Apache Kafka, Apache Flink, Apache Beam and Dataflow, streaming SQL (RisingWave, Materialize) |
+| [`docs/05-quality-governance`](docs/05-quality-governance) | Data quality, governance, lineage, contracts, data catalogs (DataHub, OpenMetadata), security & privacy, pipeline observability, DataOps and incident response |
+| [`docs/06-infrastructure`](docs/06-infrastructure) | Docker, Kubernetes, Terraform, testing and CI/CD for data pipelines |
+| [`docs/07-ai`](docs/07-ai) | Prompting, LLM APIs, embeddings, RAG, vector DBs, agents, MCP and text-to-SQL, evals, MLflow, fine-tuning |
+| [`docs/08-architecture`](docs/08-architecture) | System design, choosing a stack, cost optimization |
 | [`docs/09-interviews`](docs/09-interviews) | Interview roadmap, SQL patterns, system design case studies |
 | [`docs/99-reference`](docs/99-reference) | Glossary |
-| [`labs`](labs) | Hands-on labs (SQL, dbt, Spark & Delta Lake, Kafka, Airflow) and two capstone projects |
+| [`labs`](labs) | Hands-on labs (SQL, dbt, Spark & Delta Lake, Kafka, Airflow, data quality, Iceberg, change data capture) and two capstone projects |
 | [`docs/projects`](docs/projects/index.md) | Capstone projects: an end-to-end pipeline and a RAG system with evals |
 
 Folders are numbered roughly in learning order. New topics go in the folder that matches
@@ -43,11 +47,15 @@ where they sit in a pipeline, and a new top-level area gets the next free number
 | Preparing for design interviews | [System Design](docs/08-architecture/system-design.md) → [Ingestion & CDC](docs/02-processing/ingestion-cdc.md) → [Data Modeling](docs/01-storage/data-modeling.md) |
 | Looking up a term | [Glossary](docs/99-reference/glossary.md) |
 
-The full learning paths, the "when should I use what" tables, and the cheat sheets are in the [index](docs/README.md).
+The full learning paths, the "when should I use what" tables, and the cheat sheets are in the [index](docs/README.md). By role: [analytics engineer](docs/paths/analytics-engineer.md), [data platform engineer](docs/paths/platform-engineer.md) and [AI data engineer](docs/paths/ai-data-engineer.md).
+
+## Contributing and governance
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for how to help, and [GOVERNANCE.md](GOVERNANCE.md) for roles, decisions and how to become a reviewer or maintainer. Reviewers are wanted for the labs and the AI guides.
 
 ## Hands-on labs
 
-[Five labs and two capstone projects](labs/README.md) turn the guides into practice on one realistic e-commerce dataset, with its duplicates, missing keys, late events and changing records. Each runs locally without a cloud account, and each has runnable exercises and reference solutions that were run end to end.
+[Eight labs and two capstone projects](labs/README.md) turn the guides into practice on one realistic e-commerce dataset, with its duplicates, missing keys, late events and changing records. Each runs locally without a cloud account, and each has runnable exercises and reference solutions that were run end to end.
 
 | Lab | Runs on |
 |-----|---------|
@@ -85,7 +93,7 @@ python tools/check_model_ids.py     # no retired model IDs
 python tools/check_freshness.py     # review dates and lab versions are valid
 ```
 
-Pull requests that touch `docs/` are built in strict mode by CI and every code block is parsed; merges to `main` deploy the site to GitHub Pages. Pull requests that touch `labs/` run Labs 01–03 end to end. See [CONTRIBUTING.md](CONTRIBUTING.md).
+Pull requests that touch `docs/` are built in strict mode by CI and every code block is parsed; merges to `main` deploy the site to GitHub Pages. Pull requests that touch `labs/` run every lab end to end. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Community
 

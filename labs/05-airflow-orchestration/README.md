@@ -13,6 +13,7 @@ Schedule a daily batch pipeline with Apache Airflow 3: run it, backfill a week o
 ```bash
 cd labs/05-airflow-orchestration
 echo "AIRFLOW_UID=$(id -u)" > .env      # Linux/WSL: files written by Airflow stay owned by you
+mkdir -p warehouse                      # create it yourself: Docker would create it owned by root, and Airflow could not write to it
 docker compose up -d --build --wait     # first build takes a few minutes
 ```
 
@@ -45,6 +46,8 @@ flowchart LR
 | `catchup=False` with explicit backfills | `@dag(...)` |
 
 The warehouse is `warehouse/shop.duckdb`, and the landing files and reports are also under `warehouse/` on your machine.
+
+[`ci_smoke.py`](ci_smoke.py) runs the exercises below through the Airflow CLI and checks the results they describe. CI uses it, and it needs a fresh stack (`docker compose down -v` first). It swaps in the reference DAG for exercise 3 and restores your `dags/shop_daily.py` afterwards.
 
 ## Exercises
 

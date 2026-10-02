@@ -1,7 +1,7 @@
 """MkDocs hook: show when each guide was last reviewed, right under its summary line.
 
 Reads `verified` (date) and the optional `lab_tested` (tool and version) from the
-page front matter. A guide not reviewed within STALE_AFTER_DAYS gets a warning
+page front matter, and adds a link to the guide's PDF when `extra.pdf_downloads` is set. A guide not reviewed within STALE_AFTER_DAYS gets a warning
 note. Keep STALE_AFTER_DAYS in step with tools/check_freshness.py.
 """
 import datetime
@@ -18,9 +18,18 @@ def on_page_markdown(markdown, page, config, files):
 
     age = (datetime.date.today() - verified).days
     stale = age > STALE_AFTER_DAYS
-    parts = [f'Last reviewed <time datetime="{verified.isoformat()}">{verified:%-d %b %Y}</time>']
+    if page.meta.get("review_status") == "baseline":
+        # The date is a shared starting date, not a review of this guide: say so instead of claiming a review
+        how = f'<a href="{"../" * page.url.count("/")}maintenance/#reviewing-a-guide">Help review it</a>'
+        parts = [f'Not yet individually reviewed (baseline date <time datetime="{verified.isoformat()}">{verified:%-d %b %Y}</time>)', how]
+    else:
+        parts = [f'Last reviewed <time datetime="{verified.isoformat()}">{verified:%-d %b %Y}</time>']
     if page.meta.get("lab_tested"):
         parts.append(f'Lab-tested with {html.escape(str(page.meta["lab_tested"]))}')
+    if page.file.src_uri and config.get("extra", {}).get("pdf_downloads"):
+        # tools/build_pdfs.py writes one PDF per guide to pdf/<name>.pdf at the site root
+        stem = page.file.src_uri.rsplit("/", 1)[-1].removesuffix(".md")
+        parts.append(f'<a class="pdf-link" href="{"../" * page.url.count("/")}pdf/{stem}.pdf">Download PDF</a>')
     css = "page-freshness page-freshness--stale" if stale else "page-freshness"
     line = f'<p class="{css}">{" · ".join(parts)}</p>'
     if stale:

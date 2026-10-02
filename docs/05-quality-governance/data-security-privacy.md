@@ -1,5 +1,5 @@
 ---
-verified: 2026-09-27
+verified: 2026-09-29
 ---
 
 # Data Security & Privacy
@@ -7,7 +7,7 @@ verified: 2026-09-27
 
 **Prerequisites:** [Data Governance & Lineage](governance-lineage.md) · [Cloud Storage](../01-storage/cloud-storage.md)
 
-**Related:** [Snowflake](../01-storage/snowflake-reference.md) · [Terraform](../06-infrastructure/terraform-for-de.md) · [Delta Lake](../01-storage/delta-lake.md) · [Glossary](../99-reference/glossary.md)
+**Related:** [Data Catalogs](data-catalogs.md) · [Snowflake](../01-storage/snowflake-reference.md) · [Terraform](../06-infrastructure/terraform-for-de.md) · [Delta Lake](../01-storage/delta-lake.md) · [Glossary](../99-reference/glossary.md)
 
 ---
 
@@ -386,4 +386,4 @@ A: Prefer identities such as IAM roles with short-lived credentials, so there is
 
 ---
 
-**Previous:** [Data Governance & Lineage](governance-lineage.md) · **Next:** [Pipeline Observability](pipeline-observability.md) · **Back to:** [Index](../README.md)
+**Previous:** [Data Catalogs in Practice](data-catalogs.md) · **Next:** [Pipeline Observability](pipeline-observability.md) · **Back to:** [Index](../README.md)

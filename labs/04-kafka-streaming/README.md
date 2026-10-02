@@ -43,6 +43,7 @@ kafka topics --describe --topic page_views
 | [`stream_processor.py`](stream_processor.py) | **The exercise.** Validates, deduplicates, and counts views per page in 1-hour event-time windows. Three functions are left for you. |
 | [`check_hourly.py`](check_hourly.py) | Compares the processor's output with the true counts from the source file. |
 | [`solutions/stream_processor.py`](solutions/stream_processor.py) | Reference answer. |
+| [`ci_smoke.py`](ci_smoke.py) | Runs the exercises against the broker and checks the results described below. CI uses it; it needs a running broker and deletes and re-creates the three topics. |
 
 ## Exercises
 

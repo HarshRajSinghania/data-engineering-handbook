@@ -1,5 +1,5 @@
 ---
-verified: 2026-09-27
+verified: 2026-09-29
 ---
 
 # Cloud Storage for Data Engineers
@@ -7,7 +7,7 @@ verified: 2026-09-27
 
 **Prerequisites:** [DE Concepts](../00-foundations/de-concepts.md)
 
-**Related:** [Apache Iceberg](apache-iceberg.md) · [Databricks](../02-processing/databricks-reference.md) · [Terraform](../06-infrastructure/terraform-for-de.md) · [Glossary](../99-reference/glossary.md)
+**Related:** [Apache Iceberg](apache-iceberg.md) · [Databricks](../02-processing/databricks-reference.md) · [Terraform](../06-infrastructure/terraform-for-de.md) · [Azure and Fabric](azure-fabric.md) · [Glossary](../99-reference/glossary.md)
 
 ---
 
@@ -89,7 +89,7 @@ Filesystem:           Object Storage:
 | Property | Implication |
 |----------|------------|
 | **Infinitely scalable** | No capacity planning — store petabytes |
-| **Cheap** | ~$0.023/GB/month (S3 Standard) vs ~$0.10/GB for SSD block storage |
+| **Cheap** | ~$0.02/GB/month for object storage vs ~$0.10/GB for SSD block storage (illustrative — check provider pricing pages for current rates) |
 | **No rename** | Renaming = copy + delete (expensive for large files) |
 | **No atomic directory ops** | "Moving" a folder = copy all objects + delete originals |
 | **Eventual consistency** → **Strong consistency** (S3 since 2020) | Reads after writes are now consistent on S3, GCS, ADLS |
@@ -148,26 +148,26 @@ aws s3api head-object --bucket my-bucket --key raw/orders/file.parquet
 ## Google Cloud Storage
 
 ```bash
-# gsutil CLI
-gsutil ls gs://my-bucket/
-gsutil ls -l -h gs://my-bucket/raw/     # with sizes
-gsutil ls -r gs://my-bucket/raw/        # recursive
+# gcloud storage CLI (replaced the legacy gsutil)
+gcloud storage ls gs://my-bucket/
+gcloud storage ls -l gs://my-bucket/raw/           # with sizes
+gcloud storage ls --recursive gs://my-bucket/raw/
 
-gsutil cp local.parquet gs://my-bucket/raw/
-gsutil cp gs://my-bucket/file.parquet ./
-gsutil cp -r gs://bucket/dir/ ./local/  # copy directory
+gcloud storage cp local.parquet gs://my-bucket/raw/
+gcloud storage cp gs://my-bucket/file.parquet ./
+gcloud storage cp --recursive gs://bucket/dir/ ./local/  # copy directory
 
-gsutil rsync -r ./local/ gs://my-bucket/raw/   # sync
-gsutil mv gs://bucket/src.parquet gs://bucket/dst.parquet
+gcloud storage rsync --recursive ./local/ gs://my-bucket/raw/   # sync
+gcloud storage mv gs://bucket/src.parquet gs://bucket/dst.parquet
 
-gsutil rm gs://my-bucket/file.parquet
-gsutil rm -r gs://my-bucket/old-dir/
+gcloud storage rm gs://my-bucket/file.parquet
+gcloud storage rm --recursive gs://my-bucket/old-dir/
 
-# Signed URL (presigned)
-gsutil signurl -d 1h service_account.json gs://my-bucket/file.parquet
+# Signed URL
+gcloud storage sign-url --duration=1h --private-key-file=service_account.json gs://my-bucket/file.parquet
 
 # Storage classes: STANDARD, NEARLINE (monthly access), COLDLINE (quarterly), ARCHIVE
-gsutil rewrite -s NEARLINE gs://bucket/archive/**
+gcloud storage objects update --storage-class=NEARLINE "gs://bucket/archive/**"
 ```
 
 ---
@@ -500,7 +500,7 @@ spark.sql("OPTIMIZE delta.`s3://my-data-lake/silver/orders`")
 ### Request costs
 
 ```
-S3 pricing (US East):
+S3 pricing (US East, approximate — check aws.amazon.com/s3/pricing for current rates):
   GET requests:    $0.0004 per 1,000
   PUT requests:    $0.005  per 1,000
   Storage:         $0.023  per GB/month

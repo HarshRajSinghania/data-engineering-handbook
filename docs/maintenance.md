@@ -24,7 +24,10 @@ Every guide shows a line under its summary.
 |-------|---------|
 | **Last reviewed** | The date a maintainer last checked the guide's commands, versions, defaults and links against the vendor documentation. It is not the date of the last edit; a typo fix does not refresh it. |
 | **Lab-tested with** | A hands-on lab exercises this tool at exactly that version, and the lab runs in CI. The version comes from the lab's pinned dependency or container image. |
+| **Not yet individually reviewed** | The guide's date, 27 September 2026, is a shared starting date that every guide received when the review system was introduced, before anyone had checked the guides one by one. The guide's commands and claims may still be right, but nobody has confirmed them against current vendor documentation. The front matter says `review_status: baseline` |
 | **Review overdue** | The guide was last reviewed more than six months ago. It is probably still mostly right, but verify anything version-sensitive. |
+
+Reviewing a guide, and setting a real date, replaces *Not yet individually reviewed* with *Last reviewed*: see [Reviewing a guide](#reviewing-a-guide). The monthly workflow opens review issues for the unreviewed guides first, so the label goes away as guides are checked. Guides written after that date and checked when they were written, such as those added in the coverage rounds, carry a real date.
 
 The site footer also shows a separate *last updated* date, taken from the Git history. That date changes on any edit.
 
@@ -39,6 +42,48 @@ The site footer also shows a separate *last updated* date, taken from the Git hi
 | Retired model IDs | Every pull request, and weekly | References to model IDs listed in `tools/deprecated_models.txt` |
 | External link check | Weekly | Dead links to vendor documentation |
 | Strict site build | Every pull request | Broken internal links and anchors |
+| Search metadata check (`tools/check_seo.py`) | Every pull request | A page without its own description, canonical URL or structured data, or missing from the sitemap |
+| Dependabot | Monthly | New versions of the packages and images the labs pin, tested by the Labs workflow |
+
+## Monthly routine
+
+Two workflows keep the project moving without relying on memory.
+
+| Workflow | When | What it does |
+|----------|------|--------------|
+| **Monthly maintenance** | The 1st of each month | Opens a *Monthly maintenance* issue with a checklist and the month's numbers, and makes sure at least five *Review the ... guide* issues are open. It picks guides that no lab covers first, then the oldest review date, and skips any reviewed in the last 30 days |
+| **Metrics** | Every Monday | Saves repository traffic and star history to the `metrics` branch |
+
+The checklist covers triage, dependency updates, the state of the scheduled Docs and Labs runs, overdue guides, the review queue, the changelog and a release, and thanking contributors. To see what the monthly workflow would create without creating it, run it from the *Actions* tab with *dry run* checked.
+
+## Dependency updates
+
+Dependabot opens one grouped pull request a month per area: the site's Python packages, GitHub Actions, and each lab's pinned packages and container images (`.github/dependabot.yml`). A version bump is never merged on its own. The Labs workflow runs the lab against the new version, and the freshness check fails until the guide's *Lab-tested with* line matches the new pin. Lab 09's Spark version is excluded from automatic updates, because Iceberg publishes its Spark runtime only for some Spark versions; move it by hand together with the runtime in `lake.py`.
+
+## Metrics
+
+GitHub keeps only 14 days of repository traffic, so the *Metrics* workflow saves it every week to CSV files on the `metrics` branch (`traffic/views.csv`, `clones.csv`, `referrers.csv`, `paths.csv`, and `repo.csv` for stars and forks). The site itself has no tracker and sets no cookies, so the numbers describe repository views, clones and where visitors came from, not which guide was read.
+
+Reading the traffic needs push access, which the built-in workflow token does not have. To turn it on, create a repository secret named `TRAFFIC_TOKEN`:
+
+1. In GitHub, open *Settings → Developer settings → Personal access tokens → Fine-grained tokens* and generate a token. Set the repository access to only this repository, and an expiry of one year (note the date; the workflow then warns and the monthly issue shows no new numbers).
+2. Grant the repository permission **Administration: Read-only**. GitHub's documentation says only that the traffic endpoints need write access to the repository and does not name the fine-grained permission. If the workflow log shows a 403 warning, grant **Contents: Read and write** as well.
+3. In the repository, open *Settings → Secrets and variables → Actions* and add the token as `TRAFFIC_TOKEN`.
+
+Without the secret the workflow still records stars, forks and open issues, and warns in its log that traffic was skipped.
+
+## PDFs and printing
+
+Every guide prints cleanly: the print stylesheet in `docs/stylesheets/extra.css` drops the navigation, wraps code, fits tables to the page and shows the address of external links. The **Cheat Sheet** section of a guide has a *Print this cheat sheet* button that prints only the title and that section.
+
+The deployed site also serves a PDF of each guide (linked from the guide, under `pdf/`) and one PDF of the whole handbook, with bookmarks. `tools/build_pdfs.py` renders them from the built site with headless Chromium, so a PDF looks like the printed page, and rewrites links to other guides to the public site. To try it locally:
+
+```bash
+pip install -r requirements-pdf.txt && playwright install chromium
+mkdocs build && python tools/build_pdfs.py --sample 3
+```
+
+The *Download PDF* link on a guide returns a 404 in a local preview until you build the PDFs.
 
 ## Sources and policy
 

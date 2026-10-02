@@ -1,5 +1,5 @@
 ---
-verified: 2026-09-27
+verified: 2026-09-28
 ---
 
 # AI Observability
@@ -106,7 +106,7 @@ import uuid
 import logging
 import json
 from dataclasses import dataclass, asdict
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 import anthropic
 
@@ -130,7 +130,7 @@ class LLMCallLog:
     output_preview: str           # first 200 chars of output
 
 # Prices change often, so load them from config rather than hardcoding them.
-# pricing.json maps model ID -> USD per 1M tokens: {"claude-sonnet-5": {"input": 2.00, "output": 10.00}, ...}
+# pricing.json maps model ID -> USD per 1M tokens: {"<model-id>": {"input": <usd>, "output": <usd>}, ...}
 # Current prices: https://platform.claude.com/docs/en/about-claude/pricing and https://developers.openai.com/api/docs/pricing
 COST_PER_1M = json.loads(Path("pricing.json").read_text())
 
@@ -154,7 +154,7 @@ def tracked_call(feature: str, user_id: str = "system", **kwargs) -> str:
 
         log = LLMCallLog(
             call_id       = call_id,
-            timestamp     = datetime.utcnow().isoformat(),
+            timestamp     = datetime.now(timezone.utc).isoformat(),
             model         = response.model,
             feature       = feature,
             user_id       = user_id,
@@ -176,7 +176,7 @@ def tracked_call(feature: str, user_id: str = "system", **kwargs) -> str:
     except Exception as e:
         latency = (time.perf_counter() - start) * 1000
         log = LLMCallLog(
-            call_id=call_id, timestamp=datetime.utcnow().isoformat(),
+            call_id=call_id, timestamp=datetime.now(timezone.utc).isoformat(),
             model=kwargs.get("model", "unknown"), feature=feature,
             user_id=user_id, input_tokens=0, output_tokens=0,
             latency_ms=latency, cost_usd=0.0, success=False,
@@ -238,20 +238,22 @@ print(f"Error rate: {report['error_rate']:.1%}")
 
 ## LangSmith
 
-Anthropic's observability partner for LangChain apps. Traces every call automatically.
+Hosted tracing and evaluation platform from the LangChain team. It traces LangChain and LangGraph apps automatically, and other code through the `@traceable` decorator.
 
 ```python
 import os
-os.environ["LANGCHAIN_TRACING_V2"] = "true"
-os.environ["LANGCHAIN_API_KEY"]    = "ls__your_api_key"
-os.environ["LANGCHAIN_PROJECT"]    = "my-de-app"
-os.environ["LANGCHAIN_ENDPOINT"]   = "https://api.smith.langchain.com"
+# Set these in the environment (or a secrets manager), not in code.
+# The older LANGCHAIN_TRACING_V2 / LANGCHAIN_API_KEY / LANGCHAIN_PROJECT names still work.
+os.environ["LANGSMITH_TRACING"]  = "true"
+os.environ["LANGSMITH_API_KEY"]  = "<your-api-key>"
+os.environ["LANGSMITH_PROJECT"]  = "my-de-app"
+# os.environ["LANGSMITH_ENDPOINT"] = "https://eu.api.smith.langchain.com"   # EU region or self-hosted only
 
 # All LangChain calls are now traced automatically
 from langchain_anthropic import ChatAnthropic
 from langchain_core.prompts import ChatPromptTemplate
 
-llm    = ChatAnthropic(model="claude-sonnet-5")
+llm    = ChatAnthropic(model="claude-sonnet-5-5")
 prompt = ChatPromptTemplate.from_template("Answer: {question}")
 chain  = prompt | llm
 
@@ -271,7 +273,7 @@ def rag_answer(question: str) -> str:
     chunks   = retrieve(question)
     context  = "\n".join(c["text"] for c in chunks)
     response = anthropic_client.messages.create(
-        model="claude-sonnet-5",
+        model="claude-sonnet-5-5",
         max_tokens=512,
         messages=[{"role": "user", "content": f"Context: {context}\nQ: {question}"}]
     )
@@ -301,92 +303,89 @@ def on_user_feedback(run_id: str, score: int, comment: str = ""):
 
 ## Langfuse
 
-Open-source LLM observability — self-hostable alternative to LangSmith.
+Open-source LLM observability, available as a hosted service or self-hosted.
 
-> **SDK version note:** the examples in this guide use the Langfuse Python SDK **v2** (`langfuse.decorators`, `langfuse.trace()`). SDK v3 (2025) is built on OpenTelemetry and changes the entry points — e.g. `from langfuse import observe, get_client` and `langfuse.start_as_current_span(...)`. Pin the version you use and follow the matching docs.
+> **SDK version note:** these examples use the Langfuse Python SDK v4, which is built on OpenTelemetry (`from langfuse import observe, get_client`). The v2 API (`langfuse.decorators`, `langfuse.trace()`) is different and remains available with `pip install "langfuse<3"`. Pin the major version you use and follow the matching docs.
 
 ```bash
-pip install "langfuse<3"      # the v2 API used below
-# Self-host: docker compose up (see langfuse.com/docs/deployment/self-host)
+pip install langfuse
+# Self-host: see the deployment docs at langfuse.com/docs
 ```
 
 ```python
-from langfuse import Langfuse
-from langfuse.decorators import observe, langfuse_context
+from langfuse import Langfuse, observe, get_client, propagate_attributes
 
+# Keys and host can also come from LANGFUSE_PUBLIC_KEY, LANGFUSE_SECRET_KEY, LANGFUSE_BASE_URL
 langfuse = Langfuse(
-    public_key  = "pk-lf-...",
-    secret_key  = "sk-lf-...",
-    host        = "https://cloud.langfuse.com"  # or your self-hosted URL
+    public_key = "pk-lf-...",
+    secret_key = "sk-lf-...",
+    base_url   = "https://cloud.langfuse.com",   # or your self-hosted URL
 )
 
 # ── Manual tracing ─────────────────────────────────────────────────────────────
-trace = langfuse.trace(
-    name="rag-pipeline",
-    user_id="alice",
-    session_id="session-123",
-    tags=["production", "rag"],
-)
+# propagate_attributes sets user, session and tags on every observation inside the block
+with propagate_attributes(user_id="alice", session_id="session-123", tags=["production", "rag"]):
+    with langfuse.start_as_current_observation(
+        name="rag-pipeline", as_type="span", input={"question": question}
+    ) as root:
 
-# Span for retrieval
-retrieval_span = trace.span(name="retrieval", input={"query": question})
-chunks = retrieve(question)
-retrieval_span.end(output={"chunks": len(chunks), "top_score": chunks[0]["score"]})
+        # Retrieval
+        with langfuse.start_as_current_observation(
+            name="retrieval", as_type="retriever", input={"query": question}
+        ) as retrieval:
+            chunks = retrieve(question)
+            retrieval.update(output={"chunks": len(chunks), "top_score": chunks[0]["score"]})
 
-# Generation
-generation = trace.generation(
-    name="answer-generation",
-    model="claude-sonnet-5",
-    input={"question": question, "context_chunks": len(chunks)},
-)
-answer = generate(question, chunks)
-generation.end(
-    output={"answer": answer},
-    usage={"input": 450, "output": 120},
-)
+        # Generation
+        with langfuse.start_as_current_observation(
+            name="answer-generation", as_type="generation",
+            model="claude-sonnet-5-5",
+            input={"question": question, "context_chunks": len(chunks)},
+        ) as generation:
+            answer = generate(question, chunks)
+            generation.update(output={"answer": answer},
+                              usage_details={"input": 450, "output": 120})
 
-trace.update(output={"answer": answer})
-langfuse.flush()
+        root.update(output={"answer": answer})
+        trace_id = langfuse.get_current_trace_id()
+
+langfuse.flush()   # short-lived scripts must flush before exit
 
 # ── Decorator-based (cleaner) ──────────────────────────────────────────────────
-@observe(name="rag-pipeline")
-def rag_pipeline(question: str) -> str:
-    langfuse_context.update_current_trace(user_id="alice", tags=["rag"])
-    chunks = retrieve_with_trace(question)
-    return generate_with_trace(question, chunks)
-
 @observe(name="retrieval")
 def retrieve_with_trace(question: str) -> list:
     return retrieve(question)
 
-@observe(name="generation")
+@observe(name="generation", as_type="generation")
 def generate_with_trace(question: str, chunks: list) -> str:
+    get_client().update_current_generation(model="claude-sonnet-5-5")
     return generate(question, chunks)
+
+@observe(name="rag-pipeline")
+def rag_pipeline(question: str) -> str:
+    with propagate_attributes(user_id="alice", tags=["rag"]):
+        chunks = retrieve_with_trace(question)
+        return generate_with_trace(question, chunks)
 ```
 
 ```python
 # Add scores for quality evaluation
-langfuse.score(
-    trace_id    = trace.id,
-    name        = "faithfulness",
-    value       = 0.92,
-    comment     = "All claims supported by context"
+langfuse.create_score(
+    trace_id = trace_id,
+    name     = "faithfulness",
+    value    = 0.92,
+    comment  = "All claims supported by context",
 )
-langfuse.score(
-    trace_id    = trace.id,
-    name        = "user_rating",
-    value       = 1,   # thumbs up
-)
+langfuse.create_score(trace_id=trace_id, name="user_rating", value=1)   # thumbs up
 
-# Query traces via SDK
-traces = langfuse.fetch_traces(
-    tags        = ["production"],
-    from_timestamp = datetime(2024, 3, 1),
-    limit       = 100,
+# Query traces via the SDK
+from datetime import datetime, timezone
+traces = langfuse.api.trace.list(
+    tags           = ["production"],
+    from_timestamp = datetime(2026, 9, 1, tzinfo=timezone.utc),
+    limit          = 100,
 )
 ```
-
----
 
 ## OpenTelemetry for LLMs
 
@@ -415,22 +414,24 @@ tracer = trace.get_tracer("llm-app")
 client = anthropic.Anthropic()
 
 def traced_llm_call(prompt: str, model: str = "claude-haiku-4-5-20251001") -> str:
-    with tracer.start_as_current_span("llm.call", kind=SpanKind.CLIENT) as span:
-        span.set_attribute("llm.model", model)
-        span.set_attribute("llm.prompt_length", len(prompt))
+    # Attribute names follow the OpenTelemetry GenAI semantic conventions (still in development)
+    with tracer.start_as_current_span(f"chat {model}", kind=SpanKind.CLIENT) as span:
+        span.set_attribute("gen_ai.operation.name", "chat")
+        span.set_attribute("gen_ai.provider.name", "anthropic")
+        span.set_attribute("gen_ai.request.model", model)
+        span.set_attribute("gen_ai.request.max_tokens", 512)
 
         response = client.messages.create(
             model=model, max_tokens=512,
             messages=[{"role": "user", "content": prompt}]
         )
 
-        span.set_attribute("llm.input_tokens",  response.usage.input_tokens)
-        span.set_attribute("llm.output_tokens", response.usage.output_tokens)
-        span.set_attribute("llm.stop_reason",   response.stop_reason)
+        span.set_attribute("gen_ai.response.model", response.model)
+        span.set_attribute("gen_ai.usage.input_tokens",  response.usage.input_tokens)
+        span.set_attribute("gen_ai.usage.output_tokens", response.usage.output_tokens)
+        span.set_attribute("gen_ai.response.finish_reasons", [response.stop_reason])
 
-        output = next(b.text for b in response.content if b.type == "text")
-        span.set_attribute("llm.output_length", len(output))
-        return output
+        return next(b.text for b in response.content if b.type == "text")
 ```
 
 ---
@@ -440,17 +441,19 @@ def traced_llm_call(prompt: str, model: str = "claude-haiku-4-5-20251001") -> st
 Trace each stage of the RAG pipeline to identify where quality degrades.
 
 ```python
-from langfuse.decorators import observe, langfuse_context   # Langfuse SDK v2
+from langfuse import observe, get_client, propagate_attributes
+
+langfuse = get_client()
 
 # Each decorated function becomes a nested span inside the calling function's trace
 @observe(name="query-analysis")
 def analyze(question: str) -> str:
     return classify_query(question)          # factual / conversational / analytical
 
-@observe(name="retrieval")
+@observe(name="retrieval", as_type="retriever")
 def retrieve_traced(question: str) -> list[dict]:
     chunks = retrieve(question, k=5)
-    langfuse_context.update_current_observation(
+    langfuse.update_current_span(
         output={
             "chunks_retrieved": len(chunks),
             "top_score": chunks[0]["score"] if chunks else 0,
@@ -463,24 +466,23 @@ def retrieve_traced(question: str) -> list[dict]:
 def rerank_traced(question: str, chunks: list[dict]) -> list[dict]:
     return rerank(question, chunks, top_n=3)
 
-@observe(name="generation")
+@observe(name="generation", as_type="generation")
 def generate_traced(question: str, chunks: list[dict]) -> str:
     return generate(question, chunks)
 
 @observe(name="rag-full-pipeline")
 def rag_pipeline(question: str, user_id: str) -> dict:
-    langfuse_context.update_current_trace(user_id=user_id)
-
-    query_type = analyze(question)
-    chunks     = retrieve_traced(question)
-    reranked   = rerank_traced(question, chunks)
-    answer     = generate_traced(question, reranked)
+    with propagate_attributes(user_id=user_id):
+        query_type = analyze(question)
+        chunks     = retrieve_traced(question)
+        reranked   = rerank_traced(question, chunks)
+        answer     = generate_traced(question, reranked)
 
     # Quality check, attached to the trace as a score
     faithfulness = judge_faithfulness(question,
                                       "\n".join(c["text"] for c in reranked),
                                       answer)
-    langfuse_context.score_current_trace(name="faithfulness", value=faithfulness.score)
+    langfuse.score_current_trace(name="faithfulness", value=faithfulness.score)
 
     return {"answer": answer, "sources": [c["source"] for c in reranked]}
 ```
@@ -492,8 +494,8 @@ def rag_pipeline(question: str, user_id: str) -> dict:
 Quality degrades silently over time — prompts become stale, data distributions shift, model versions change.
 
 ```python
+import pandas as pd
 from scipy import stats
-import numpy as np
 
 class QualityDriftMonitor:
     def __init__(self, baseline_window: int = 7, alert_window: int = 1):
@@ -509,7 +511,8 @@ class QualityDriftMonitor:
         df = df.sort_values("date")
 
         cutoff      = df["date"].max() - pd.Timedelta(days=self.alert_window)
-        baseline_df = df[df["date"] <= cutoff - pd.Timedelta(days=self.alert_window)]
+        baseline_df = df[(df["date"] <= cutoff) &
+                         (df["date"] > cutoff - pd.Timedelta(days=self.baseline_window))]
         recent_df   = df[df["date"] > cutoff]
 
         alerts = []
@@ -530,10 +533,10 @@ class QualityDriftMonitor:
             if p_value < 0.05 and pct_change < -5:
                 alerts.append({
                     "metric":         metric,
-                    "baseline_mean":  round(baseline_mean, 3),
-                    "recent_mean":    round(recent_mean, 3),
-                    "pct_change":     round(pct_change, 1),
-                    "p_value":        round(p_value, 4),
+                    "baseline_mean":  round(float(baseline_mean), 3),
+                    "recent_mean":    round(float(recent_mean), 3),
+                    "pct_change":     round(float(pct_change), 1),
+                    "p_value":        round(float(p_value), 4),
                 })
 
         return {"alerts": alerts, "drift_detected": len(alerts) > 0}

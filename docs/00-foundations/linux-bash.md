@@ -1,5 +1,5 @@
 ---
-verified: 2026-09-27
+verified: 2026-09-29
 ---
 
 # Linux & Bash for Data Engineers

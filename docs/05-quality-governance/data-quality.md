@@ -1,5 +1,7 @@
 ---
-verified: 2026-09-27
+verified: 2026-09-29
+lab_tested: "Great Expectations 1.23.2"
+lab_source: labs/08-data-quality/requirements.txt
 ---
 
 # Data Quality for Data Engineers
@@ -7,7 +9,7 @@ verified: 2026-09-27
 
 **Prerequisites:** [SQL](../00-foundations/sql-reference.md)
 
-**Related:** [dbt](../02-processing/dbt-reference.md) · [Airflow](../03-orchestration/airflow-reference.md) · [Evals](../07-ai/eval-and-evals.md) · [Data Governance & Lineage](governance-lineage.md) · [Glossary](../99-reference/glossary.md)
+**Related:** [dbt](../02-processing/dbt-reference.md) · [Airflow](../03-orchestration/airflow-reference.md) · [Evals](../07-ai/eval-and-evals.md) · [Data Governance & Lineage](governance-lineage.md) · [Testing and CI/CD](../06-infrastructure/testing-cicd.md) · [Glossary](../99-reference/glossary.md)
 
 **Practice:** [Lab 01 — SQL Analytics](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/01-sql-analytics) · [Lab 02 — dbt Transformations](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/02-dbt-transformations) · [Lab 05 — Airflow Orchestration](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/05-airflow-orchestration)
 
@@ -426,6 +428,34 @@ expect_column_values_to_be_in_type_list("created_at", ["datetime64[ns]", "Timest
 expect_column_pair_values_a_to_be_greater_than_b("updated_at", "created_at")
 ```
 
+### Thresholds and severity
+
+Two parameters turn an expectation from a strict assertion into a policy. `mostly` allows a share of rows to violate it, and `severity` (`critical`, `warning` or `info`, default `critical`) says how much a failure matters. Two expectations on one column give a warning well before the pipeline has to stop:
+
+```python
+import great_expectations as gx
+import pandas as pd
+
+context = gx.get_context()
+asset = context.data_sources.add_pandas("s").add_dataframe_asset("orders")
+batch_def = asset.add_batch_definition_whole_dataframe("whole")
+suite = context.suites.add(gx.ExpectationSuite(name="orders_suite"))
+suite.add_expectation(gx.expectations.ExpectColumnValuesToNotBeNull(column="customer_id", mostly=0.95))
+suite.add_expectation(gx.expectations.ExpectColumnValuesToNotBeNull(
+    column="customer_id", mostly=0.995, severity="warning"))
+validation = context.validation_definitions.add(
+    gx.ValidationDefinition(name="orders_validation", data=batch_def, suite=suite))
+
+df = pd.DataFrame({"customer_id": [1.0] * 98 + [None] * 2})          # 2% missing
+result = validation.run(batch_parameters={"dataframe": df})
+
+blocking = [r for r in result.results
+            if not r.success and r.expectation_config.severity == "critical"]
+print("success:", result.success, "| blocking:", len(blocking), "| failed:", sum(not r.success for r in result.results))
+```
+
+`result.success` is `False` as soon as *any* expectation fails, including a warning. A gate that should block only on critical failures therefore reads the severity of each result itself, as `blocking` does above, instead of checking `result.success`. [Lab 08](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/08-data-quality) builds this gate and shows it stopping bad, stale and schema-changed data.
+
 ---
 
 ## Anomaly Detection Patterns
@@ -501,7 +531,7 @@ A data contract is a formal agreement between a data producer and consumer defin
 name: orders
 version: "1.2.0"
 description: "Transactional orders from the e-commerce platform"
-owner: "data-engineering@company.com"
+owner: "orders-data@example.com"
 updated_at: "2024-03-15"
 
 schema:
@@ -542,7 +572,7 @@ quality:
 sla:
   availability: "99.9%"
   freshness: "data available by 06:00 UTC"
-  support_contact: "data-team@example.com"
+  support_contact: "data-support@example.com"
 ```
 
 ---
@@ -840,4 +870,4 @@ A: If transformations live in dbt, start with dbt tests: they sit next to the mo
 
 ---
 
-**Previous:** [dbt](../02-processing/dbt-reference.md) · **Next:** [Data Governance & Lineage](governance-lineage.md) · **Back to:** [Index](../README.md)
+**Previous:** [BI Tools](../02-processing/bi-tools.md) · **Next:** [Data Governance & Lineage](governance-lineage.md) · **Back to:** [Index](../README.md)

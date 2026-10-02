@@ -3,6 +3,8 @@
 A comprehensive reference for data engineers — from first query to production pipelines.
 Each guide follows a **Basic → Intermediate → Advanced** progression with real, working code examples.
 
+**Offline?** [Download the whole handbook as a PDF](https://sarangambekar1997.github.io/data-engineering-handbook/sarangs-data-engineering-handbook.pdf) (about 24 MB, bookmarked), or the PDF of any single guide from its page.
+
 ---
 
 ## Browse by Topic
@@ -21,49 +23,49 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 
     ---
 
-    DuckDB, Polars, PySpark, Docker, Databricks.
+    DuckDB, Polars, PySpark, Trino, Docker, Databricks.
 
-    [:octicons-arrow-right-24: 4 guides](#processing--compute)
+    [:octicons-arrow-right-24: 5 guides](#processing--compute)
 
 -   :material-source-branch:{ .lg .middle } **Orchestration & Streaming**
 
     ---
 
-    Airflow, Dagster, Prefect, Kafka, Flink, CDC.
+    Airflow, Dagster, Prefect, Kafka, Flink, Beam, streaming SQL, CDC.
 
-    [:octicons-arrow-right-24: 6 guides](#orchestration--streaming)
+    [:octicons-arrow-right-24: 8 guides](#orchestration--streaming)
 
 -   :material-database-outline:{ .lg .middle } **Storage & Transformation**
 
     ---
 
-    Snowflake, BigQuery, Redshift, Delta Lake, Hudi, Iceberg, dbt.
+    Snowflake, BigQuery, Redshift, Azure & Fabric, NoSQL, Delta Lake, Hudi, Iceberg, real-time OLAP, dbt, BI tools.
 
-    [:octicons-arrow-right-24: 8 guides](#storage--transformation)
+    [:octicons-arrow-right-24: 12 guides](#storage--transformation)
 
 -   :material-shield-check-outline:{ .lg .middle } **Quality & Observability**
 
     ---
 
-    Data quality, security & privacy, pipeline observability, governance & lineage.
+    Data quality, governance & lineage, catalogs, security & privacy, observability, DataOps.
 
-    [:octicons-arrow-right-24: 4 guides](#quality--observability)
+    [:octicons-arrow-right-24: 6 guides](#quality--observability)
 
 -   :material-robot-outline:{ .lg .middle } **AI & Machine Learning**
 
     ---
 
-    Prompting, RAG, agents, evals, fine-tuning, observability, local LLMs.
+    Prompting, RAG, agents, MCP and text-to-SQL, evals, fine-tuning, observability, local LLMs.
 
-    [:octicons-arrow-right-24: 13 guides](#ai--machine-learning)
+    [:octicons-arrow-right-24: 14 guides](#ai--machine-learning)
 
 -   :material-cloud-outline:{ .lg .middle } **Infrastructure**
 
     ---
 
-    Terraform for provisioning cloud infrastructure as code.
+    Kubernetes, Terraform, and testing and CI/CD for data pipelines.
 
-    [:octicons-arrow-right-24: 1 guide](#infrastructure)
+    [:octicons-arrow-right-24: 3 guides](#infrastructure)
 
 -   :material-book-open-page-variant-outline:{ .lg .middle } **Conceptual & Reference**
 
@@ -77,17 +79,17 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 
     ---
 
-    System design and cost optimization.
+    System design, choosing a stack, and cost optimization.
 
-    [:octicons-arrow-right-24: 2 guides](#architecture)
+    [:octicons-arrow-right-24: 3 guides](#architecture)
 
 -   :material-flask-outline:{ .lg .middle } **Hands-on Labs**
 
     ---
 
-    Five labs and two capstone projects on one shared dataset.
+    Eight labs and two capstone projects on one shared dataset.
 
-    [:octicons-arrow-right-24: 7 projects](#hands-on-labs)
+    [:octicons-arrow-right-24: 10 projects](#hands-on-labs)
 
 -   :material-forum-outline:{ .lg .middle } **Interview Prep**
 
@@ -101,9 +103,9 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 
     ---
 
-    Five guided sequences, from complete beginner to AI engineering.
+    Three role-based paths and five topic paths, from complete beginner to AI engineering.
 
-    [:octicons-arrow-right-24: 5 paths](#learning-paths)
+    [:octicons-arrow-right-24: 8 paths](#learning-paths)
 
 </div>
 
@@ -129,6 +131,7 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 | [PySpark Reference](02-processing/pyspark-reference.md) | DataFrames, transformations, window functions, UDFs, streaming, optimization |
 | [Docker for DE](06-infrastructure/docker-reference.md) | Images, Dockerfile, volumes, networking, Docker Compose, Airflow/Spark in Docker |
 | [Databricks](02-processing/databricks-reference.md) | Delta Lake, Auto Loader, DLT, Unity Catalog, Workflows, Delta vs Iceberg vs Hudi |
+| [Trino & Query Federation](02-processing/trino-federation.md) | Coordinator and workers, catalogs and connectors, federated queries and pushdown, Iceberg tables, fault-tolerant execution |
 
 ### Orchestration & Streaming
 
@@ -139,6 +142,8 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 | [Prefect](03-orchestration/prefect-reference.md) | Flows and tasks, retries, deployments, work pools, automations, event-driven runs |
 | [Apache Kafka](04-streaming/kafka-reference.md) | Topics, producers, consumers, Schema Registry, Kafka Connect, Kafka Streams, DLQ patterns |
 | [Apache Flink](04-streaming/flink-reference.md) | Stateful stream processing, event time and watermarks, windows, stream joins, checkpoints, Flink SQL |
+| [Apache Beam & Dataflow](04-streaming/beam-dataflow.md) | The Beam model, windows, triggers and late data, testing with TestStream, runners, Dataflow |
+| [Streaming SQL](04-streaming/streaming-sql.md) | Incremental view maintenance, RisingWave and Materialize, windows and watermarks, temporal filters, sinks |
 | [Data Ingestion & CDC](02-processing/ingestion-cdc.md) | API, file, and database ingestion; incremental loads; CDC with Debezium; applying changes with MERGE; build vs buy |
 
 ### Storage & Transformation
@@ -148,11 +153,15 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 | [Snowflake Reference](01-storage/snowflake-reference.md) | Architecture, virtual warehouses, semi-structured data, streams & tasks, RBAC |
 | [dbt Reference](02-processing/dbt-reference.md) | Models, materializations, tests, macros, incremental models, snapshots, CI/CD |
 | [Semantic Layer & Metrics](02-processing/semantic-layer-metrics.md) | Defining metrics once: entities, measures, MetricFlow, ratio and cumulative metrics, semantic layers for AI |
+| [BI Tools (Superset & Metabase)](02-processing/bi-tools.md) | Application database, models and datasets, where metrics live, performance, row-level security, embedding, operations |
 | [BigQuery](01-storage/bigquery-reference.md) | Serverless architecture, loading, partitioning and clustering, nested data, pricing and cost control, security |
 | [Amazon Redshift](01-storage/redshift-reference.md) | Provisioned vs serverless, distribution and sort keys, COPY/UNLOAD, Spectrum, SUPER, workload management |
+| [Azure & Microsoft Fabric](01-storage/azure-fabric.md) | OneLake, capacity, lakehouse vs warehouse, shortcuts and mirroring, Event Hubs, security, Fabric CI/CD |
+| [NoSQL & Operational Stores](01-storage/nosql-operational-stores.md) | DynamoDB, MongoDB, Valkey/Redis and Cassandra: access-pattern modelling, idempotent writes, CDC and exports, serving data back |
 | [Delta Lake](01-storage/delta-lake.md) | Transaction log, `MERGE`, time travel, schema enforcement, Change Data Feed, `OPTIMIZE`/`VACUUM`, delta-rs |
 | [Apache Hudi](01-storage/apache-hudi.md) | Record-level upserts, Copy-on-Write vs Merge-on-Read, incremental queries, compaction, indexing |
 | [Apache Iceberg](01-storage/apache-iceberg.md) | Open table format, hidden partitioning, schema evolution, time travel, ACID, AWS Glue/Athena |
+| [Real-Time Analytics Databases](01-storage/realtime-olap.md) | ClickHouse, Apache Druid and Apache Pinot: sort keys and segments, materialized views, rollup, star-tree index, choosing between them |
 
 ### Quality & Observability
 
@@ -162,6 +171,8 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 | [Data Security & Privacy](05-quality-governance/data-security-privacy.md) | Classification, least privilege, secrets, encryption, masking and pseudonymisation, erasure requests, LLM security |
 | [Pipeline Observability](05-quality-governance/pipeline-observability.md) | SLIs and SLOs, freshness and volume monitoring, structured logging, alert design, incident runbook |
 | [Data Governance & Lineage](05-quality-governance/governance-lineage.md) | Catalogs, ownership, classification, access models, lineage and OpenLineage, contracts, retention and deletion |
+| [Data Catalogs in Practice](05-quality-governance/data-catalogs.md) | DataHub and OpenMetadata: architecture, ingestion recipes and workflows, metadata as code validated in CI, running a catalog |
+| [DataOps](05-quality-governance/dataops-operations.md) | Severity levels, on-call design, runbooks, incident roles and the data playbook, blameless postmortems, operating metrics |
 
 ### AI & Machine Learning
 
@@ -173,6 +184,7 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 | [RAG](07-ai/rag.md) | Build retrieval-augmented generation pipelines, hybrid search, re-ranking, evaluation |
 | [Vector Databases](07-ai/vector-databases.md) | pgvector, Pinecone, Chroma, Weaviate — indexing, filtering, multi-tenancy |
 | [AI Agents & Tool Use](07-ai/ai-agents.md) | Agentic loops, tool definitions, ReAct, multi-agent systems, human-in-the-loop |
+| [MCP & Text-to-SQL](07-ai/mcp-text-to-sql.md) | A tested read-only SQL MCP server, SQL validation, execution-accuracy evaluation, security and governance |
 | [LangChain & LlamaIndex](07-ai/langchain-llamaindex.md) | RAG chains, agents, LCEL, custom retrievers, LangSmith tracing |
 | [Eval & Evals](07-ai/eval-and-evals.md) | Unit tests for LLMs, LLM-as-judge, RAGAS, regression testing, eval-driven development |
 | [MLflow](07-ai/mlflow.md) | Experiment tracking, model registry, serving, custom models, DE integration |
@@ -185,7 +197,9 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 
 | Guide | What you'll learn |
 |-------|------------------|
+| [Kubernetes for Data Workloads](06-infrastructure/kubernetes-for-de.md) | Jobs and CronJobs, requests and limits, node pools and spot capacity, Spark, Airflow and Flink on Kubernetes, debugging |
 | [Terraform for DE](06-infrastructure/terraform-for-de.md) | IaC for S3, IAM, Snowflake, Databricks, MWAA Airflow — modules, remote state, CI patterns |
+| [Testing and CI/CD for Data Pipelines](06-infrastructure/testing-cicd.md) | Unit and property tests, idempotency and backfill tests, CI design, data diff, write-audit-publish, promotion |
 
 ### Conceptual & Reference
 
@@ -201,6 +215,7 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 |-------|------------------|
 | [Cost Optimization](08-architecture/cost-optimization.md) | Unit economics, attribution, spend monitoring per platform, compute/query/storage optimization, guardrails |
 | [Data Engineering System Design](08-architecture/system-design.md) | Requirements, capacity estimation, architecture patterns, batch vs streaming, reliability, security, cost, worked designs |
+| [Choosing a Stack](08-architecture/choosing-a-stack.md) | Requirements first, four reference architectures, signals to grow, buy vs run vs build, stack review checks, ADRs, exit plans |
 
 ---
 
@@ -216,7 +231,7 @@ Each guide follows a **Basic → Intermediate → Advanced** progression with re
 
 ## Hands-on Labs
 
-Practise with [five labs and two capstone projects](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs) that run locally. The labs and the first capstone use one realistic e-commerce dataset:
+Practise with [eight labs and two capstone projects](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs) that run locally. The labs and the first capstone use one realistic e-commerce dataset:
 
 | Lab | Practise |
 |-----|----------|
@@ -227,10 +242,15 @@ Practise with [five labs and two capstone projects](https://github.com/sarangamb
 | [05 — Airflow Orchestration](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/05-airflow-orchestration) | Backfills, idempotent loads, quality gates, pools, asset scheduling |
 | [06 — Capstone: Dagster pipeline](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/06-capstone-ecommerce) | An end-to-end pipeline with quality gates, quarantine tables and a dashboard (see [Projects](projects/index.md)) |
 | [07 — Capstone: Docs RAG](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/07-docs-rag) | Chunking, BM25 retrieval and a retrieval eval over these guides |
+| [08 — Data Quality Gates](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/08-data-quality) | Great Expectations suites, thresholds and severity, and a gate that blocks bad, stale and schema-changed data |
+| [09 — Iceberg Lakehouse](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/09-iceberg-lakehouse) | The Lab 03 pipeline on Apache Iceberg: snapshots, `MERGE`, schema and partition evolution, maintenance, branches |
+| [10 — CDC with Debezium](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/10-cdc-debezium) | Postgres to Kafka with Debezium, applying changes idempotently, deletes, connector restarts, schema changes |
 
 ---
 
 ## Learning Paths
+
+By role: the [analytics engineer](paths/analytics-engineer.md), [data platform engineer](paths/platform-engineer.md) and [AI data engineer](paths/ai-data-engineer.md) paths pair each stage with a lab and a checkpoint. The five topic paths below start from a subject instead.
 
 ### Path 1: Complete beginner → job-ready
 
@@ -246,6 +266,8 @@ Practise with [five labs and two capstone projects](https://github.com/sarangamb
 10. [Terraform for DE](06-infrastructure/terraform-for-de.md) — provision infra as code
 11. [Data Ingestion & CDC](02-processing/ingestion-cdc.md) — get data in reliably
 12. [Data Engineering System Design](08-architecture/system-design.md) — put it all together
+13. [DataOps](05-quality-governance/dataops-operations.md) — run it reliably, with on-call and incident response
+14. [Choosing a Stack](08-architecture/choosing-a-stack.md) — pick tools from requirements
 
 ### Path 2: Warehouse & transformation focus
 
@@ -253,9 +275,11 @@ Practise with [five labs and two capstone projects](https://github.com/sarangamb
 2. A cloud warehouse: [Snowflake](01-storage/snowflake-reference.md), [BigQuery](01-storage/bigquery-reference.md), or [Amazon Redshift](01-storage/redshift-reference.md)
 3. [dbt Reference](02-processing/dbt-reference.md)
 4. [Data Quality](05-quality-governance/data-quality.md)
-5. [Data Governance & Lineage](05-quality-governance/governance-lineage.md)
+5. [Data Governance & Lineage](05-quality-governance/governance-lineage.md), then [Data Catalogs in Practice](05-quality-governance/data-catalogs.md)
 6. [Git for DE](00-foundations/git-for-de.md) — CI/CD section
-7. [Cost Optimization](08-architecture/cost-optimization.md)
+7. [Testing and CI/CD for Data Pipelines](06-infrastructure/testing-cicd.md) — prove changes are safe before they ship
+8. [BI Tools](02-processing/bi-tools.md) — serve the models to the business
+9. [Cost Optimization](08-architecture/cost-optimization.md)
 
 ### Path 3: Spark & big data focus
 
@@ -265,6 +289,8 @@ Practise with [five labs and two capstone projects](https://github.com/sarangamb
 4. [Databricks](02-processing/databricks-reference.md)
 5. [Cloud Storage](01-storage/cloud-storage.md)
 6. [Apache Kafka](04-streaming/kafka-reference.md)
+7. [Trino & Query Federation](02-processing/trino-federation.md) — interactive SQL over the lake
+8. [Kubernetes for Data Workloads](06-infrastructure/kubernetes-for-de.md) — run Spark and batch jobs on shared infrastructure
 
 ### Path 4: Streaming & real-time
 
@@ -275,6 +301,9 @@ Practise with [five labs and two capstone projects](https://github.com/sarangamb
 5. [PySpark Reference](02-processing/pyspark-reference.md) — Structured Streaming section
 6. [Databricks](02-processing/databricks-reference.md) — Auto Loader and DLT sections
 7. [Data Quality](05-quality-governance/data-quality.md) — DQ in streaming pipelines
+8. [Real-Time Analytics Databases](01-storage/realtime-olap.md) — serve fresh data with sub-second queries
+9. [Apache Beam & Dataflow](04-streaming/beam-dataflow.md) — one model for batch and streaming
+10. [Streaming SQL](04-streaming/streaming-sql.md) — always-fresh views without writing a streaming job
 
 ### Path 5: AI & LLM engineering
 
@@ -291,6 +320,7 @@ Practise with [five labs and two capstone projects](https://github.com/sarangamb
 11. [Fine-Tuning LLMs](07-ai/fine-tuning.md) — when RAG isn't enough
 12. [AI Observability](07-ai/ai-observability.md) — monitor production LLM apps
 13. [Local LLMs](07-ai/local-llms.md) — run models without the API bill
+14. [MCP & Text-to-SQL](07-ai/mcp-text-to-sql.md) — give assistants safe, measured access to your data
 
 ---
 
@@ -316,6 +346,19 @@ Practise with [five labs and two capstone projects](https://github.com/sarangamb
 | Monitor LLM app in production | AI Observability (LangSmith/Langfuse) |
 | Run models privately / offline | Local LLMs (Ollama/vLLM) |
 | Open table format for big data | Apache Iceberg |
+| Interactive SQL over a lake and several databases | Trino |
+| Sub-second dashboards over fresh event data | ClickHouse, Druid or Pinot |
+| Shared, elastic infrastructure for batch and streaming jobs | Kubernetes |
+| Microsoft-centred analytics platform | Azure and Microsoft Fabric |
+| Prove a pipeline change is safe before shipping | Unit tests, data diff, write-audit-publish |
+| One model for batch and streaming, on Google Cloud | Apache Beam on Dataflow |
+| Always-fresh SQL views over streams, without a streaming job | A streaming database (RisingWave, Materialize) |
+| Low-latency lookups and key-based serving for applications | DynamoDB, MongoDB or Valkey/Redis |
+| Dashboards for the business | Superset or Metabase over curated marts |
+| Find, own and trace data assets | A catalog: DataHub or OpenMetadata, with metadata in Git |
+| Let an AI assistant query data safely | An MCP server with a validated, read-only SQL tool |
+| Respond to data incidents reliably | Severity levels, on-call, runbooks, blameless postmortems |
+| Decide which tools to adopt | Requirements first, the simplest stack, an ADR, and stack review checks |
 
 ### File format cheat sheet
 

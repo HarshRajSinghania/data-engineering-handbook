@@ -1,5 +1,5 @@
 ---
-verified: 2026-09-27
+verified: 2026-09-29
 ---
 
 # Snowflake Reference
@@ -599,7 +599,7 @@ ALTER TABLE orders DROP CLUSTERING KEY;
 -- Credit usage by warehouse (last 30 days)
 SELECT warehouse_name,
        SUM(credits_used) AS total_credits,
-       ROUND(SUM(credits_used) * 3.0, 2) AS estimated_usd   -- ~$3/credit on-demand
+       ROUND(SUM(credits_used) * 3.0, 2) AS estimated_usd   -- illustrative multiplier; check docs.snowflake.com/en/guides-overview-cost for current rates
 FROM   snowflake.account_usage.warehouse_metering_history
 WHERE  start_time >= DATEADD(day, -30, CURRENT_TIMESTAMP())
 GROUP  BY 1
@@ -818,4 +818,4 @@ A: Batch with `COPY INTO` from a stage (internal, or external S3/GCS/Azure using
 
 ---
 
-**Previous:** [Terraform](../06-infrastructure/terraform-for-de.md) · **Next:** [BigQuery](bigquery-reference.md) · **Back to:** [Index](../README.md)
+**Previous:** [Testing and CI/CD](../06-infrastructure/testing-cicd.md) · **Next:** [BigQuery](bigquery-reference.md) · **Back to:** [Index](../README.md)

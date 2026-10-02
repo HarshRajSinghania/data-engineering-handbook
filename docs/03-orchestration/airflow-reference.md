@@ -1,5 +1,5 @@
 ---
-verified: 2026-09-27
+verified: 2026-09-29
 lab_tested: "Apache Airflow 3.3.2"
 lab_source: labs/05-airflow-orchestration/Dockerfile
 ---
@@ -9,7 +9,7 @@ lab_source: labs/05-airflow-orchestration/Dockerfile
 
 **Prerequisites:** [Python for DE](../00-foundations/python-reference.md) · [Docker](../06-infrastructure/docker-reference.md)
 
-**Related:** [dbt](../02-processing/dbt-reference.md) · [PySpark](../02-processing/pyspark-reference.md) · [Data Quality](../05-quality-governance/data-quality.md) · [Glossary](../99-reference/glossary.md)
+**Related:** [dbt](../02-processing/dbt-reference.md) · [PySpark](../02-processing/pyspark-reference.md) · [Data Quality](../05-quality-governance/data-quality.md) · [Kubernetes](../06-infrastructure/kubernetes-for-de.md) · [Testing and CI/CD](../06-infrastructure/testing-cicd.md) · [Glossary](../99-reference/glossary.md)
 
 **Practice:** [Lab 05 — Airflow Orchestration](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/05-airflow-orchestration)
 
@@ -176,7 +176,7 @@ default_args = {
     "retries":          2,
     "retry_delay":      timedelta(minutes=5),
     "email_on_failure": True,
-    "email":            ["data-alerts@example.com"],
+    "email":            ["de-alerts@example.com"],
 }
 
 # DAG definition
@@ -1020,4 +1020,4 @@ A: `LocalExecutor` runs tasks as subprocesses on the same machine as the schedul
 
 ---
 
-**Previous:** [Pipeline Observability](../05-quality-governance/pipeline-observability.md) · **Next:** [Dagster](dagster-reference.md) · **Back to:** [Index](../README.md)
+**Previous:** [DataOps](../05-quality-governance/dataops-operations.md) · **Next:** [Dagster](dagster-reference.md) · **Back to:** [Index](../README.md)

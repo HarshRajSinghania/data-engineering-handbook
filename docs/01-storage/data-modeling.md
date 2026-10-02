@@ -1,5 +1,5 @@
 ---
-verified: 2026-09-27
+verified: 2026-09-29
 ---
 
 # Data Modeling
@@ -7,7 +7,7 @@ verified: 2026-09-27
 
 **Prerequisites:** [SQL](../00-foundations/sql-reference.md) · [DE Concepts](../00-foundations/de-concepts.md)
 
-**Related:** [dbt](../02-processing/dbt-reference.md) · [Snowflake](snowflake-reference.md) · [Glossary](../99-reference/glossary.md)
+**Related:** [dbt](../02-processing/dbt-reference.md) · [Snowflake](snowflake-reference.md) · [NoSQL and Operational Stores](nosql-operational-stores.md) · [BI Tools](../02-processing/bi-tools.md) · [Glossary](../99-reference/glossary.md)
 
 **Practice:** [Lab 02 — dbt Transformations](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/02-dbt-transformations)
 

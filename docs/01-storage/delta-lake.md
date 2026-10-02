@@ -1,5 +1,5 @@
 ---
-verified: 2026-09-27
+verified: 2026-09-29
 lab_tested: "Delta Lake 4.4.0"
 lab_source: labs/03-spark-lakehouse/requirements.txt
 ---
@@ -408,4 +408,4 @@ A: Use `MERGE` on the business key, or `replaceWhere` for a partition, so re-run
 
 ---
 
-**Previous:** [Amazon Redshift](redshift-reference.md) · **Next:** [Apache Hudi](apache-hudi.md) · **Back to:** [Index](../README.md)
+**Previous:** [NoSQL and Operational Stores](nosql-operational-stores.md) · **Next:** [Apache Hudi](apache-hudi.md) · **Back to:** [Index](../README.md)

@@ -1,5 +1,5 @@
 ---
-verified: 2026-09-27
+verified: 2026-09-28
 ---
 
 # Embeddings
@@ -131,8 +131,8 @@ vo = voyageai.Client()   # reads VOYAGE_API_KEY
 
 result = vo.embed(
     ["Apache Kafka is a distributed event streaming platform"],
-    model="voyage-3",
-    input_type="document"
+    model="voyage-4",
+    input_type="document"      # use input_type="query" for search queries
 )
 vec = result.embeddings[0]
 print(len(vec))   # 1024
@@ -164,14 +164,15 @@ def cosine_similarity(a: np.ndarray, b: np.ndarray) -> float:
     return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
 
 # Range: -1 (opposite) to 1 (identical)
-# In practice with text embeddings: 0.7+ is similar, 0.9+ is very similar
+# In practice the scale depends on the model, so there is no universal threshold: choose one
+# from labelled pairs of your own data
 
 query   = embed(["What is Kafka?"])[0]
 doc1    = embed(["Apache Kafka is a distributed event streaming platform"])[0]
 doc2    = embed(["The Eiffel Tower is in Paris"])[0]
 
-print(cosine_similarity(query, doc1))   # ~0.87
-print(cosine_similarity(query, doc2))   # ~0.22
+print(cosine_similarity(query, doc1))   # higher: the related pair
+print(cosine_similarity(query, doc2))   # lower: the unrelated pair (the exact values depend on the model)
 ```
 
 ```python
@@ -192,16 +193,17 @@ def top_k_similar(query_vec: np.ndarray, doc_vecs: np.ndarray, k: int = 5) -> li
 |-------|------|-------|------|----------|
 | `text-embedding-3-small` (OpenAI) | 1536 | Fast | Low | General purpose, RAG |
 | `text-embedding-3-large` (OpenAI) | 3072 | Medium | Medium | High-accuracy retrieval |
-| `voyage-3` (Voyage AI) | 1024 | Fast | Low | General, Anthropic ecosystem |
-| `voyage-3-large` (Voyage AI) | 1024 | Medium | Medium | High-accuracy retrieval |
+| `voyage-4` (Voyage AI) | 1024 (256, 512, 2048 selectable) | Fast | Low | General, Anthropic ecosystem |
+| `voyage-4-large` (Voyage AI) | 1024 (256, 512, 2048 selectable) | Medium | Medium | High-accuracy retrieval |
 | `all-MiniLM-L6-v2` (local) | 384 | Very fast | Free | Prototyping, offline |
 | `bge-large-en` (local) | 1024 | Medium | Free | Production on-prem |
 
-> Embedding models are released often (newer Voyage versions, Cohere, Gemini, open-weight models like BGE, E5, and Nomic). Compare on the [MTEB leaderboard](https://huggingface.co/spaces/mteb/leaderboard), then test on *your* data — leaderboard rank doesn't guarantee the best retrieval for your domain.
+> Embedding models are released often: Voyage's current generation is 4, and `voyage-3` and `voyage-3-large` are its previous one. Others to compare include Cohere, Gemini, open-weight models like BGE, E5, and Nomic). Compare on the [MTEB leaderboard](https://huggingface.co/spaces/mteb/leaderboard), then test on *your* data — leaderboard rank doesn't guarantee the best retrieval for your domain.
 
 **Tips:**
 - Start with `text-embedding-3-small` — it's fast and good enough for most RAG
 - Only upgrade to `large` if retrieval quality is measurably worse
+- Check the dimension limit of your vector store: pgvector indexes a `vector` column of up to 2,000 dimensions (`halfvec`: 4,000), so `text-embedding-3-large`'s 3072 needs the `dimensions` parameter or `halfvec`
 - Local models (sentence-transformers) are great for prototyping and cost-sensitive workloads
 - Normalize vectors before storing — speeds up dot-product search
 
@@ -450,10 +452,15 @@ import psycopg2
 from pgvector.psycopg2 import register_vector
 
 conn = psycopg2.connect("postgresql://user:pass@localhost/db")
+
+# The extension must exist before register_vector runs: it looks the type up and raises
+# ProgrammingError("vector type not found in the database") otherwise
+with conn.cursor() as cur:
+    cur.execute("CREATE EXTENSION IF NOT EXISTS vector")
+conn.commit()
 register_vector(conn)
 
 with conn.cursor() as cur:
-    cur.execute("CREATE EXTENSION IF NOT EXISTS vector")
     cur.execute("""
         CREATE TABLE IF NOT EXISTS embeddings (
             id         SERIAL PRIMARY KEY,
@@ -462,7 +469,9 @@ with conn.cursor() as cur:
             embedding  vector(1536)
         )
     """)
-    cur.execute("CREATE INDEX IF NOT EXISTS emb_idx ON embeddings USING ivfflat (embedding vector_cosine_ops)")
+    # HNSW gives a better speed-recall trade-off than IVFFlat, at the cost of a slower build and more memory.
+    # An IVFFlat index must be created after the table holds data, so that it can learn its lists
+    cur.execute("CREATE INDEX IF NOT EXISTS emb_idx ON embeddings USING hnsw (embedding vector_cosine_ops)")
     conn.commit()
 
 # Insert
@@ -543,7 +552,7 @@ class IncrementalEmbeddingPipeline:
 | Task | Code |
 |------|------|
 | OpenAI | `client.embeddings.create(model="text-embedding-3-small", input=texts)` → `[d.embedding for d in r.data]` |
-| Voyage (recommended with Claude) | `vo.embed(texts, model="voyage-3", input_type="document")` → `.embeddings` |
+| Voyage (recommended with Claude) | `vo.embed(texts, model="voyage-4", input_type="document")` → `.embeddings` |
 | Local | `SentenceTransformer("all-MiniLM-L6-v2").encode(texts, normalize_embeddings=True)` |
 | Cosine similarity | `a @ b / (np.linalg.norm(a) * np.linalg.norm(b))` |
 | Top-k over a matrix (normalized) | `scores = M @ q; idx = np.argsort(-scores)[:k]` |

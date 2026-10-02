@@ -9,7 +9,7 @@ Most useful contributions are small, and you do not need to install anything for
 | Task | Effort | How |
 |------|--------|-----|
 | Fix a typo, wrong command or dead link | 5 minutes | Click the pencil icon (**Edit this page**) on any page of the site. GitHub forks the repo and opens the pull request for you. |
-| Review a guide against the vendor documentation | 30-60 minutes | Take a guide from the [good first issue](https://github.com/sarangambekar1997/data-engineering-handbook/issues?q=is%3Aopen+label%3A%22good+first+issue%22) list, run its commands, correct what changed and update `verified:`. See [Reviewing a guide](docs/maintenance.md#reviewing-a-guide). |
+| Review a guide against the vendor documentation | 30-60 minutes | Take a guide from the [good first issue](https://github.com/sarangambekar1997/data-engineering-handbook/issues?q=is%3Aopen+label%3A%22good+first+issue%22) list, run its commands, correct what changed, update `verified:` and remove `review_status: baseline`. See [Reviewing a guide](docs/maintenance.md#reviewing-a-guide). |
 | Add an interview question or a glossary term | 15-30 minutes | Follow the format of the existing entries in the guide or in the [glossary](docs/99-reference/glossary.md). |
 | Write a new guide or lab | Several hours | Pick an item marked *help wanted* on the [roadmap](docs/roadmap.md), and comment on its issue first so the work is not duplicated. |
 
@@ -46,11 +46,15 @@ Open an [issue](https://github.com/sarangambekar1997/data-engineering-handbook/i
 - Code blocks state their language and run as written, or say what they need (credentials, a cluster, sample data). A block that is a deliberate fragment goes after `<!-- docs-parse: skip -->`.
 - Do not hardcode prices or "latest" model names. Link to the vendor page, or load values from config as the AI guides do. When a model is retired, add its ID pattern to [`tools/deprecated_models.txt`](tools/deprecated_models.txt) so CI finds every remaining mention.
 - Use relative links between guides, and pick the anchor from the rendered heading.
-- Every guide has `verified: YYYY-MM-DD` in its front matter. Set it only after you have actually checked the guide's commands, versions and links against the vendor documentation, and say what you checked in the pull request. A typo fix does not change it. See [How the handbook is maintained](docs/maintenance.md).
+- Every guide has `verified: YYYY-MM-DD` in its front matter. Set it only after you have actually checked the guide's commands, versions and links against the vendor documentation, and say what you checked in the pull request. A typo fix does not change it. Guides marked `review_status: baseline` have never been individually reviewed; when you review one, remove that line as well. See [How the handbook is maintained](docs/maintenance.md).
+
+## Growing into a reviewer
+
+Regular contributors can become reviewers and, later, maintainers. [GOVERNANCE.md](GOVERNANCE.md) describes the roles and what each involves.
 
 ## Labs
 
-Each lab runs on a laptop and has a `README.md`, exercises and solutions. See [`labs/README.md`](labs/README.md) for the conventions. CI runs Labs 01–03 end to end and validates the Docker Compose files of Labs 04–05.
+Each lab runs on a laptop and has a `README.md`, exercises and solutions. See [`labs/README.md`](labs/README.md) for the conventions. CI runs every lab end to end. Labs 04 and 05 start Kafka and Airflow with Docker Compose and run `ci_smoke.py`, which replays the README exercises and checks the results the README describes. You can run the same script locally, or open the repository in a [dev container](.devcontainer/devcontainer.json) that has Python, Java and Docker ready.
 
 ## Recognition
 

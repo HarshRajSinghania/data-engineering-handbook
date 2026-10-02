@@ -1,5 +1,7 @@
 ---
-verified: 2026-09-27
+verified: 2026-09-29
+lab_tested: "Apache Iceberg 1.11.0"
+lab_source: labs/09-iceberg-lakehouse/lake.py
 ---
 
 # Apache Iceberg
@@ -7,7 +9,7 @@ verified: 2026-09-27
 
 **Prerequisites:** [Cloud Storage](cloud-storage.md) · [PySpark](../02-processing/pyspark-reference.md)
 
-**Related:** [Databricks](../02-processing/databricks-reference.md) · [Snowflake](snowflake-reference.md) · [DE Concepts](../00-foundations/de-concepts.md) · [Glossary](../99-reference/glossary.md)
+**Related:** [Lab 09](https://github.com/sarangambekar1997/data-engineering-handbook/tree/main/labs/09-iceberg-lakehouse) · [Databricks](../02-processing/databricks-reference.md) · [Snowflake](snowflake-reference.md) · [Trino](../02-processing/trino-federation.md) · [Azure and Fabric](azure-fabric.md) · [DE Concepts](../00-foundations/de-concepts.md) · [Glossary](../99-reference/glossary.md)
 
 ---
 
@@ -90,16 +92,17 @@ Iceberg metadata hierarchy:
 ## Setup with PySpark
 
 ```python
-# pip install 'pyspark==3.5.*'
+# pip install 'pyspark==4.1.3'
 # No Iceberg pip package needed — the runtime jar below is downloaded by Spark.
-# Its name must match your Spark (3.5) and Scala (2.12) versions.
+# Its name must match your Spark (4.1) and Scala (2.13) versions, and it is published only for
+# some Spark versions: check Maven Central for iceberg-spark-runtime before upgrading Spark.
 
 from pyspark.sql import SparkSession
 
 spark = SparkSession.builder \
     .appName("iceberg-demo") \
     .config("spark.jars.packages",
-            "org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.5.0") \
+            "org.apache.iceberg:iceberg-spark-runtime-4.1_2.13:1.11.0") \
     .config("spark.sql.extensions",
             "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions") \
     .config("spark.sql.catalog.local",
@@ -287,14 +290,15 @@ spark.sql("""
     TIMESTAMP AS OF '2024-03-15 12:00:00'
 """).show()
 
-# Via DataFrame reader
+# Via DataFrame reader: Spark's own options. The Iceberg options snapshot-id and
+# as-of-timestamp raise an error in Spark 4.1 with Iceberg 1.11.
 df = spark.read \
-    .option("snapshot-id", "1234567890") \
+    .option("versionAsOf", 1234567890) \
     .table("local.db.orders")
 
 df = spark.read \
-    .option("as-of-timestamp", "1710504000000") \
-    .table("local.db.orders")          # as-of-timestamp is milliseconds since epoch
+    .option("timestampAsOf", "2024-03-15 12:00:00") \
+    .table("local.db.orders")
 
 # Rollback to a previous snapshot
 spark.sql("CALL local.system.rollback_to_snapshot('db.orders', 1234567890)")
@@ -520,4 +524,4 @@ A: When several engines need to read and write the same tables (Spark, Trino, Fl
 
 ---
 
-**Previous:** [Databricks](../02-processing/databricks-reference.md) · **Next:** [Kafka](../04-streaming/kafka-reference.md) · **Back to:** [Index](../README.md)
+**Previous:** [Databricks](../02-processing/databricks-reference.md) · **Next:** [Trino](../02-processing/trino-federation.md) · **Back to:** [Index](../README.md)

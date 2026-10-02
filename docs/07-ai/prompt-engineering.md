@@ -1,5 +1,5 @@
 ---
-verified: 2026-09-27
+verified: 2026-09-28
 ---
 
 # Prompt Engineering
@@ -215,7 +215,7 @@ If there are no issues, say "LGTM" and briefly explain why.
 """
 
 response = client.messages.create(
-    model="claude-sonnet-5",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
     system=system,
     messages=[
@@ -240,7 +240,7 @@ print(next(b.text for b in response.content if b.type == "text"))
 
 Force the model to reason step by step before answering. Dramatically improves accuracy on multi-step problems.
 
-> **Reasoning models change this.** Current Claude models (Sonnet 5, Opus 5+) reason internally with *adaptive thinking* before answering, controlled by `output_config={"effort": ...}` rather than by prompt wording. Prompted chain-of-thought still matters for smaller or non-reasoning models (Haiku, many local models), and asking for visible reasoning is useful when you want to audit it.
+> **Reasoning models change this.** Current Claude models (Sonnet 5.5, Opus 5.5, Fable 5.1) reason internally with *adaptive thinking* before answering, controlled by `output_config={"effort": ...}` rather than by prompt wording. Anthropic's guidance is to prefer a general instruction such as "think thoroughly" over a hand-written step-by-step plan, because the model's reasoning often exceeds what you would prescribe. Haiku 4.5 uses extended thinking (`thinking={"type": "enabled", "budget_tokens": N}`) and does not support `effort`, and many local models do not reason at all, so prompted chain-of-thought still matters for them. Asking for visible reasoning is also useful when you want to audit it.
 
 ```python
 # Without CoT — often wrong on logic problems
@@ -308,7 +308,7 @@ Return ONLY valid JSON with these fields:
 """
 
 response = client.messages.create(
-    model="claude-sonnet-5",
+    model="claude-sonnet-5-5",
     max_tokens=512,
     messages=[{"role": "user", "content": prompt}]
 )
@@ -330,7 +330,7 @@ print(result)
 - Say "Return ONLY valid JSON" — no prose before or after
 - Provide the exact schema with field names and types
 - Use structured outputs to *guarantee* schema-valid JSON (Anthropic: `output_config.format` / `client.messages.parse`; OpenAI: `response_format` with a JSON schema)
-- Assistant prefill (starting the reply with `{`) is no longer supported on current Claude models — it returns a 400
+- Assistant prefill (starting the reply with `{`) is not supported from the Claude 4.6 generation on: the request returns a 400. Use structured outputs or instructions in the prompt instead
 
 ```python
 # Structured outputs (Anthropic) — the response is validated against the schema
@@ -341,7 +341,7 @@ class PipelineError(BaseModel):
     error_type: str
 
 response = client.messages.parse(
-    model="claude-sonnet-5",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
     messages=[{"role": "user", "content": f"Extract the pipeline name and error type:\n{log_line}"}],
     output_format=PipelineError,
@@ -377,7 +377,7 @@ client = anthropic.Anthropic()
 
 def call(system: str, user: str) -> str:
     r = client.messages.create(
-        model="claude-sonnet-5",
+        model="claude-sonnet-5-5",
         max_tokens=1024,
         system=system,
         messages=[{"role": "user", "content": user}]
@@ -461,7 +461,7 @@ Rewrite the prompt to fix this issue. Explain what you changed and why.
 
 # Self-improvement loop
 response = client.messages.create(
-    model="claude-sonnet-5",
+    model="claude-sonnet-5-5",
     max_tokens=2048,
     messages=[{
         "role": "user",

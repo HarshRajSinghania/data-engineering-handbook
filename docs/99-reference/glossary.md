@@ -1,5 +1,5 @@
 ---
-verified: 2026-09-27
+verified: 2026-09-29
 ---
 
 # Data Engineering Glossary
@@ -21,6 +21,10 @@ verified: 2026-09-27
 
 **Apache Arrow** — A columnar in-memory data format shared by many engines (pandas, Polars, DuckDB, Spark), allowing data to move between them with little or no copying.
 
+**Architecture Decision Record (ADR)** — A short document that captures one significant architecture decision: the context, the options considered, the choice, its consequences, and the signals that would reopen it. It is kept in the repository beside the code. See [Choosing a Stack](../08-architecture/choosing-a-stack.md).
+
+**Aspect and URN (DataHub)** — In DataHub, an aspect is one facet of an entity (ownership, tags, schema) and the smallest unit that can be written, and a URN is the stringified key of an entity, such as `urn:li:dataset:(urn:li:dataPlatform:postgres,shop.public.orders,PROD)`. See [Data Catalogs in Practice](../05-quality-governance/data-catalogs.md).
+
 **Asset Check** — A validation attached to a data asset (e.g., no negative amounts) whose pass or fail result is recorded next to the asset. A *blocking* check stops downstream assets when it fails. See [Dagster](../03-orchestration/dagster-reference.md).
 
 **Asset (Software-Defined Asset)** — In Dagster, a declaration that a table, file or model should exist, together with the code that produces it and its upstream dependencies. The orchestrator tracks each asset's materializations, checks and lineage. See [Dagster](../03-orchestration/dagster-reference.md).
@@ -30,6 +34,8 @@ verified: 2026-09-27
 ## B
 
 **Backfill** — Re-running a pipeline for past time periods, typically to populate historical data or fix incorrect past runs.
+
+**Blameless Postmortem** — A written review of an incident that identifies contributing causes in the system without blaming any individual or team, and ends in action items with owners. It assumes people acted reasonably with what they knew, which makes them willing to surface problems. See [DataOps](../05-quality-governance/dataops-operations.md).
 
 **Bloom filter** — A compact probabilistic structure that can say a value is definitely not present, or maybe present, with a tunable false-positive rate and no false negatives. Lake table formats use Bloom filters (and similar indexes) to skip files that cannot contain a lookup key. See [Apache Hudi](../01-storage/apache-hudi.md).
 
@@ -41,11 +47,15 @@ verified: 2026-09-27
 
 ## C
 
+**Capacity Unit (CU, Microsoft Fabric)** — The measure of compute power in a Microsoft Fabric capacity. SKUs are sized in CUs (an F64 has 64), and every workload in the attached workspaces draws on the same pool. See [Azure and Fabric](../01-storage/azure-fabric.md).
+
 **Cardinality** — The number of unique values in a column. High cardinality = many unique values (user IDs, email addresses). Low cardinality = few unique values (status codes, boolean flags). Affects index effectiveness and partition strategies.
 
 **CDC (Change Data Capture)** — A technique for capturing row-level changes (INSERT, UPDATE, DELETE) from a source database in real time, typically via database logs. Used to replicate data to a warehouse or data lake.
 
 **Change Data Feed (CDF)** — A Delta Lake feature that records row-level changes (insert, update pre/post image, delete) so downstream jobs can process only what changed. See [Delta Lake](../01-storage/delta-lake.md).
+
+**Change Stream (MongoDB)** — A feed of change events (insert, update, delete and others) from a MongoDB replica set or sharded cluster, each carrying a resume token so a consumer can continue after a restart. It is MongoDB's change-data-capture mechanism. See [NoSQL and Operational Stores](../01-storage/nosql-operational-stores.md).
 
 **Checkpoint** — In Spark Structured Streaming, a directory where Spark saves offsets and state so it can resume from the exact position after a restart.
 
@@ -72,6 +82,8 @@ verified: 2026-09-27
 **Data Catalog** — A searchable inventory of datasets with technical, operational, and business metadata such as schemas, owners, descriptions, lineage, and usage.
 
 **Data Contract** — A formal agreement between a data producer and consumer specifying schema, semantics, quality guarantees, and SLA.
+
+**Data Diff** — A comparison of a change's output with the current production output, listing the rows added, removed and changed, so the effect of a code change is visible before it merges. See [Testing and CI/CD](../06-infrastructure/testing-cicd.md).
 
 **Data Downtime** — Periods when data is missing, late, wrong or otherwise unusable. The failure that data observability aims to detect and shorten. See [Pipeline Observability](../05-quality-governance/pipeline-observability.md).
 
@@ -129,6 +141,10 @@ verified: 2026-09-27
 
 **ETL (Extract, Transform, Load)** — A traditional data integration pattern: data is extracted, transformed before loading, then loaded into the destination. Contrast with ELT.
 
+**Event Time** — The time an event actually happened, as opposed to processing time, when the pipeline sees it. Windows defined on event time give results that reflect when things occurred, even when data arrives late or out of order. See [Beam and Dataflow](../04-streaming/beam-dataflow.md).
+
+**Execution Accuracy** — A text-to-SQL metric: a generated query is correct when it returns the same rows as a reference query, whatever its text, with row order ignored unless the reference orders its rows. See [MCP and Text-to-SQL](../07-ai/mcp-text-to-sql.md).
+
 **Executor (Spark)** — A JVM process on a worker node that runs tasks. Each executor has a number of cores and a memory allocation.
 
 ## F
@@ -139,7 +155,11 @@ verified: 2026-09-27
 
 **Feature Store** — A centralized repository for ML features — precomputed, versioned, and shareable across models and teams.
 
+**Federated Query** — A query that reads from more than one data source, such as a lake and a database, in a single statement, without copying the data first. Its efficiency depends on how much work the connectors push down to each source. See [Trino](../02-processing/trino-federation.md).
+
 **FinOps** — The practice of making cloud spend visible, attributable, and efficient through collaboration between engineering, finance, and business teams. See [Cost Optimization](../08-architecture/cost-optimization.md).
+
+**Fitness Function** — An automated check that a system keeps a desired architectural property, such as "no streaming layer without a freshness requirement" or "every layer has an owner". It turns a principle into something that fails a build. See [Choosing a Stack](../08-architecture/choosing-a-stack.md).
 
 **Flow (Prefect)** — A Python function decorated with `@flow` that Prefect runs, tracks and can schedule. It can contain tasks and other flows. See [Prefect](../03-orchestration/prefect-reference.md).
 
@@ -147,15 +167,21 @@ verified: 2026-09-27
 
 ## G
 
+**Global Secondary Index (GSI)** — In DynamoDB, a second copy of a table's data keyed by different attributes, so another access pattern can be served by a key lookup. It costs extra writes and storage, and it is updated asynchronously. See [NoSQL and Operational Stores](../01-storage/nosql-operational-stores.md).
+
 **Gold Layer** — The final layer in medallion architecture. Contains business-ready, aggregated tables consumed by BI tools, APIs, and ML models.
 
 **Grain** — The level of detail in a fact table — what one row represents. E.g., "one row per order" or "one row per order line item per day". Must be defined explicitly.
+
+**Granule (ClickHouse)** — A block of rows, 8192 by default, that the sparse primary index points to. A query skips the granules whose key range cannot match its filter. See [Real-Time Analytics Databases](../01-storage/realtime-olap.md).
 
 ## H
 
 **HMAC (Keyed Hash)** — A hash computed with a secret key. Used to pseudonymise identifiers so the same input always gives the same token, while an attacker without the key cannot reverse it by hashing guesses. See [Data Security & Privacy](../05-quality-governance/data-security-privacy.md).
 
 **HNSW (Hierarchical Navigable Small World)** — The most common ANN index algorithm used in vector databases. Builds a multi-layer graph structure for fast approximate search.
+
+**Hot Partition** — A partition that receives a disproportionate share of traffic, so it reaches its throughput limit while the rest of the table is idle. Caused by low-cardinality or skewed keys. In DynamoDB each partition is designed for at most 3,000 read units and 1,000 write units per second. See [NoSQL and Operational Stores](../01-storage/nosql-operational-stores.md).
 
 **Hudi (Apache Hudi)** — An open table format built for record-level upserts and incremental queries, with Copy-on-Write and Merge-on-Read table types. See [Apache Hudi](../01-storage/apache-hudi.md).
 
@@ -167,13 +193,19 @@ verified: 2026-09-27
 
 **Incremental Load** — A pipeline pattern that processes only new or changed data since the last run, rather than reprocessing everything.
 
+**Incremental View Maintenance (IVM)** — Keeping a materialized view current by applying each change as a signed delta (a retraction and an insertion for an update), instead of recomputing the whole query. Streaming databases such as RisingWave and Materialize work this way. See [Streaming SQL](../04-streaming/streaming-sql.md).
+
 ## I
 
 **Iceberg (Apache Iceberg)** — An open table format for huge analytic datasets. Like Delta Lake but more portable — supported by Spark, Flink, Trino, Snowflake, and others.
 
+**Incident Commander** — The person who holds the overall state of an incident, structures the response and assigns roles, without fixing the problem personally. Other roles are the operations lead, communications and planning. See [DataOps](../05-quality-governance/dataops-operations.md).
+
 **IVFFlat** — A vector index algorithm that partitions vectors into clusters (inverted file) and searches only nearby clusters. Faster than brute force, lower memory than HNSW.
 
 ## J
+
+**Job (Kubernetes)** — A Kubernetes object that runs pods to completion and retries failures. It is the unit of batch work, and a CronJob creates Jobs on a schedule. See [Kubernetes](../06-infrastructure/kubernetes-for-de.md).
 
 **Join Skew** — When one key in a join has disproportionately many rows, causing one executor to do most of the work. Common cause of slow Spark joins.
 
@@ -201,7 +233,7 @@ verified: 2026-09-27
 
 **Liquid Clustering** — A Delta Lake layout feature (`CLUSTER BY`) that replaces partitioning and Z-ordering, and lets clustering keys change without rewriting the whole table. See [Delta Lake](../01-storage/delta-lake.md).
 
-**LLM (Large Language Model)** — A neural network trained on large amounts of text, capable of understanding and generating human language. Examples: Claude, GPT-4.
+**LLM (Large Language Model)** — A neural network trained on large amounts of text, capable of understanding and generating human language. Examples: Claude models, GPT series, Gemini.
 
 **LSN (Log Sequence Number)** — A position in a database's transaction log (for example the Postgres WAL). CDC tools use it to order changes and resume from an exact point.
 
@@ -223,6 +255,8 @@ verified: 2026-09-27
 
 **Micro-batch** — Spark Structured Streaming's default processing mode: collect data into small time-window batches and process each one. Contrast with continuous processing.
 
+**Model Context Protocol (MCP)** — An open standard for connecting AI applications to external systems. A host application runs one client per server, and a server exposes tools, resources and prompts over JSON-RPC, on stdio for local servers or Streamable HTTP for remote ones. See [MCP and Text-to-SQL](../07-ai/mcp-text-to-sql.md).
+
 ## N
 
 **Namespace (vector DB)** — A logical partition within a vector index. Useful for multi-tenancy — one index, separate namespaces per customer or team.
@@ -237,6 +271,8 @@ verified: 2026-09-27
 
 **OLTP (Online Transaction Processing)** — Systems optimized for fast, concurrent read-write transactions. Row-based storage. Examples: PostgreSQL, MySQL, DynamoDB.
 
+**OneLake** — The single logical data lake every Microsoft Fabric tenant receives. It is built on Azure Data Lake Storage Gen2 and stores tables in open formats (Delta Parquet or Iceberg). See [Azure and Fabric](../01-storage/azure-fabric.md).
+
 **OpenLineage** — An open standard for lineage metadata: jobs emit run events describing their inputs and outputs, and a backend assembles the lineage graph.
 
 **Orchestration** — Coordinating the execution order, scheduling, and dependencies of pipeline tasks. Examples: Airflow, Prefect, Dagster.
@@ -249,7 +285,13 @@ verified: 2026-09-27
 
 **Partition (Kafka)** — A log within a Kafka topic. Messages within a partition are ordered. Partitions enable parallelism — more partitions = more consumer parallelism.
 
+**Partition Key and Sort Key** — In DynamoDB and similar stores, the partition key decides which partition stores an item, and the optional sort key orders items within it, so a range query inside one partition is efficient. Cassandra's equivalent is the partition key and the clustering columns. See [NoSQL and Operational Stores](../01-storage/nosql-operational-stores.md).
+
 **Partition pruning** — Skipping whole partitions (or files) whose partition values cannot match a query filter, so the engine never reads them. Requires the filter to use the partition columns. See [PySpark](../02-processing/pyspark-reference.md).
+
+**PCollection (Beam)** — A distributed, immutable dataset in an Apache Beam pipeline. It is bounded if it comes from a fixed source such as a file, and unbounded if it comes from a continuous source such as a stream. See [Beam and Dataflow](../04-streaming/beam-dataflow.md).
+
+**Pod (Kubernetes)** — The smallest unit Kubernetes schedules: one or more containers that run together on a node. A Spark executor and a batch job run are each a pod. See [Kubernetes](../06-infrastructure/kubernetes-for-de.md).
 
 **Polars** — A multi-threaded DataFrame library with a lazy query optimizer and a streaming engine for larger-than-memory data.
 
@@ -258,6 +300,8 @@ verified: 2026-09-27
 **Producer (Kafka)** — A client that writes messages to a Kafka topic.
 
 **Prompt Caching** — An Anthropic API feature that caches repeated prompt prefixes (system prompts, documents) to reduce latency and cost.
+
+**Property-Based Testing** — Testing a rule that must hold for all inputs, such as "one row per key", by generating many inputs, including edge cases such as empty input, instead of listing examples by hand. See [Testing and CI/CD](../06-infrastructure/testing-cicd.md).
 
 **Pseudonymisation** — Replacing direct identifiers with tokens or keyed hashes so records can still be joined but not attributed to a person without extra information. The result is still personal data under GDPR. See [Data Security & Privacy](../05-quality-governance/data-security-privacy.md).
 
@@ -275,9 +319,15 @@ verified: 2026-09-27
 
 **Replication Slot** — A Postgres object that tracks how far a logical replication consumer (such as a CDC connector) has read. An unused slot makes the database retain WAL indefinitely.
 
+**Requests and Limits (Kubernetes)** — Per-container resource settings. A request is what the scheduler reserves when it places a pod. A limit is the cap enforced at run time: CPU is throttled, and a container that exceeds its memory limit is killed (`OOMKilled`, exit code 137). See [Kubernetes](../06-infrastructure/kubernetes-for-de.md).
+
 **Reverse ETL** — Syncing modeled data from the warehouse back into operational tools such as CRM, marketing, or support systems.
 
 **Role-Playing Dimension** — When the same dimension table is used multiple times in a fact table with different semantic roles (e.g., dim_date used as order_date and ship_date).
+
+**Rollup (Druid)** — Ingestion-time summarisation that combines rows with identical dimension values and the same timestamp, after truncation to the query granularity, into a single row. It shrinks storage at the cost of being able to query individual events. See [Real-Time Analytics Databases](../01-storage/realtime-olap.md).
+
+**Row-Level Security (RLS)** — Restricting which rows a user or role can see, by attaching a filter to a table or dataset. It can be enforced in the warehouse, in a BI tool, or through signed tokens for embedded analytics. Rules enforced only in a BI tool can be bypassed by direct database access. See [BI Tools](../02-processing/bi-tools.md).
 
 **RPU (Redshift Processing Unit)** — The unit of compute capacity in Amazon Redshift Serverless, billed per second while queries run.
 
@@ -293,9 +343,13 @@ verified: 2026-09-27
 
 **Schema-on-Write** — Schema is enforced when data is written. Ensures consistency but requires upfront schema design (data warehouse).
 
+**Segment (Druid and Pinot)** — The unit of storage in Druid and Pinot: a columnar file of data and its indexes, which is the unit that is replicated and queried in parallel. In Druid, segments are partitioned by time. See [Real-Time Analytics Databases](../01-storage/realtime-olap.md).
+
 **Semantic Layer** — A layer between warehouse tables and consumers that defines metrics and dimensions once, and generates the correct SQL for BI tools, notebooks, APIs and AI assistants. See [Semantic Layer & Metrics](../02-processing/semantic-layer-metrics.md).
 
 **Semantic Search** — Search by meaning rather than exact keyword matching. Powered by embeddings — finds documents conceptually similar to the query.
+
+**Shortcut (OneLake)** — A reference in OneLake to data stored elsewhere, such as another workspace, ADLS Gen2 or Amazon S3, so it can be queried without copying. Changes at the source are visible immediately. See [Azure and Fabric](../01-storage/azure-fabric.md).
 
 **Showback / Chargeback** — Reporting cloud costs to the teams that incur them (showback), or billing those costs to their budgets (chargeback).
 
@@ -319,15 +373,25 @@ verified: 2026-09-27
 
 **Star Schema** — A dimensional modeling pattern with one central fact table surrounded by dimension tables. Optimized for analytical queries.
 
+**Star-Tree Index (Pinot)** — A Pinot index that pre-aggregates across chosen dimensions, so matching aggregation queries have a bounded latency, in exchange for extra storage. See [Real-Time Analytics Databases](../01-storage/realtime-olap.md).
+
 **Streaming** — Processing data continuously as it arrives, rather than in batches. Examples: Kafka, Spark Structured Streaming, Flink.
+
+**Streaming Database** — A database that keeps the results of SQL views continuously up to date as data arrives from sources such as Kafka and CDC, using incremental view maintenance, and serves them over a standard SQL interface. Examples: RisingWave and Materialize. See [Streaming SQL](../04-streaming/streaming-sql.md).
 
 **Surrogate Key** — A warehouse-generated integer key used to join fact and dimension tables. Stable, independent of the source system's natural key.
 
 ## T
 
+**Taint and Toleration (Kubernetes)** — A taint on a node repels pods, and a toleration on a pod allows it to be scheduled there. They reserve node pools, for example spot capacity for batch work. See [Kubernetes](../06-infrastructure/kubernetes-for-de.md).
+
+**Temporal Filter (Materialize)** — A `WHERE` condition on `mz_now()`, Materialize's current virtual timestamp, such as `mz_now() <= event_ts + INTERVAL '1 hour'`. As time advances, rows that no longer satisfy it are retracted from the result, giving a sliding window that expires old data and bounds state. See [Streaming SQL](../04-streaming/streaming-sql.md).
+
+**Text-to-SQL** — Using a language model to turn a natural-language question into a SQL query. The hard parts are schema linking, business definitions and ambiguity, and safety comes from validating and restricting the SQL, not from the prompt. See [MCP and Text-to-SQL](../07-ai/mcp-text-to-sql.md).
+
 **Time Travel** — The ability to query historical versions of a table. Supported natively by Delta Lake, Snowflake (up to 90 days), and Apache Iceberg.
 
-**Tombstone** — A delete marker written in place of a record (a Kafka null value, or a deletion vector / log entry in a lake table) so consumers or readers treat the key as deleted without rewriting the whole dataset. See [Kafka](../04-streaming/kafka-reference.md).
+**Tombstone** — A delete marker written in place of a record, so consumers or readers treat the key as deleted without rewriting the whole dataset. In Kafka, a message with a key and a null value; on a compacted topic it tells Kafka to remove earlier messages with that key, and Debezium sends one after each delete event, so a consumer that applies changes must not treat it as a change. Lake table formats use an equivalent (a deletion vector or log entry). See [Kafka](../04-streaming/kafka-reference.md) and [Ingestion & CDC](../02-processing/ingestion-cdc.md).
 
 **Tool Use** — An LLM feature where the model can call functions defined by the developer — search, run SQL, call APIs — and use their results to answer questions.
 
@@ -360,6 +424,10 @@ verified: 2026-09-27
 **Work Pool (Prefect)** — A queue of flow runs bound to an infrastructure type (process, Docker, Kubernetes, serverless). Workers in your own environment poll it and start the runs. See [Prefect](../03-orchestration/prefect-reference.md).
 
 **Workload Identity Federation** — Exchanging a workload's native identity token (from a cloud, CI system, or Kubernetes) for short-lived credentials in another system, avoiding long-lived access keys.
+
+**Write-Ahead Log (WAL)** — A database's log of every change, written before the change is applied to the data files, so the database can recover after a crash. Log-based CDC reads it (Postgres needs `wal_level = logical`), and an unread replication slot makes Postgres keep it. See [Ingestion & CDC](../02-processing/ingestion-cdc.md).
+
+**Write-Audit-Publish (WAP)** — A publishing pattern: write the output to a staging table, audit it, and swap it in only if every audit passes, so consumers never see invalid or partial data. See [Testing and CI/CD](../06-infrastructure/testing-cicd.md).
 
 ## X
 

@@ -1,5 +1,5 @@
 ---
-verified: 2026-09-27
+verified: 2026-09-28
 ---
 
 # Local & Open-Source LLMs
@@ -315,10 +315,11 @@ texts = [
 vecs = embed_model.encode(texts, normalize_embeddings=True)
 print(vecs.shape)   # (3, 384)
 
-# Cosine similarity
+# Cosine similarity (normalized vectors, so the dot product is the cosine similarity)
 query_vec = embed_model.encode(["how to schedule a pipeline?"], normalize_embeddings=True)[0]
 scores    = vecs @ query_vec
-print(scores)   # [0.32, 0.41, 0.87] — Airflow is most similar
+print(scores)   # e.g. [0.55, 0.61, 0.56] — the Airflow doc scores highest, but exact
+                 # numbers vary by model version; don't hardcode them in an eval
 ```
 
 ---

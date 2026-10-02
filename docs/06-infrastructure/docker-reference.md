@@ -1,5 +1,5 @@
 ---
-verified: 2026-09-27
+verified: 2026-09-29
 ---
 
 # Docker Reference
@@ -7,7 +7,7 @@ verified: 2026-09-27
 
 **Prerequisites:** [Linux & Bash](../00-foundations/linux-bash.md)
 
-**Related:** [Airflow](../03-orchestration/airflow-reference.md) · [Terraform](terraform-for-de.md) · [Local LLMs](../07-ai/local-llms.md) · [Glossary](../99-reference/glossary.md)
+**Related:** [Airflow](../03-orchestration/airflow-reference.md) · [Kubernetes](kubernetes-for-de.md) · [Terraform](terraform-for-de.md) · [Testing and CI/CD](testing-cicd.md) · [Local LLMs](../07-ai/local-llms.md) · [Glossary](../99-reference/glossary.md)
 
 ---
 
@@ -164,7 +164,7 @@ docker system df              # show disk usage
 FROM python:3.11-slim
 
 # Metadata
-LABEL maintainer="data-engineering@mycompany.com"
+LABEL maintainer="maintainer@example.com"
 LABEL version="1.0"
 
 # Set working directory inside the container
@@ -703,4 +703,4 @@ A: Package each job (a Spark job, SQL transformation project, or Python extracto
 
 ---
 
-**Previous:** [Cloud Storage](../01-storage/cloud-storage.md) · **Next:** [Terraform](terraform-for-de.md) · **Back to:** [Index](../README.md)
+**Previous:** [Cloud Storage](../01-storage/cloud-storage.md) · **Next:** [Kubernetes](kubernetes-for-de.md) · **Back to:** [Index](../README.md)

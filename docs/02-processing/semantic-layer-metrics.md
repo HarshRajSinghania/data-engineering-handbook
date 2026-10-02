@@ -1,5 +1,5 @@
 ---
-verified: 2026-09-27
+verified: 2026-09-29
 ---
 
 # Semantic Layer & Metrics
@@ -7,7 +7,7 @@ verified: 2026-09-27
 
 **Prerequisites:** [SQL](../00-foundations/sql-reference.md) · [Data Modeling](../01-storage/data-modeling.md) · [dbt](dbt-reference.md)
 
-**Related:** [Data Quality](../05-quality-governance/data-quality.md) · [Governance & Lineage](../05-quality-governance/governance-lineage.md) · [Glossary](../99-reference/glossary.md)
+**Related:** [Data Quality](../05-quality-governance/data-quality.md) · [Governance & Lineage](../05-quality-governance/governance-lineage.md) · [BI Tools](bi-tools.md) · [Glossary](../99-reference/glossary.md)
 
 ---
 
@@ -328,4 +328,4 @@ A: As close to the data and as tool-neutral as your consumers require. One BI to
 
 ---
 
-**Previous:** [dbt](dbt-reference.md) · **Next:** [Data Quality](../05-quality-governance/data-quality.md) · **Back to:** [Index](../README.md)
+**Previous:** [dbt](dbt-reference.md) · **Next:** [BI Tools](bi-tools.md) · **Back to:** [Index](../README.md)

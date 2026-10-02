@@ -1,5 +1,5 @@
 ---
-verified: 2026-09-27
+verified: 2026-09-28
 ---
 
 # Vector Databases
@@ -112,15 +112,17 @@ CREATE EXTENSION IF NOT EXISTS vector;
 -- Create a table with an embedding column
 CREATE TABLE documents (
     id          SERIAL PRIMARY KEY,
-    source      TEXT NOT NULL,
+    source      TEXT NOT NULL UNIQUE,   -- one row per source: the upsert below relies on this constraint
     doc_type    TEXT,
     content     TEXT NOT NULL,
     embedding   vector(1536),       -- 1536 dims for text-embedding-3-small
     created_at  TIMESTAMPTZ DEFAULT NOW()
 );
 
--- IVFFlat index: good for large tables (> 1M rows)
--- lists = sqrt(num_rows) is a good starting point
+-- IVFFlat index: smaller and faster to build than HNSW, with a weaker speed-recall trade-off.
+-- Create it AFTER the table has data (it learns its lists from existing rows).
+-- pgvector suggests lists = rows / 1000 up to 1M rows, and sqrt(rows) beyond that;
+-- queries look in ivfflat.probes lists (1 by default): raise it for better recall
 CREATE INDEX ON documents USING ivfflat (embedding vector_cosine_ops)
 WITH (lists = 100);
 
@@ -166,7 +168,6 @@ def search(query: str, k: int = 5, doc_type: str = None) -> list[dict]:
     q_vec = embed_batch([query])[0]
 
     filter_clause = "WHERE doc_type = %s" if doc_type else ""
-    params = (q_vec, doc_type, k) if doc_type else (q_vec, k)
 
     sql = f"""
         SELECT source, doc_type, content,
@@ -176,7 +177,7 @@ def search(query: str, k: int = 5, doc_type: str = None) -> list[dict]:
         ORDER BY embedding <=> %s::vector
         LIMIT %s
     """
-    # Fix params — query vector appears twice (score calc + ORDER BY)
+    # The query vector appears twice (the score and the ORDER BY), and the filter value sits between them
     params = (q_vec, q_vec, k) if not doc_type else (q_vec, doc_type, q_vec, k)
 
     with conn.cursor() as cur:
@@ -460,10 +461,10 @@ index.query(vector=q_vec, top_k=5, namespace="team_platform")
 | | pgvector | Chroma | Pinecone | Weaviate |
 |-|----------|--------|----------|----------|
 | **Managed** | No | No | Yes | Yes/No |
-| **Scale** | ~10M | ~1M | Billions | Billions |
+| **Scale** (rough guide, not a limit) | Millions | Up to about a million | Very large | Very large |
 | **Setup** | Need Postgres | Python-native | API key | Docker/Cloud |
 | **Cost** | Postgres infra | Free | Paid | Free/Paid |
-| **Best for** | Existing PG, < 5M | Local dev, small prod | Serverless, large scale | Multi-modal, graph queries |
+| **Best for** | Existing PG, a few million vectors | Local dev, small prod | Serverless, large scale | Multi-modal, graph queries |
 | **Hybrid search** | Manual (combine with `tsvector` full-text) | Limited | Yes (sparse + dense vectors) | Yes (BM25 + vectors) |
 | **Multi-modal** | No | No | No | Yes |
 
@@ -535,7 +536,7 @@ def index_health_check(index) -> dict:
     return {
         "total_vectors":      stats.total_vector_count,
         "namespaces":         list(stats.namespaces.keys()),
-        "index_fullness_pct": stats.index_fullness * 100,
+        "index_fullness_pct": stats.index_fullness * 100,   # meaningful for pod-based indexes only; serverless reports 0
     }
 
 # Alert if index is >80% full (Pinecone pods have limits)

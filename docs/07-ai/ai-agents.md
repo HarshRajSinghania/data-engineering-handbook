@@ -1,5 +1,5 @@
 ---
-verified: 2026-09-27
+verified: 2026-09-28
 ---
 
 # AI Agents & Tool Use
@@ -7,7 +7,7 @@ verified: 2026-09-27
 
 **Prerequisites:** [LLM APIs](llm-apis.md) · [Prompt Engineering](prompt-engineering.md)
 
-**Related:** [LangChain & LlamaIndex](langchain-llamaindex.md) · [Claude Code](claude-code.md) · [Evals](eval-and-evals.md) · [Glossary](../99-reference/glossary.md)
+**Related:** [LangChain & LlamaIndex](langchain-llamaindex.md) · [Claude Code](claude-code.md) · [MCP & Text-to-SQL](mcp-text-to-sql.md) · [Evals](eval-and-evals.md) · [Glossary](../99-reference/glossary.md)
 
 ---
 
@@ -162,7 +162,7 @@ def get_table_row_count(table_name: str) -> dict:
 
 # First turn: LLM decides to use the tool
 response = client.messages.create(
-    model="claude-sonnet-5",
+    model="claude-sonnet-5-5",
     max_tokens=1024,
     tools=tools,
     messages=[{"role": "user", "content": "How many orders do we have?"}]
@@ -177,7 +177,7 @@ for block in response.content:
 
         # Second turn: give result back to LLM
         final = client.messages.create(
-            model="claude-sonnet-5",
+            model="claude-sonnet-5-5",
             max_tokens=512,
             tools=tools,
             messages=[
@@ -214,7 +214,7 @@ def run_agent(user_message: str, tools: list, tool_executor: dict,
 
     for i in range(max_iterations):
         response = client.messages.create(
-            model="claude-sonnet-5",
+            model="claude-sonnet-5-5",
             max_tokens=16000,
             tools=tools,
             messages=messages,
@@ -538,7 +538,7 @@ class AgentWithMemory:
 
         # Run agent with full history
         response = client.messages.create(
-            model="claude-sonnet-5",
+            model="claude-sonnet-5-5",
             max_tokens=2048,
             system=self.system,
             tools=self.tools,
@@ -654,7 +654,7 @@ FINAL_ANSWER_TOOL = {
 ```python
 messages = [{"role": "user", "content": task}]
 while True:
-    r = client.messages.create(model="claude-sonnet-5", max_tokens=16000, tools=tools, messages=messages)
+    r = client.messages.create(model="claude-sonnet-5-5", max_tokens=16000, tools=tools, messages=messages)
     messages.append({"role": "assistant", "content": r.content})       # keep all blocks
     if r.stop_reason == "end_turn":
         break
@@ -682,7 +682,7 @@ def get_table_freshness(table: str) -> str:
     ...
 
 runner = client.beta.messages.tool_runner(
-    model="claude-sonnet-5", max_tokens=16000,
+    model="claude-sonnet-5-5", max_tokens=16000,
     tools=[get_table_freshness],
     messages=[{"role": "user", "content": "Is fct_orders fresh?"}],
 )
@@ -734,4 +734,4 @@ A: The conversation grows with every tool call and result, so long tasks can hit
 
 ---
 
-**Previous:** [Vector Databases](vector-databases.md) · **Next:** [LangChain & LlamaIndex](langchain-llamaindex.md) · **Back to:** [Index](../README.md)
+**Previous:** [Vector Databases](vector-databases.md) · **Next:** [MCP and Text-to-SQL](mcp-text-to-sql.md) · **Back to:** [Index](../README.md)

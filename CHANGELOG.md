@@ -4,16 +4,36 @@ All notable changes to the handbook are recorded here. The format follows [Keep 
 
 Versions describe the handbook as a whole:
 
-- **Minor** (`0.x.0`): new guides, labs or site features.
-- **Patch** (`0.x.y`): corrections, review-date refreshes and fixes to existing content.
-- **1.0.0** is planned for when the [roadmap](docs/roadmap.md) coverage rounds are complete, every lab runs in CI and every guide has been reviewed within the last six months.
+- **Minor** (`x.Y.0`): new guides, labs or site features.
+- **Patch** (`x.y.Z`): corrections, review-date refreshes and fixes to existing content.
+- **1.0.0** marked the [roadmap](docs/roadmap.md) coverage rounds complete, every lab running in CI, and every guide reviewed within the last six months. Versions after it follow the same minor/patch pattern.
 
 Contributors are credited by GitHub handle on the entry for their change.
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-09-29
+
+The handbook now meets the bar this changelog set for 1.0: coverage rounds A-C are complete, every lab runs in CI, and every guide has been reviewed within the last six months (all 62 show a real `verified` date, not the shared baseline).
+
 ### Added
 
+- Coverage round A, five new guides, bringing the total to 53: [Azure and Microsoft Fabric](docs/01-storage/azure-fabric.md), [Real-Time Analytics Databases](docs/01-storage/realtime-olap.md) (ClickHouse, Druid, Pinot), [Trino and Query Federation](docs/02-processing/trino-federation.md), [Kubernetes for Data Workloads](docs/06-infrastructure/kubernetes-for-de.md) and [Testing and CI/CD for Data Pipelines](docs/06-infrastructure/testing-cicd.md).
+- Coverage round B, four new guides, bringing the total to 57: [Apache Beam and Dataflow](docs/04-streaming/beam-dataflow.md), [Streaming SQL](docs/04-streaming/streaming-sql.md) (RisingWave, Materialize), [BI Tools](docs/02-processing/bi-tools.md) (Superset, Metabase) and [NoSQL and Operational Stores](docs/01-storage/nosql-operational-stores.md).
+- Coverage round C, four new guides, bringing the total to 61: [MCP and Text-to-SQL](docs/07-ai/mcp-text-to-sql.md), [Data Catalogs in Practice](docs/05-quality-governance/data-catalogs.md) (DataHub, OpenMetadata), [DataOps](docs/05-quality-governance/dataops-operations.md) (on-call and incident response) and [Choosing a Stack](docs/08-architecture/choosing-a-stack.md).
+- Labs 04 and 05 now run end to end in CI: `ci_smoke.py` in each lab replays the README exercises against a live Kafka broker and a live Airflow, and asserts the results the README describes. Both also run weekly.
+- Lab 05: the README now creates `warehouse/` before `docker compose up`. Docker otherwise creates it owned by root on Linux and Airflow fails with `Permission denied` (found by the new CI job).
+- Lab 08, data quality gates with Great Expectations: suites, thresholds and severity, and a gate that blocks bad, stale and schema-changed data. The Data Quality guide gains a section on thresholds and severity and a lab-tested version.
+- Lab 09, the Lab 03 pipeline on Apache Iceberg: snapshots, `MERGE`, schema and partition evolution, maintenance and branches. The Iceberg guide now shows the tested Spark 4.1 and Iceberg 1.11 setup, replaces the `snapshot-id` and `as-of-timestamp` reader options that no longer work with `versionAsOf` and `timestampAsOf`, and has a lab-tested version.
+- Lab 10, change data capture with Debezium: Postgres to Kafka, applying inserts, updates and deletes idempotently, connector pause and restart, a new snapshot, and a schema change. The Ingestion & CDC guide is corrected (an update's `before` is null on Postgres unless `REPLICA IDENTITY FULL`), gains a note on tombstones and hard deletes, and has a lab-tested version. Two glossary terms and two abbreviations added.
+- Role-based [learning paths](docs/paths/index.md) for analytics engineers, data platform engineers and AI data engineers, each pairing guides with labs and checkpoints.
+- Per-page search and sharing metadata: every page has its own description (from its summary line) and structured data, and a CI check (`tools/check_seo.py`) keeps it that way.
+- Print stylesheet and a *Print this cheat sheet* button on every guide, and PDF export: one PDF per guide and one bookmarked PDF of the whole handbook, built in CI (closes #32).
+- Sustaining the project: a monthly maintenance issue and a supply of guide-review issues (`tools/monthly_report.py`), weekly archiving of repository traffic to a `metrics` branch (`tools/archive_traffic.py`), grouped monthly Dependabot updates for the site and the labs, and a [governance](GOVERNANCE.md) page describing roles and how to become a reviewer or maintainer.
+- Honest review labels: guides whose date is only the shared starting date now say *Not yet individually reviewed* (`review_status: baseline`) instead of *Last reviewed*, and structured data omits their date. Setting a real review date must remove the flag, and CI checks it.
+- All 62 guides reviewed against current documentation, and now dated (*Last reviewed*) instead of *Not yet individually reviewed*. The 13 AI guides (LLM APIs, Claude Code, AI Agents, LangChain and LlamaIndex, Embeddings, Vector Databases, Prompt Engineering, RAG, AI Evaluation & Evals, MLflow, AI Observability, Fine-Tuning, Local LLMs) were reviewed by running the guides' code where possible — including a real MLflow tracking server and model registry, a real Ollama server, and CPU LoRA fine-tuning runs — and corrected errors that would have failed for a reader, such as `temperature` in the Python SDK, a removed LangSmith evaluator, a pgvector upsert with no unique constraint, an MLflow artifact path rejected for a trailing slash, an unpinned `ragas` install that fails to import, and a made-up chat template in a fine-tuning example. The remaining 49 guides across foundations, storage, processing, orchestration, streaming, quality and governance, infrastructure, architecture and interviews were reviewed in a further eight batches, which found and fixed real placeholder emails left in copy-pasted examples (`docker-reference.md`, `terraform-for-de.md`, `data-quality.md`, `airflow-reference.md`), a Terraform conditional whose two branches evaluated to the same value, and a hardcoded model name in the glossary's LLM definition. `tools/check_freshness.py` now reports 0 guides overdue and 0 still carrying `review_status: baseline`.
+- A [dev container](.devcontainer/devcontainer.json) with Python 3.12, Java 17 and Docker, and a Codespaces link in the README.
+- Thirty-three glossary terms introduced by the new guides.
 - Community files: `CODEOWNERS`, `CITATION.cff`, this changelog, release-note categories and a public [roadmap](docs/roadmap.md).
 - A "first contribution" path and contributor recognition policy in [CONTRIBUTING.md](CONTRIBUTING.md).
 

@@ -1,5 +1,5 @@
 ---
-verified: 2026-09-27
+verified: 2026-09-29
 ---
 
 # Terraform for Data Engineers
@@ -7,7 +7,7 @@ verified: 2026-09-27
 
 **Prerequisites:** [Cloud Storage](../01-storage/cloud-storage.md) · [Git for DE](../00-foundations/git-for-de.md)
 
-**Related:** [Snowflake](../01-storage/snowflake-reference.md) · [Databricks](../02-processing/databricks-reference.md) · [Docker](docker-reference.md) · [Glossary](../99-reference/glossary.md)
+**Related:** [Snowflake](../01-storage/snowflake-reference.md) · [Databricks](../02-processing/databricks-reference.md) · [Docker](docker-reference.md) · [Kubernetes](kubernetes-for-de.md) · [Testing and CI/CD](testing-cicd.md) · [Glossary](../99-reference/glossary.md)
 
 ---
 
@@ -499,7 +499,7 @@ resource "google_bigquery_dataset" "analytics" {
 resource "google_bigquery_dataset_iam_member" "analysts_read" {
   dataset_id = google_bigquery_dataset.analytics.dataset_id
   role       = "roles/bigquery.dataViewer"
-  member     = "group:analysts@example.com"
+  member     = "group:data-team@example.com"
 }
 
 # Amazon Redshift Serverless (aws provider): namespace + workgroup
@@ -649,7 +649,7 @@ provider "databricks" {
 resource "databricks_cluster" "etl" {
   cluster_name            = "etl-cluster-${var.environment}"
   spark_version           = "14.3.x-scala2.12"
-  node_type_id            = var.environment == "prod" ? "Standard_DS3_v2" : "Standard_DS3_v2"
+  node_type_id            = var.environment == "prod" ? "Standard_DS5_v2" : "Standard_DS3_v2"
   autotermination_minutes = 30
 
   autoscale {
@@ -720,7 +720,7 @@ resource "databricks_schema" "bronze" {
 resource "databricks_grants" "bronze_schema" {
   schema = "${databricks_catalog.main.name}.${databricks_schema.bronze.name}"
   grant {
-    principal  = "data-engineers@mycompany.com"
+    principal  = "data-team@example.com"
     privileges = ["USE_SCHEMA", "CREATE_TABLE", "SELECT"]
   }
 }
@@ -939,4 +939,4 @@ A: Storage (buckets with encryption, versioning, and lifecycle rules), IAM roles
 
 ---
 
-**Previous:** [Docker](docker-reference.md) · **Next:** [Snowflake](../01-storage/snowflake-reference.md) · **Back to:** [Index](../README.md)
+**Previous:** [Kubernetes](kubernetes-for-de.md) · **Next:** [Testing and CI/CD](testing-cicd.md) · **Back to:** [Index](../README.md)

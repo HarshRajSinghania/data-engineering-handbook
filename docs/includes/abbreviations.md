@@ -19,3 +19,12 @@
 *[KMS]: Key Management Service — a managed service for creating and rotating encryption keys
 *[MFA]: Multi-Factor Authentication
 *[IAM]: Identity and Access Management
+*[OLAP]: Online Analytical Processing — systems optimised for analytical queries over large datasets
+*[ADR]: Architecture Decision Record — a short document recording one architecture decision and its reasons
+*[MCP]: Model Context Protocol — an open standard for connecting AI applications to external systems
+*[RLS]: Row-Level Security — restricting which rows a user or role can see
+*[GSI]: Global Secondary Index — a second, differently keyed copy of a DynamoDB table's data
+*[IVM]: Incremental View Maintenance — updating a materialized view from each change instead of recomputing it
+*[QoS]: Quality of Service — the Kubernetes class (Guaranteed, Burstable, BestEffort) that sets eviction order
+*[WAL]: Write-Ahead Log — a database's log of changes, which log-based CDC reads
+*[LSN]: Log Sequence Number — a position in a database's transaction log
